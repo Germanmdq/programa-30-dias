@@ -8,7 +8,7 @@ const cards = [
     title: 'Relaciones y vínculos',
     description:
       'Trabajamos las creencias que te separan de la pareja, el vínculo o la relación que querés. Sin teoría — con trabajo real sobre tu yo soy.',
-    video: '/videos/A_woman_sitting_alone_at_a_tab.mp4',
+    video: '/videos/A_woman_sitting_alone_at_a_tab.mp4#t=0.1',
   },
   {
     tag: 'Dinero',
@@ -16,7 +16,7 @@ const cards = [
     title: 'Prosperidad y abundancia',
     description:
       'Identificamos qué creés sobre vos mismo/a y el dinero, y lo cambiamos desde adentro. En 30 días empezás a ver cómo tu realidad económica se mueve.',
-    video: '/videos/A_man_walking_confidently_thro.mp4',
+    video: '/videos/A_man_walking_confidently_thro.mp4#t=0.1',
   },
   {
     tag: 'Salud',
@@ -24,7 +24,7 @@ const cards = [
     title: 'Bienestar y autoconcepto',
     description:
       'Reconfiguramos tu estado mental de salud y vitalidad. Alineamos tu cuerpo físico con la asunción del bienestar pleno y la paz mental.',
-    video: '/videos/Sin_título.mp4',
+    video: '/videos/Sin_título.mp4#t=0.1',
   },
 ];
 
@@ -68,6 +68,7 @@ export const ServicesSection = () => {
                   loop
                   playsInline
                   preload="auto"
+                  poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>

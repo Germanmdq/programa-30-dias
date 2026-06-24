@@ -8,12 +8,13 @@ export const CTASection = () => {
     <section className="relative py-40 px-6 overflow-hidden flex items-center justify-center min-h-[70vh]">
       {/* Background video */}
       <video
-        src={CTA_VIDEO_URL}
+        src={`${CTA_VIDEO_URL}#t=0.1`}
         muted
         autoPlay
         loop
         playsInline
         preload="auto"
+        poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
         className="absolute inset-0 w-full h-full object-cover"
       />
       {/* Dark overlay */}

@@ -32,12 +32,13 @@ export const PhilosophySection = () => {
             style={{ aspectRatio: '4/3' }}
           >
             <video
-              src="/videos/A_person_moving_through_their.mp4"
+              src="/videos/A_person_moving_through_their.mp4#t=0.1"
               muted
               autoPlay
               loop
               playsInline
               preload="auto"
+              poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
               className="w-full h-full object-cover"
             />
           </motion.div>

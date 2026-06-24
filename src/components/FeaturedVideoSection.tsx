@@ -39,12 +39,13 @@ export const FeaturedVideoSection = () => {
           {/* Video */}
           <div className="w-full lg:w-[400px] aspect-video lg:aspect-[4/5] rounded-2xl overflow-hidden relative">
             <video
-              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260402_054547_9875cfc5-155a-4229-8ec8-b7ba7125cbf8.mp4"
+              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260402_054547_9875cfc5-155a-4229-8ec8-b7ba7125cbf8.mp4#t=0.1"
               muted
               autoPlay
               loop
               playsInline
               preload="auto"
+              poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
