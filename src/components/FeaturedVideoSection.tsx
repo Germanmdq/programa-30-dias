@@ -25,7 +25,7 @@ export const FeaturedVideoSection = () => {
             </p>
             <div className="pt-4">
               <a
-                href="https://wa.me/542236151152?text=Quiero%20entrar%20al%20programa"
+                href="https://wa.me/542236151152?text=Quiero%20ingresar%20al%20acompa%C3%B1amiento%20individual%20de%2030%20d%C3%ADas"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-white text-black hover:bg-white/90 transition-all duration-300 font-semibold px-8 py-4 rounded-full text-sm tracking-wide shadow-xl cursor-pointer"

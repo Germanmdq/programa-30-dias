@@ -51,7 +51,7 @@ export const CTASection = () => {
           transition={{ duration: 0.9, delay: 0.3 }}
         >
           <a
-            href="https://wa.me/542236151152?text=Quiero%20entrar%20al%20programa"
+            href="https://wa.me/542236151152?text=Quiero%20ingresar%20al%20acompa%C3%B1amiento%20individual%20de%2030%20d%C3%ADas"
             target="_blank"
             rel="noopener noreferrer"
             className="liquid-glass inline-flex items-center gap-3 text-white font-semibold px-10 py-5 rounded-full text-base tracking-wide hover:bg-white/10 transition-all duration-300 shadow-2xl cursor-pointer"
