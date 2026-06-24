@@ -31,7 +31,7 @@ export const HeroSection = ({ onScrollToNext }: HeroSectionProps) => {
     if (!video) return;
     video.style.opacity = '0';
 
-    const onCanPlay = () => { video.play().catch(() => {}); fadeTo(1, 500); };
+    const onCanPlay = () => { video.play().catch(() => {}); fadeTo(0.75, 500); };
     const onTimeUpdate = () => {
       const remaining = video.duration - video.currentTime;
       if (remaining <= 0.55 && parseFloat(video.style.opacity) > 0) fadeTo(0, 500);
@@ -42,7 +42,7 @@ export const HeroSection = ({ onScrollToNext }: HeroSectionProps) => {
       fadeTimerRef.current = setTimeout(() => {
         video.currentTime = 0;
         video.play().catch(() => {});
-        fadeTo(1, 500);
+        fadeTo(0.75, 500);
       }, 100);
     };
 
@@ -70,7 +70,7 @@ export const HeroSection = ({ onScrollToNext }: HeroSectionProps) => {
         className="absolute inset-0 w-full h-full object-cover"
         style={{ opacity: 0, transition: 'none' }}
       />
-      <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+      <div className="absolute inset-0 bg-black/30 pointer-events-none" />
       <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black to-transparent pointer-events-none" />
 
       {/* Content */}
