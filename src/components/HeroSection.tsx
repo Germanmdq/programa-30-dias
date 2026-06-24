@@ -53,7 +53,7 @@ export const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-end justify-center md:items-center overflow-hidden bg-black pt-20 pb-20 md:py-20 px-6">
+    <section className="relative min-h-screen flex items-start justify-center overflow-hidden bg-black pt-[18vh] px-6">
       {/* Background Video */}
       <video
         ref={videoRef}
@@ -70,7 +70,7 @@ export const HeroSection = () => {
       <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black to-transparent pointer-events-none" />
 
       {/* Content */}
-      <div className="max-w-4xl w-full text-center z-10 flex flex-col items-center mb-8 md:mb-0">
+      <div className="max-w-4xl w-full text-center z-10 flex flex-col items-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
