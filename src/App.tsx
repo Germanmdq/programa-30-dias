@@ -27,7 +27,7 @@ function App() {
     }
   };
 
-  const isFormulario = currentPath === '/formulario';
+  const isFormulario = currentPath.replace(/\/$/, '') === '/formulario';
 
   return (
     <div className="bg-black text-white min-h-screen relative font-sans selection:bg-white selection:text-black">
