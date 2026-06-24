@@ -76,7 +76,7 @@ export const PhilosophySection = () => {
                 Yo te acompaño
               </span>
               <p className="text-base md:text-lg text-white/80 font-light leading-relaxed">
-                Cada actividad te llega por WhatsApp a la hora exacta — no tenés que recordar nada, no tenés que buscar nada. Todo llega a vos. Nos reunimos día por medio por Zoom para trabajar juntos lo que fue surgiendo en tu proceso.
+                Cada actividad te llega por WhatsApp a la hora exacta — no tenés que recordar nada, no tenés que buscar nada. Todo llega a vos. Nos reunimos día por medio por Zoom para trabajar juntos lo que fue surgiendo.
               </p>
             </div>
           </motion.div>

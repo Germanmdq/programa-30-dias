@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
@@ -6,14 +7,27 @@ import { PhilosophySection } from './components/PhilosophySection';
 import { ServicesSection } from './components/ServicesSection';
 import { FAQSection } from './components/FAQSection';
 import { CTASection } from './components/CTASection';
+import { Formulario } from './components/Formulario';
 
 function App() {
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   const handleScrollTo = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const isFormulario = currentPath === '/formulario';
 
   return (
     <div className="bg-black text-white min-h-screen relative font-sans selection:bg-white selection:text-black">
@@ -24,14 +38,20 @@ function App() {
       </div>
 
       <div className="relative z-10">
-        <Navbar onScrollTo={handleScrollTo} />
-        <HeroSection />
-        <AboutSection />
-        <FeaturedVideoSection />
-        <PhilosophySection />
-        <ServicesSection />
-        <FAQSection />
-        <CTASection />
+        {isFormulario ? (
+          <Formulario />
+        ) : (
+          <>
+            <Navbar onScrollTo={handleScrollTo} />
+            <HeroSection />
+            <AboutSection />
+            <FeaturedVideoSection />
+            <PhilosophySection />
+            <ServicesSection />
+            <FAQSection />
+            <CTASection />
+          </>
+        )}
 
         <footer className="border-t border-white/5 py-12 px-6 text-center text-xs text-white/30 tracking-widest uppercase">
           © {new Date().getFullYear()} Germán González · Todos los derechos reservados
