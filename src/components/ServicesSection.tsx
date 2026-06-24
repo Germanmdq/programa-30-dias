@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Heart, Coins, Activity } from 'lucide-react';
+import { Heart, Coins, Activity, MessageCircle } from 'lucide-react';
 
 const cards = [
   {
@@ -86,9 +86,20 @@ export const ServicesSection = () => {
                 <h3 className="text-xl md:text-2xl font-light text-white group-hover:text-white/90 transition-colors">
                   {card.title}
                 </h3>
-                <p className="text-sm text-white/50 font-light leading-relaxed mt-auto">
+                <p className="text-sm text-white/50 font-light leading-relaxed">
                   {card.description}
                 </p>
+                <div className="pt-2 mt-auto">
+                  <a
+                    href="https://wa.me/542236151152?text=Quiero%20ingresar%20al%20acompa%C3%B1amiento%20individual%20de%2030%20d%C3%ADas"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="liquid-glass inline-flex items-center gap-2 text-white font-semibold px-5 py-2.5 rounded-full text-xs tracking-wide hover:bg-white/10 transition-all duration-300 shadow-md cursor-pointer w-fit"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5" />
+                    Quiero entrar
+                  </a>
+                </div>
               </div>
             </motion.div>
           ))}

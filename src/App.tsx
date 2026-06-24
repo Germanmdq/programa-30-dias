@@ -25,7 +25,7 @@ function App() {
 
       <div className="relative z-10">
         <Navbar onScrollTo={handleScrollTo} />
-        <HeroSection onScrollToNext={() => handleScrollTo('como-funciona')} />
+        <HeroSection />
         <AboutSection />
         <FeaturedVideoSection />
         <PhilosophySection />

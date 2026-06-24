@@ -1,15 +1,10 @@
 import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MessageCircle } from 'lucide-react';
 
 const HERO_VIDEO_URL =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4';
 
-interface HeroSectionProps {
-  onScrollToNext: () => void;
-}
-
-export const HeroSection = ({ onScrollToNext }: HeroSectionProps) => {
+export const HeroSection = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -100,41 +95,10 @@ export const HeroSection = ({ onScrollToNext }: HeroSectionProps) => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-xl text-white/60 font-light max-w-2xl mb-12 leading-relaxed"
+          className="text-lg md:text-xl text-white/60 font-light max-w-2xl mb-0 leading-relaxed"
         >
           30 días de trabajo individual para que compruebes, por vos mismo/a, cómo tu imaginación crea tu realidad.
         </motion.p>
-
-        {/* CTA Button — replaced email input */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mb-8"
-        >
-          <a
-            href="https://wa.me/542236151152?text=Quiero%20ingresar%20al%20acompa%C3%B1amiento%20individual%20de%2030%20d%C3%ADas"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-white text-black hover:bg-white/90 transition-all duration-300 font-semibold px-10 py-5 rounded-full text-base tracking-wide shadow-2xl cursor-pointer"
-          >
-            <MessageCircle className="w-5 h-5 fill-black" />
-            Quiero entrar
-          </a>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-        >
-          <button
-            onClick={onScrollToNext}
-            className="text-sm font-medium text-white/50 hover:text-white/80 transition-colors duration-300 underline underline-offset-4 cursor-pointer"
-          >
-            Ver cómo funciona
-          </button>
-        </motion.div>
       </div>
     </section>
   );
