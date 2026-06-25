@@ -1149,8 +1149,7 @@ export const Formulario = () => {
                       ) : (
                         <>
                           <Check className="w-4 h-4" />
-                          Enviar y chatear
-                          <MessageCircle className="w-4 h-4 fill-black" />
+                          Enviar
                         </>
                       )}
                     </button>

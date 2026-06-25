@@ -83,8 +83,8 @@ export default async function handler(req: any, res: any) {
     return res.status(400).json({ error: 'Faltan campos obligatorios' });
   }
 
-  const supabaseUrl = process.env.VITE_SUPABASE_URL || '';
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+  const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || '';
   const resendApiKey = process.env.RESEND_API_KEY || '';
 
   if (!supabaseUrl || !supabaseServiceKey) {
