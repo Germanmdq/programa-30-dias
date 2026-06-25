@@ -230,52 +230,52 @@ export const Formulario = () => {
 
     // Deseadas/Futuro
     const creenciasDeseadasFormatted = [
-      `¿Cómo te gustaría describirte a vos mismo/a en una frase?`,
+      `¿Cómo te describís a vos mismo/a en una frase? (Cómo te gustaría que fuera)`,
       formData.quienSosFuturo_frase || '(No respondido)',
-      `¿Qué te gustaría que los demás piensen de vos realmente?`,
+      `¿Qué pensás que los demás piensan de vos realmente? (Cómo te gustaría que fuera)`,
       formData.quienSosFuturo_pensamiento || '(No respondido)',
-      `¿Qué es lo que más te gustaría que te guste de vos?`,
+      `¿Qué es lo que más no te gusta de vos? (Cómo te gustaría que fuera)`,
       formData.quienSosFuturo_noGusta || '(No respondido)',
-      `¿Qué cosas te gustaría decir que "nunca me pasan a mí"?`,
+      `¿Qué cosas decís que "nunca me pasan a mí"? (Cómo te gustaría que fuera)`,
       formData.quienSosFuturo_nunca || '(No respondido)',
-      `¿Qué cosas te gustaría decir que "siempre me pasan a mí"?`,
+      `¿Qué cosas decís que "siempre me pasan a mí"? (Cómo te gustaría que fuera)`,
       formData.quienSosFuturo_siempre || '(No respondido)',
-      `¿Qué es lo que más te gustaría repetir en tu cabeza sobre vos mismo/a?`,
+      `¿Qué es lo que más repetís en tu cabeza sobre vos mismo/a? (Cómo te gustaría que fuera)`,
       formData.quienSosFuturo_cabeza || '(No respondido)',
-      `¿Qué te gustaría que ya no te pese en ese momento?`,
+      `¿Qué es lo que más te pesa en este momento? (Cómo te gustaría que fuera)`,
       formData.yoSoyFuturo_pesa || '(No respondido)',
-      `¿Qué creés que necesitás sentir que tenés para ser feliz?`,
+      `¿Qué creés que te falta para ser feliz? (Cómo te gustaría que fuera)`,
       formData.yoSoyFuturo_falta || '(No respondido)',
-      `¿Qué te gustaría creer que puede cambiar, aunque hoy te cueste?`,
+      `¿Qué es lo que más te cuesta creer que puede cambiar? (Cómo te gustaría que fuera)`,
       formData.yoSoyFuturo_cuesta || '(No respondido)'
     ].join('\n\n');
 
     const dineroDeseadoFormatted = [
-      `¿Cómo te gustaría describir tu situación económica?`,
+      `¿Cómo describís tu situación económica ahora mismo? (Cómo te gustaría que fuera)`,
       formData.dineroFuturo_situacion || '(No respondido)',
-      `¿Qué te gustaría pensar cuando ves que a otros les va bien económicamente?`,
+      `¿Qué pensás cuando ves que a otros les va bien económicamente? (Cómo te gustaría que fuera)`,
       formData.dineroFuturo_otros || '(No respondido)',
-      `¿Qué te gustaría decir cuando no tenés plata?`,
+      `¿Qué decís cuando no tenés plata? (Cómo te gustaría que fuera)`,
       formData.dineroFuturo_sinPlata || '(No respondido)',
-      `¿Creés que merecés tener dinero? ¿Cómo te gustaría sentirlo y por qué?`,
+      `¿Creés que merecés tener dinero? ¿Por qué sí o por qué no? (Cómo te gustaría que fuera)`,
       formData.dineroFuturo_mereces || '(No respondido)'
     ].join('\n\n');
 
     const saludDeseadoFormatted = [
-      `¿Cómo te gustaría describir tu cuerpo?`,
+      `¿Cómo describís tu cuerpo ahora mismo? (Cómo te gustaría que fuera)`,
       formData.saludFuturo_cuerpo || '(No respondido)',
-      `¿Hay algo de tu salud que te gustaría cambiar en lugar de aceptarlo como "así soy yo"?`,
+      `¿Hay algo de tu salud que ya aceptaste como "así soy yo, no cambia"? (Cómo te gustaría que fuera)`,
       formData.saludFuturo_aceptado || '(No respondido)',
-      `¿Qué te gustaría decir de tu cuerpo cuando te mirás al espejo?`,
+      `¿Qué decís de tu cuerpo cuando te mirás al espejo? (Cómo te gustaría que fuera)`,
       formData.saludFuturo_espejo || '(No respondido)'
     ].join('\n\n');
 
     const amorDeseadoFormatted = [
-      `¿Cómo te gustaría que estén tus relaciones — pareja, familia, amigos?`,
+      `¿Cómo están tus relaciones ahora — pareja, familia, amigos? (Cómo te gustaría que fuera)`,
       formData.amorFuturo_relaciones || '(No respondido)',
-      `¿Qué te gustaría decir de vos mismo/a en el amor?`,
+      `¿Qué decís de vos mismo/a en el amor? (Cómo te gustaría que fuera)`,
       formData.amorFuturo_definicion || '(No respondido)',
-      `¿Te gustaría creer que merecés una buena relación? ¿Por qué?`,
+      `¿Creés que merecés una buena relación? ¿Por qué sí o por qué no? (Cómo te gustaría que fuera)`,
       formData.amorFuturo_mereces || '(No respondido)'
     ].join('\n\n');
 
@@ -776,12 +776,12 @@ export const Formulario = () => {
                     <p className="text-white/50 text-xs md:text-sm">Enfocá tu atención e intención en tu nuevo autoconcepto y en cómo te gustaría experimentar la realidad.</p>
                   </div>
 
-                  {/* ¿Cómo te gustaría ser? Card */}
+                  {/* ¿Quién sos hoy? (Cómo te gustaría que fuera) Card */}
                   <div className={sectionCardClass}>
-                    <h3 className={sectionHeaderClass}>¿Cómo te gustaría ser?</h3>
+                    <h3 className={sectionHeaderClass}>¿Quién sos hoy? (Cómo te gustaría que fuera)</h3>
                     <div className="space-y-6">
                       <div>
-                        <label className={labelClass}>¿Cómo te gustaría describirte a vos mismo/a en una frase? *</label>
+                        <label className={labelClass}>¿Cómo te describís a vos mismo/a en una frase? (Cómo te gustaría que fuera) *</label>
                         <textarea
                           rows={2}
                           value={formData.quienSosFuturo_frase}
@@ -793,7 +793,7 @@ export const Formulario = () => {
                       </div>
 
                       <div>
-                        <label className={labelClass}>¿Qué te gustaría que los demás piensen de vos realmente?</label>
+                        <label className={labelClass}>¿Qué pensás que los demás piensan de vos realmente? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.quienSosFuturo_pensamiento}
@@ -804,7 +804,7 @@ export const Formulario = () => {
                       </div>
 
                       <div>
-                        <label className={labelClass}>¿Qué es lo que más te gustaría que te guste de vos?</label>
+                        <label className={labelClass}>¿Qué es lo que más no te gusta de vos? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.quienSosFuturo_noGusta}
@@ -815,7 +815,7 @@ export const Formulario = () => {
                       </div>
 
                       <div>
-                        <label className={labelClass}>¿Qué cosas te gustaría decir que "nunca me pasan a mí" (en sentido positivo/dejar ir)?</label>
+                        <label className={labelClass}>¿Qué cosas decís que "nunca me pasan a mí"? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.quienSosFuturo_nunca}
@@ -826,7 +826,7 @@ export const Formulario = () => {
                       </div>
 
                       <div>
-                        <label className={labelClass}>¿Qué cosas te gustaría decir que "siempre me pasan a mí" (del lado positivo)?</label>
+                        <label className={labelClass}>¿Qué cosas decís que "siempre me pasan a mí"? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.quienSosFuturo_siempre}
@@ -837,7 +837,7 @@ export const Formulario = () => {
                       </div>
 
                       <div>
-                        <label className={labelClass}>¿Qué es lo que más te gustaría repetir en tu cabeza sobre vos mismo/a?</label>
+                        <label className={labelClass}>¿Qué es lo que más repetís en tu cabeza sobre vos mismo/a? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.quienSosFuturo_cabeza}
@@ -851,10 +851,10 @@ export const Formulario = () => {
 
                   {/* ¿Cómo te gustaría estar con el dinero? Card */}
                   <div className={sectionCardClass}>
-                    <h3 className={sectionHeaderClass}>¿Cómo te gustaría estar con el dinero?</h3>
+                    <h3 className={sectionHeaderClass}>¿Cómo estás con el dinero hoy? (Cómo te gustaría que fuera)</h3>
                     <div className="space-y-6">
                       <div>
-                        <label className={labelClass}>¿Cómo te gustaría describir tu situación económica?</label>
+                        <label className={labelClass}>¿Cómo describís tu situación económica ahora mismo? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.dineroFuturo_situacion}
@@ -864,7 +864,7 @@ export const Formulario = () => {
                         />
                       </div>
                       <div>
-                        <label className={labelClass}>¿Qué te gustaría pensar cuando ves que a otros les va bien económicamente?</label>
+                        <label className={labelClass}>¿Qué pensás cuando ves que a otros les va bien económicamente? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.dineroFuturo_otros}
@@ -874,7 +874,7 @@ export const Formulario = () => {
                         />
                       </div>
                       <div>
-                        <label className={labelClass}>¿Qué te gustaría decir cuando pensás en tu dinero?</label>
+                        <label className={labelClass}>¿Qué decís cuando no tenés plata? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.dineroFuturo_sinPlata}
@@ -884,7 +884,7 @@ export const Formulario = () => {
                         />
                       </div>
                       <div>
-                        <label className={labelClass}>¿Creés que merecés tener dinero? ¿Cómo te gustaría sentirlo y por qué?</label>
+                        <label className={labelClass}>¿Creés que merecés tener dinero? ¿Por qué sí o por qué no? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.dineroFuturo_mereces}
@@ -898,10 +898,10 @@ export const Formulario = () => {
 
                   {/* ¿Cómo te gustaría estar con tu salud? Card */}
                   <div className={sectionCardClass}>
-                    <h3 className={sectionHeaderClass}>¿Cómo te gustaría estar con tu salud?</h3>
+                    <h3 className={sectionHeaderClass}>¿Cómo estás con tu salud hoy? (Cómo te gustaría que fuera)</h3>
                     <div className="space-y-6">
                       <div>
-                        <label className={labelClass}>¿Cómo te gustaría describir tu cuerpo?</label>
+                        <label className={labelClass}>¿Cómo describís tu cuerpo ahora mismo? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.saludFuturo_cuerpo}
@@ -911,7 +911,7 @@ export const Formulario = () => {
                         />
                       </div>
                       <div>
-                        <label className={labelClass}>¿Hay algo de tu salud que te gustaría cambiar en lugar de aceptarlo como "así soy yo"?</label>
+                        <label className={labelClass}>¿Hay algo de tu salud que ya aceptaste como "así soy yo, no cambia"? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.saludFuturo_aceptado}
@@ -921,7 +921,7 @@ export const Formulario = () => {
                         />
                       </div>
                       <div>
-                        <label className={labelClass}>¿Qué te gustaría decir de tu cuerpo cuando te mirás al espejo?</label>
+                        <label className={labelClass}>¿Qué decís de tu cuerpo cuando te mirás al espejo? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.saludFuturo_espejo}
@@ -935,10 +935,10 @@ export const Formulario = () => {
 
                   {/* ¿Cómo te gustaría estar con el amor y los vínculos? Card */}
                   <div className={sectionCardClass}>
-                    <h3 className={sectionHeaderClass}>¿Cómo te gustaría estar con el amor y los vínculos?</h3>
+                    <h3 className={sectionHeaderClass}>¿Cómo estás con el amor y los vínculos hoy? (Cómo te gustaría que fuera)</h3>
                     <div className="space-y-6">
                       <div>
-                        <label className={labelClass}>¿Cómo te gustaría que estén tus relaciones — pareja, familia, amigos?</label>
+                        <label className={labelClass}>¿Cómo están tus relaciones ahora — pareja, familia, amigos? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.amorFuturo_relaciones}
@@ -948,7 +948,7 @@ export const Formulario = () => {
                         />
                       </div>
                       <div>
-                        <label className={labelClass}>¿Qué te gustaría decir de vos mismo/a en el amor?</label>
+                        <label className={labelClass}>¿Qué decís de vos mismo/a en el amor? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.amorFuturo_definicion}
@@ -958,7 +958,7 @@ export const Formulario = () => {
                         />
                       </div>
                       <div>
-                        <label className={labelClass}>¿Te gustaría creer que merecés una buena relación? ¿Por qué?</label>
+                        <label className={labelClass}>¿Creés que merecés una buena relación? ¿Por qué sí o por qué no? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.amorFuturo_mereces}
@@ -972,10 +972,10 @@ export const Formulario = () => {
 
                   {/* ¿Cómo te gustaría que fuera tu "yo soy" en el futuro? Card */}
                   <div className={sectionCardClass}>
-                    <h3 className={sectionHeaderClass}>¿Cómo te gustaría que fuera tu "yo soy" en el futuro?</h3>
+                    <h3 className={sectionHeaderClass}>¿Qué más define tu "yo soy" hoy? (Cómo te gustaría que fuera)</h3>
                     <div className="space-y-6">
                       <div>
-                        <label className={labelClass}>¿Qué te gustaría que ya no te pese en ese momento?</label>
+                        <label className={labelClass}>¿Qué es lo que más te pesa en este momento? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.yoSoyFuturo_pesa}
@@ -985,7 +985,7 @@ export const Formulario = () => {
                         />
                       </div>
                       <div>
-                        <label className={labelClass}>¿Qué creés que necesitás sentir que tenés para ser feliz?</label>
+                        <label className={labelClass}>¿Qué creés que te falta para ser feliz? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.yoSoyFuturo_falta}
@@ -995,7 +995,7 @@ export const Formulario = () => {
                         />
                       </div>
                       <div>
-                        <label className={labelClass}>¿Qué te gustaría creer que puede cambiar, aunque hoy te cueste?</label>
+                        <label className={labelClass}>¿Qué es lo que más te cuesta creer que puede cambiar? (Cómo te gustaría que fuera)</label>
                         <textarea
                           rows={2}
                           value={formData.yoSoyFuturo_cuesta}
