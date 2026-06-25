@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 
@@ -365,23 +365,12 @@ export const Formulario = () => {
               <Check className="w-8 h-8" />
             </div>
             <h1 className="text-3xl font-light tracking-tight text-white leading-tight">
-              Listo. Te mandamos un email con tu <span className="font-instrument italic text-white/95">acceso</span>.
+              Registro <span className="font-instrument italic text-white/95">recibido</span>.
             </h1>
             <p className="text-white/60 font-light text-base leading-relaxed">
-              Revisá tu bandeja de entrada (y la carpeta de spam si no lo encontrás). Nos vemos pronto.
+              Germán va a revisar tu información y se va a poner en contacto con vos pronto.
             </p>
             <div className="pt-6 w-full flex flex-col gap-4">
-              <a
-                href={`https://wa.me/542236151152?text=${encodeURIComponent(
-                  `Hola Germán, ya completé mi formulario de diagnóstico y registro.`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 bg-white text-black hover:bg-white/90 transition-all duration-300 font-semibold px-8 py-4 rounded-full text-sm tracking-wide shadow-xl cursor-pointer w-full"
-              >
-                <MessageCircle className="w-5 h-5 fill-black" />
-                Chatear por WhatsApp
-              </a>
               <button
                 onClick={goHome}
                 className="text-sm font-medium text-white/50 hover:text-white/80 transition-colors duration-300 underline underline-offset-4 cursor-pointer"
@@ -395,6 +384,7 @@ export const Formulario = () => {
       </div>
     );
   }
+
 
   return (
     <div className="min-h-screen bg-black text-white py-12 px-6 flex flex-col justify-between relative overflow-hidden">
