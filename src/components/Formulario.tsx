@@ -5,10 +5,12 @@ import { MessageCircle, ArrowLeft, ArrowRight, Check } from 'lucide-react';
 export const Formulario = () => {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [formData, setFormData] = useState({
     nombre: '',
+    email: '',
     whatsapp: '',
     creenciasPersonales: '',
     amorActual: '',
@@ -18,6 +20,10 @@ export const Formulario = () => {
     dineroDeseado: '',
     saludDeseado: '',
     metasAdicionales: '',
+    horarioManana: '',
+    horarioMediodia: '',
+    horarioTarde: '',
+    horarioNoche: '',
   });
 
   const goHome = () => {
@@ -42,6 +48,13 @@ export const Formulario = () => {
   const validateStep1 = () => {
     const newErrors: Record<string, string> = {};
     if (!formData.nombre.trim()) newErrors.nombre = 'El nombre es obligatorio';
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'El email es obligatorio';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'El email ingresado no es válido';
+    }
+
     if (!formData.whatsapp.trim()) newErrors.whatsapp = 'El WhatsApp es obligatorio';
     if (!formData.creenciasPersonales.trim()) {
       newErrors.creenciasPersonales = 'Este campo es obligatorio para tu diagnóstico';
@@ -65,32 +78,50 @@ export const Formulario = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
-    const webhookUrl = import.meta.env.VITE_WEBHOOK_URL || '';
+    // Validate meditation times
+    const newErrors: Record<string, string> = {};
+    if (!formData.horarioManana) newErrors.horarioManana = 'Requerido';
+    if (!formData.horarioMediodia) newErrors.horarioMediodia = 'Requerido';
+    if (!formData.horarioTarde) newErrors.horarioTarde = 'Requerido';
+    if (!formData.horarioNoche) newErrors.horarioNoche = 'Requerido';
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrors((prev) => {
+      const next = { ...prev };
+      delete next.submit;
+      return next;
+    });
 
     try {
-      if (webhookUrl) {
-        await fetch(webhookUrl, {
-          method: 'POST',
-          mode: 'no-cors', // standard way to post to sheets/webhooks if CORS isn't set up
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            ...formData,
-            fecha: new Date().toLocaleString(),
-          }),
-        });
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(result.error || 'Ocurrió un error al procesar el registro');
       }
-    } catch (err) {
-      console.error('Error enviando datos al webhook:', err);
+
+      setIsSubmitted(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err: any) {
+      console.error('Error registrando alumno:', err);
+      setErrors((prev) => ({
+        ...prev,
+        submit: err.message || 'Error de conexión. Por favor intentá de nuevo.',
+      }));
     } finally {
-      // Always redirect to WhatsApp as a fallback even if webhook fails
-      const waMsg = encodeURIComponent(
-        `Hola Germán, ya completé el formulario de mi acompañamiento.`
-      );
-      window.location.href = `https://wa.me/542236151152?text=${waMsg}`;
+      setIsSubmitting(false);
     }
   };
 
@@ -110,6 +141,60 @@ export const Formulario = () => {
       transition: { duration: 0.3, ease: [0.7, 0, 0.84, 0] as const },
     }),
   };
+
+  if (isSubmitted) {
+    return (
+      <div className="min-h-screen bg-black text-white py-12 px-6 flex flex-col justify-between relative overflow-hidden">
+        {/* Background Decorative Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.01] rounded-full blur-3xl pointer-events-none" />
+        
+        <header className="max-w-3xl w-full mx-auto mb-10 z-10" />
+
+        <main className="max-w-md w-full mx-auto flex-1 z-10 flex flex-col justify-center text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="liquid-glass rounded-3xl p-8 md:p-12 shadow-2xl space-y-6 flex flex-col items-center"
+          >
+            <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white mb-4 animate-pulse">
+              <Check className="w-8 h-8" />
+            </div>
+            
+            <h1 className="text-3xl font-light tracking-tight text-white leading-tight">
+              Listo. Te mandamos un email con tu <span className="font-instrument italic text-white/95">acceso</span>.
+            </h1>
+            
+            <p className="text-white/60 font-light text-base leading-relaxed">
+              Revisá tu bandeja de entrada (y la carpeta de spam si no lo encontrás). Nos vemos pronto.
+            </p>
+
+            <div className="pt-6 w-full flex flex-col gap-4">
+              <a
+                href={`https://wa.me/542236151152?text=${encodeURIComponent(
+                  `Hola Germán, ya completé mi formulario de diagnóstico y registro.`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 bg-white text-black hover:bg-white/90 transition-all duration-300 font-semibold px-8 py-4 rounded-full text-sm tracking-wide shadow-xl cursor-pointer w-full"
+              >
+                <MessageCircle className="w-5 h-5 fill-black" />
+                Chatear por WhatsApp
+              </a>
+              <button
+                onClick={goHome}
+                className="text-sm font-medium text-white/50 hover:text-white/80 transition-colors duration-300 underline underline-offset-4 cursor-pointer"
+              >
+                Volver al inicio
+              </button>
+            </div>
+          </motion.div>
+        </main>
+
+        <footer className="max-w-3xl w-full mx-auto mt-10 z-10" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white py-12 px-6 flex flex-col justify-between relative overflow-hidden">
@@ -190,7 +275,7 @@ export const Formulario = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Nombre */}
-                    <div>
+                    <div className="md:col-span-2">
                       <label className="text-xs uppercase tracking-widest text-white/50 font-semibold block mb-2">
                         Nombre Completo *
                       </label>
@@ -205,6 +290,25 @@ export const Formulario = () => {
                       />
                       {errors.nombre && (
                         <span className="text-xs text-red-400 mt-1 block">{errors.nombre}</span>
+                      )}
+                    </div>
+
+                    {/* Email */}
+                    <div>
+                      <label className="text-xs uppercase tracking-widest text-white/50 font-semibold block mb-2">
+                        Email *
+                      </label>
+                      <input
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        placeholder="Ej. juan@correo.com"
+                        className={`bg-white/5 border rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full ${
+                          errors.email ? 'border-red-500/50' : 'border-white/10'
+                        }`}
+                      />
+                      {errors.email && (
+                        <span className="text-xs text-red-400 mt-1 block">{errors.email}</span>
                       )}
                     </div>
 
@@ -359,6 +463,89 @@ export const Formulario = () => {
                     />
                   </div>
 
+                  {/* Horarios de Meditación */}
+                  <div className="space-y-4 pt-2">
+                    <label className="text-xs uppercase tracking-widest text-white/50 block font-semibold border-b border-white/5 pb-2">
+                      Horarios de Meditación *
+                    </label>
+                    <p className="text-white/40 font-light text-xs -mt-2">
+                      Seleccioná la hora exacta aproximada en la que vas a hacer tus meditaciones diarias:
+                    </p>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {/* Mañana */}
+                      <div>
+                        <label className="text-[10px] uppercase tracking-widest text-white/40 block mb-1 font-semibold">
+                          Mañana
+                        </label>
+                        <input
+                          type="time"
+                          value={formData.horarioManana}
+                          onChange={(e) => handleInputChange('horarioManana', e.target.value)}
+                          className={`bg-white/5 border rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full cursor-pointer ${
+                            errors.horarioManana ? 'border-red-500/50' : 'border-white/10'
+                          }`}
+                        />
+                        {errors.horarioManana && (
+                          <span className="text-[10px] text-red-400 mt-0.5 block">{errors.horarioManana}</span>
+                        )}
+                      </div>
+
+                      {/* Mediodía */}
+                      <div>
+                        <label className="text-[10px] uppercase tracking-widest text-white/40 block mb-1 font-semibold">
+                          Mediodía
+                        </label>
+                        <input
+                          type="time"
+                          value={formData.horarioMediodia}
+                          onChange={(e) => handleInputChange('horarioMediodia', e.target.value)}
+                          className={`bg-white/5 border rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full cursor-pointer ${
+                            errors.horarioMediodia ? 'border-red-500/50' : 'border-white/10'
+                          }`}
+                        />
+                        {errors.horarioMediodia && (
+                          <span className="text-[10px] text-red-400 mt-0.5 block">{errors.horarioMediodia}</span>
+                        )}
+                      </div>
+
+                      {/* Tarde */}
+                      <div>
+                        <label className="text-[10px] uppercase tracking-widest text-white/40 block mb-1 font-semibold">
+                          Tarde
+                        </label>
+                        <input
+                          type="time"
+                          value={formData.horarioTarde}
+                          onChange={(e) => handleInputChange('horarioTarde', e.target.value)}
+                          className={`bg-white/5 border rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full cursor-pointer ${
+                            errors.horarioTarde ? 'border-red-500/50' : 'border-white/10'
+                          }`}
+                        />
+                        {errors.horarioTarde && (
+                          <span className="text-[10px] text-red-400 mt-0.5 block">{errors.horarioTarde}</span>
+                        )}
+                      </div>
+
+                      {/* Noche */}
+                      <div>
+                        <label className="text-[10px] uppercase tracking-widest text-white/40 block mb-1 font-semibold">
+                          Noche
+                        </label>
+                        <input
+                          type="time"
+                          value={formData.horarioNoche}
+                          onChange={(e) => handleInputChange('horarioNoche', e.target.value)}
+                          className={`bg-white/5 border rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full cursor-pointer ${
+                            errors.horarioNoche ? 'border-red-500/50' : 'border-white/10'
+                          }`}
+                        />
+                        {errors.horarioNoche && (
+                          <span className="text-[10px] text-red-400 mt-0.5 block">{errors.horarioNoche}</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Metas Adicionales */}
                   <div>
                     <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
@@ -372,6 +559,13 @@ export const Formulario = () => {
                       className="bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none"
                     />
                   </div>
+
+                  {/* Submit Error banner */}
+                  {errors.submit && (
+                    <div className="text-red-400 text-sm font-light text-left w-full p-4 rounded-xl bg-red-950/20 border border-red-900/30">
+                      {errors.submit}
+                    </div>
+                  )}
 
                   {/* Controls */}
                   <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
