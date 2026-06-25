@@ -263,7 +263,7 @@ export const Formulario = () => {
                   </>
                 ) : (
                   <>
-                    Qué querés <span className="font-instrument italic text-white/95">obtener</span>
+                    Cómo te gustaría <span className="font-instrument italic text-white/95">ser</span>
                   </>
                 )}
               </h1>
@@ -303,10 +303,6 @@ export const Formulario = () => {
                   exit="exit"
                   className="space-y-6 text-left"
                 >
-                  <p className="text-white/60 font-light text-sm md:text-base leading-relaxed mb-6">
-                    Por favor, completá los siguientes datos básicos y contame sobre tu situación actual. Esto me ayudará a diseñar tu plan personalizado de 30 días.
-                  </p>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Nombre */}
                     <div className="md:col-span-2">
@@ -449,7 +445,7 @@ export const Formulario = () => {
                   className="space-y-6 text-left"
                 >
                   <p className="text-white/60 font-light text-sm md:text-base leading-relaxed mb-6">
-                    Ahora describí cómo te gustaría que sean estas mismas áreas. No pienses en el *cómo*, enfocate en tu autoconcepto deseado y en tu estado mental ideal.
+                    Ahora describí cómo te gustaría que sean estas mismas áreas. Enfocate en tu nuevo autoconcepto y en tu estado mental ideal.
                   </p>
 
                   {/* Creencias Deseadas */}
