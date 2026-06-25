@@ -35,14 +35,66 @@ export const Formulario = () => {
     nombre: '',
     email: '',
     whatsapp: '',
-    creenciasPersonales: '',
-    amorActual: '',
-    dineroActual: '',
-    saludActual: '',
-    creenciasDeseadas: '',
-    amorDeseado: '',
-    dineroDeseado: '',
-    saludDeseado: '',
+    
+    // Step 1: Quién sos hoy
+    quienSosHoy_frase: '',
+    quienSosHoy_pensamiento: '',
+    quienSosHoy_noGusta: '',
+    quienSosHoy_nunca: '',
+    quienSosHoy_siempre: '',
+    quienSosHoy_cabeza: '',
+    
+    // Step 1: Dinero
+    dinero_situacion: '',
+    dinero_otros: '',
+    dinero_sinPlata: '',
+    dinero_mereces: '',
+    
+    // Step 1: Salud
+    salud_cuerpo: '',
+    salud_aceptado: '',
+    salud_espejo: '',
+    
+    // Step 1: Amor y Vínculos
+    amor_relaciones: '',
+    amor_definicion: '',
+    amor_mereces: '',
+    
+    // Step 1: Qué más define
+    yoSoyHoy_pesa: '',
+    yoSoyHoy_falta: '',
+    yoSoyHoy_cuesta: '',
+    
+    // Step 2: Cómo te gustaría ser
+    quienSosFuturo_frase: '',
+    quienSosFuturo_pensamiento: '',
+    quienSosFuturo_noGusta: '',
+    quienSosFuturo_nunca: '',
+    quienSosFuturo_siempre: '',
+    quienSosFuturo_cabeza: '',
+    
+    // Step 2: Dinero
+    dineroFuturo_situacion: '',
+    dineroFuturo_otros: '',
+    dineroFuturo_sinPlata: '',
+    dineroFuturo_mereces: '',
+    
+    // Step 2: Salud
+    saludFuturo_cuerpo: '',
+    saludFuturo_aceptado: '',
+    saludFuturo_espejo: '',
+    
+    // Step 2: Amor y Vínculos
+    amorFuturo_relaciones: '',
+    amorFuturo_definicion: '',
+    amorFuturo_mereces: '',
+    
+    // Step 2: Qué más define
+    yoSoyFuturo_pesa: '',
+    yoSoyFuturo_falta: '',
+    yoSoyFuturo_cuesta: '',
+    
+    // Horarios y Metas
     metasAdicionales: '',
     horarioManana: '',
     horarioMediodia: '',
@@ -80,8 +132,8 @@ export const Formulario = () => {
     }
 
     if (!formData.whatsapp.trim()) newErrors.whatsapp = 'El WhatsApp es obligatorio';
-    if (!formData.creenciasPersonales.trim()) {
-      newErrors.creenciasPersonales = 'Este campo es obligatorio para tu diagnóstico';
+    if (!formData.quienSosHoy_frase.trim()) {
+      newErrors.quienSosHoy_frase = 'Esta pregunta inicial es obligatoria';
     }
 
     setErrors(newErrors);
@@ -105,8 +157,8 @@ export const Formulario = () => {
 
     // Validate Step 2 required fields
     const newErrors: Record<string, string> = {};
-    if (!formData.creenciasDeseadas.trim()) {
-      newErrors.creenciasDeseadas = 'Este campo es obligatorio para tu diagnóstico';
+    if (!formData.quienSosFuturo_frase.trim()) {
+      newErrors.quienSosFuturo_frase = 'Esta pregunta inicial es obligatoria';
     }
     if (!formData.horarioManana) newErrors.horarioManana = 'Requerido';
     if (!formData.horarioMediodia) newErrors.horarioMediodia = 'Requerido';
@@ -125,6 +177,108 @@ export const Formulario = () => {
       return next;
     });
 
+    // Formatting string sections for the Supabase schema and Germán's notification email
+    const creenciasPersonalesFormatted = [
+      `¿Cómo te describís a vos mismo/a en una frase?`,
+      formData.quienSosHoy_frase || '(No respondido)',
+      `¿Qué pensás que los demás piensan de vos realmente?`,
+      formData.quienSosHoy_pensamiento || '(No respondido)',
+      `¿Qué es lo que más no te gusta de vos?`,
+      formData.quienSosHoy_noGusta || '(No respondido)',
+      `¿Qué cosas decís que "nunca me pasan a mí"?`,
+      formData.quienSosHoy_nunca || '(No respondido)',
+      `¿Qué cosas decís que "siempre me pasan a mí"?`,
+      formData.quienSosHoy_siempre || '(No respondido)',
+      `¿Qué es lo que más repetís en tu cabeza sobre vos mismo/a?`,
+      formData.quienSosHoy_cabeza || '(No respondido)',
+      `¿Qué es lo que más te pesa en este momento?`,
+      formData.yoSoyHoy_pesa || '(No respondido)',
+      `¿Qué creés que te falta para ser feliz?`,
+      formData.yoSoyHoy_falta || '(No respondido)',
+      `¿Qué es lo que más te cuesta creer que puede cambiar?`,
+      formData.yoSoyHoy_cuesta || '(No respondido)'
+    ].join('\n\n');
+
+    const dineroActualFormatted = [
+      `¿Cómo describís tu situación económica ahora mismo?`,
+      formData.dinero_situacion || '(No respondido)',
+      `¿Qué pensás cuando ves que a otros les va bien económicamente?`,
+      formData.dinero_otros || '(No respondido)',
+      `¿Qué decís cuando no tenés plata?`,
+      formData.dinero_sinPlata || '(No respondido)',
+      `¿Creés que merecés tener dinero? ¿Por qué sí o por qué no?`,
+      formData.dinero_mereces || '(No respondido)'
+    ].join('\n\n');
+
+    const saludActualFormatted = [
+      `¿Cómo describís tu cuerpo ahora mismo?`,
+      formData.salud_cuerpo || '(No respondido)',
+      `¿Hay algo de tu salud que ya aceptaste como "así soy yo, no cambia"?`,
+      formData.salud_aceptado || '(No respondido)',
+      `¿Qué decís de tu cuerpo cuando te mirás al espejo?`,
+      formData.salud_espejo || '(No respondido)'
+    ].join('\n\n');
+
+    const amorActualFormatted = [
+      `¿Cómo están tus relaciones ahora — pareja, familia, amigos?`,
+      formData.amor_relaciones || '(No respondido)',
+      `¿Qué decís de vos mismo/a en el amor?`,
+      formData.amor_definicion || '(No respondido)',
+      `¿Creés que merecés una buena relación? ¿Por qué sí o por qué no?`,
+      formData.amor_mereces || '(No respondido)'
+    ].join('\n\n');
+
+    // Deseadas/Futuro
+    const creenciasDeseadasFormatted = [
+      `¿Cómo te gustaría describirte a vos mismo/a en una frase?`,
+      formData.quienSosFuturo_frase || '(No respondido)',
+      `¿Qué te gustaría que los demás piensen de vos realmente?`,
+      formData.quienSosFuturo_pensamiento || '(No respondido)',
+      `¿Qué es lo que más te gustaría que te guste de vos?`,
+      formData.quienSosFuturo_noGusta || '(No respondido)',
+      `¿Qué cosas te gustaría decir que "nunca me pasan a mí"?`,
+      formData.quienSosFuturo_nunca || '(No respondido)',
+      `¿Qué cosas te gustaría decir que "siempre me pasan a mí"?`,
+      formData.quienSosFuturo_siempre || '(No respondido)',
+      `¿Qué es lo que más te gustaría repetir en tu cabeza sobre vos mismo/a?`,
+      formData.quienSosFuturo_cabeza || '(No respondido)',
+      `¿Qué te gustaría que ya no te pese en ese momento?`,
+      formData.yoSoyFuturo_pesa || '(No respondido)',
+      `¿Qué creés que necesitás sentir que tenés para ser feliz?`,
+      formData.yoSoyFuturo_falta || '(No respondido)',
+      `¿Qué te gustaría creer que puede cambiar, aunque hoy te cueste?`,
+      formData.yoSoyFuturo_cuesta || '(No respondido)'
+    ].join('\n\n');
+
+    const dineroDeseadoFormatted = [
+      `¿Cómo te gustaría describir tu situación económica?`,
+      formData.dineroFuturo_situacion || '(No respondido)',
+      `¿Qué te gustaría pensar cuando ves que a otros les va bien económicamente?`,
+      formData.dineroFuturo_otros || '(No respondido)',
+      `¿Qué te gustaría decir cuando no tenés plata?`,
+      formData.dineroFuturo_sinPlata || '(No respondido)',
+      `¿Creés que merecés tener dinero? ¿Cómo te gustaría sentirlo y por qué?`,
+      formData.dineroFuturo_mereces || '(No respondido)'
+    ].join('\n\n');
+
+    const saludDeseadoFormatted = [
+      `¿Cómo te gustaría describir tu cuerpo?`,
+      formData.saludFuturo_cuerpo || '(No respondido)',
+      `¿Hay algo de tu salud que te gustaría cambiar en lugar de aceptarlo como "así soy yo"?`,
+      formData.saludFuturo_aceptado || '(No respondido)',
+      `¿Qué te gustaría decir de tu cuerpo cuando te mirás al espejo?`,
+      formData.saludFuturo_espejo || '(No respondido)'
+    ].join('\n\n');
+
+    const amorDeseadoFormatted = [
+      `¿Cómo te gustaría que estén tus relaciones — pareja, familia, amigos?`,
+      formData.amorFuturo_relaciones || '(No respondido)',
+      `¿Qué te gustaría decir de vos mismo/a en el amor?`,
+      formData.amorFuturo_definicion || '(No respondido)',
+      `¿Te gustaría creer que merecés una buena relación? ¿Por qué?`,
+      formData.amorFuturo_mereces || '(No respondido)'
+    ].join('\n\n');
+
     try {
       const response = await fetch('/api/register', {
         method: 'POST',
@@ -132,7 +286,22 @@ export const Formulario = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...formData,
+          nombre: formData.nombre,
+          email: formData.email,
+          whatsapp: formData.whatsapp,
+          creenciasPersonales: creenciasPersonalesFormatted,
+          amorActual: amorActualFormatted,
+          dineroActual: dineroActualFormatted,
+          saludActual: saludActualFormatted,
+          creenciasDeseadas: creenciasDeseadasFormatted,
+          amorDeseado: amorDeseadoFormatted,
+          dineroDeseado: dineroDeseadoFormatted,
+          saludDeseado: saludDeseadoFormatted,
+          metasAdicionales: formData.metasAdicionales,
+          horarioManana: formData.horarioManana,
+          horarioMediodia: formData.horarioMediodia,
+          horarioTarde: formData.horarioTarde,
+          horarioNoche: formData.horarioNoche,
           horarioMananaArg: convertToArgentinaTime(formData.horarioManana),
           horarioMediodiaArg: convertToArgentinaTime(formData.horarioMediodia),
           horarioTardeArg: convertToArgentinaTime(formData.horarioTarde),
@@ -176,14 +345,22 @@ export const Formulario = () => {
     }),
   };
 
+  const inputClass = (hasError?: boolean) => 
+    `bg-white/5 border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none ${
+      hasError ? 'border-red-500/50' : 'border-white/10'
+    }`;
+
+  const labelClass = 'text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold';
+
+  const sectionHeaderClass = 'text-base font-light tracking-wide text-white border-b border-white/5 pb-2 mb-4';
+
+  const sectionCardClass = 'p-6 md:p-8 rounded-2xl bg-white/[0.01] border border-white/5 space-y-6';
+
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-black text-white py-12 px-6 flex flex-col justify-between relative overflow-hidden">
-        {/* Background Decorative Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.01] rounded-full blur-3xl pointer-events-none" />
-        
         <header className="max-w-3xl w-full mx-auto mb-10 z-10" />
-
         <main className="max-w-md w-full mx-auto flex-1 z-10 flex flex-col justify-center text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -194,15 +371,12 @@ export const Formulario = () => {
             <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white mb-4 animate-pulse">
               <Check className="w-8 h-8" />
             </div>
-            
             <h1 className="text-3xl font-light tracking-tight text-white leading-tight">
               Listo. Te mandamos un email con tu <span className="font-instrument italic text-white/95">acceso</span>.
             </h1>
-            
             <p className="text-white/60 font-light text-base leading-relaxed">
               Revisá tu bandeja de entrada (y la carpeta de spam si no lo encontrás). Nos vemos pronto.
             </p>
-
             <div className="pt-6 w-full flex flex-col gap-4">
               <a
                 href={`https://wa.me/542236151152?text=${encodeURIComponent(
@@ -224,7 +398,6 @@ export const Formulario = () => {
             </div>
           </motion.div>
         </main>
-
         <footer className="max-w-3xl w-full mx-auto mt-10 z-10" />
       </div>
     );
@@ -232,10 +405,8 @@ export const Formulario = () => {
 
   return (
     <div className="min-h-screen bg-black text-white py-12 px-6 flex flex-col justify-between relative overflow-hidden">
-      {/* Background Decorative Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.01] rounded-full blur-3xl pointer-events-none" />
 
-      {/* Header with back navigation */}
       <header className="max-w-3xl w-full mx-auto mb-10 z-10">
         <button
           onClick={goHome}
@@ -246,12 +417,11 @@ export const Formulario = () => {
         </button>
       </header>
 
-      {/* Main Container */}
       <main className="max-w-3xl w-full mx-auto flex-1 z-10 flex flex-col justify-center">
         <div className="liquid-glass rounded-3xl p-8 md:p-12 shadow-2xl relative">
           
           {/* Stepper Header */}
-          <div className="flex items-center justify-between mb-10 border-b border-white/5 pb-6">
+          <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-6">
             <div>
               <span className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
                 Paso {step} de 2
@@ -268,22 +438,17 @@ export const Formulario = () => {
                 )}
               </h1>
             </div>
-            {/* Step badges */}
             <div className="flex items-center gap-3">
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold border transition-all duration-500 ${
-                  step === 1
-                    ? 'bg-white text-black border-white'
-                    : 'bg-white/10 text-white/70 border-white/10'
+                  step === 1 ? 'bg-white text-black border-white' : 'bg-white/10 text-white/70 border-white/10'
                 }`}
               >
                 1
               </div>
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold border transition-all duration-500 ${
-                  step === 2
-                    ? 'bg-white text-black border-white'
-                    : 'bg-white/10 text-white/70 border-white/10'
+                  step === 2 ? 'bg-white text-black border-white' : 'bg-white/10 text-white/70 border-white/10'
                 }`}
               >
                 2
@@ -301,125 +466,286 @@ export const Formulario = () => {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  className="space-y-6 text-left"
+                  className="space-y-8 text-left"
                 >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Nombre */}
-                    <div className="md:col-span-2">
-                      <label className="text-xs uppercase tracking-widest text-white/50 font-semibold block mb-2">
-                        Nombre Completo *
-                      </label>
-                      <input
-                        type="text"
-                        value={formData.nombre}
-                        onChange={(e) => handleInputChange('nombre', e.target.value)}
-                        placeholder="Ej. Juan Pérez"
-                        className={`bg-white/5 border rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full ${
-                          errors.nombre ? 'border-red-500/50' : 'border-white/10'
-                        }`}
-                      />
-                      {errors.nombre && (
-                        <span className="text-xs text-red-400 mt-1 block">{errors.nombre}</span>
-                      )}
-                    </div>
+                  {/* Introductory Card */}
+                  <div className="p-6 md:p-8 rounded-2xl bg-white/[0.02] border border-white/5 font-light text-white/70 text-sm md:text-base leading-relaxed space-y-4">
+                    <p>Antes de arrancar necesito conocerte y saber quién sos.</p>
+                    <p>Lo que vamos a cambiar es el <strong>"yo soy"</strong> — y para cambiarlo primero necesito saber exactamente cómo es el tuyo ahora.</p>
+                    <p className="text-white/50 text-xs md:text-sm">Nadie te va a juzgar por lo que escribas acá. Pero necesito que seas supersincero/a. Cuanto más honesto/a seas, más poderoso va a ser el trabajo que hagamos juntos.</p>
+                  </div>
 
-                    {/* Email */}
-                    <div>
-                      <label className="text-xs uppercase tracking-widest text-white/50 font-semibold block mb-2">
-                        Email *
-                      </label>
-                      <input
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
-                        placeholder="Ej. juan@correo.com"
-                        className={`bg-white/5 border rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full ${
-                          errors.email ? 'border-red-500/50' : 'border-white/10'
-                        }`}
-                      />
-                      {errors.email && (
-                        <span className="text-xs text-red-400 mt-1 block">{errors.email}</span>
-                      )}
-                    </div>
+                  {/* Datos Básicos Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>Datos Básicos</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="md:col-span-2">
+                        <label className={labelClass}>Nombre Completo *</label>
+                        <input
+                          type="text"
+                          value={formData.nombre}
+                          onChange={(e) => handleInputChange('nombre', e.target.value)}
+                          placeholder="Ej. Juan Pérez"
+                          className={inputClass(!!errors.nombre)}
+                        />
+                        {errors.nombre && <span className="text-xs text-red-400 mt-1 block">{errors.nombre}</span>}
+                      </div>
 
-                    {/* WhatsApp */}
-                    <div>
-                      <label className="text-xs uppercase tracking-widest text-white/50 font-semibold block mb-2">
-                        WhatsApp *
-                      </label>
-                      <PhoneInput
-                        defaultCountry="ar"
-                        value={formData.whatsapp}
-                        onChange={(phone) => handleInputChange('whatsapp', phone)}
-                        className="w-full"
-                      />
-                      {errors.whatsapp && (
-                        <span className="text-xs text-red-400 mt-1 block">{errors.whatsapp}</span>
-                      )}
+                      <div>
+                        <label className={labelClass}>Email *</label>
+                        <input
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => handleInputChange('email', e.target.value)}
+                          placeholder="Ej. juan@correo.com"
+                          className={inputClass(!!errors.email)}
+                        />
+                        {errors.email && <span className="text-xs text-red-400 mt-1 block">{errors.email}</span>}
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>WhatsApp *</label>
+                        <PhoneInput
+                          defaultCountry="ar"
+                          value={formData.whatsapp}
+                          onChange={(phone) => handleInputChange('whatsapp', phone)}
+                          className="w-full"
+                        />
+                        {errors.whatsapp && <span className="text-xs text-red-400 mt-1 block">{errors.whatsapp}</span>}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Creencias personales */}
-                  <div>
-                    <label className="text-xs uppercase tracking-widest text-white/50 font-semibold block mb-2">
-                      ¿Cuáles son tus creencias actuales sobre vos mismo/a? *
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={formData.creenciasPersonales}
-                      onChange={(e) => handleInputChange('creenciasPersonales', e.target.value)}
-                      placeholder="Contame qué creés que podés y qué no podés lograr, tu autoconcepto actual..."
-                      className={`bg-white/5 border rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none ${
-                        errors.creenciasPersonales ? 'border-red-500/50' : 'border-white/10'
-                      }`}
-                    />
-                    {errors.creenciasPersonales && (
-                      <span className="text-xs text-red-400 mt-1 block">
-                        {errors.creenciasPersonales}
-                      </span>
-                    )}
+                  {/* ¿Quién sos hoy? Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>¿Quién sos hoy?</h3>
+                    
+                    <div className="space-y-6">
+                      <div>
+                        <label className={labelClass}>¿Cómo te describís a vos mismo/a en una frase? *</label>
+                        <textarea
+                          rows={2}
+                          value={formData.quienSosHoy_frase}
+                          onChange={(e) => handleInputChange('quienSosHoy_frase', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass(!!errors.quienSosHoy_frase)}
+                        />
+                        {errors.quienSosHoy_frase && <span className="text-xs text-red-400 mt-1 block">{errors.quienSosHoy_frase}</span>}
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>¿Qué pensás que los demás piensan de vos realmente?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.quienSosHoy_pensamiento}
+                          onChange={(e) => handleInputChange('quienSosHoy_pensamiento', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>¿Qué es lo que más no te gusta de vos?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.quienSosHoy_noGusta}
+                          onChange={(e) => handleInputChange('quienSosHoy_noGusta', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>¿Qué cosas decís que "nunca me pasan a mí"?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.quienSosHoy_nunca}
+                          onChange={(e) => handleInputChange('quienSosHoy_nunca', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>¿Qué cosas decís que "siempre me pasan a mí"?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.quienSosHoy_siempre}
+                          onChange={(e) => handleInputChange('quienSosHoy_siempre', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>¿Qué es lo que más repetís en tu cabeza sobre vos mismo/a?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.quienSosHoy_cabeza}
+                          onChange={(e) => handleInputChange('quienSosHoy_cabeza', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Amor */}
-                  <div>
-                    <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
-                      ¿Cómo es tu situación actual en el Amor / Relaciones?
-                    </label>
-                    <textarea
-                      rows={2}
-                      value={formData.amorActual}
-                      onChange={(e) => handleInputChange('amorActual', e.target.value)}
-                      placeholder="Bloqueos, patrones repetitivos, cómo te sentís con respecto a los vínculos..."
-                      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none"
-                    />
+                  {/* ¿Cómo estás con el dinero hoy? Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>¿Cómo estás con el dinero hoy?</h3>
+                    <div className="space-y-6">
+                      <div>
+                        <label className={labelClass}>¿Cómo describís tu situación económica ahora mismo?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.dinero_situacion}
+                          onChange={(e) => handleInputChange('dinero_situacion', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Qué pensás cuando ves que a otros les va bien económicamente?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.dinero_otros}
+                          onChange={(e) => handleInputChange('dinero_otros', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Qué decís cuando no tenés plata?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.dinero_sinPlata}
+                          onChange={(e) => handleInputChange('dinero_sinPlata', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Creés que merecés tener dinero? ¿Por qué sí o por qué no?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.dinero_mereces}
+                          onChange={(e) => handleInputChange('dinero_mereces', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Dinero */}
-                  <div>
-                    <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
-                      ¿Cómo es tu situación actual con el Dinero / Abundancia?
-                    </label>
-                    <textarea
-                      rows={2}
-                      value={formData.dineroActual}
-                      onChange={(e) => handleInputChange('dineroActual', e.target.value)}
-                      placeholder="Miedos, deudas, creencias de escasez, tu relación con el trabajo y el dinero..."
-                      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none"
-                    />
+                  {/* ¿Cómo estás con tu salud hoy? Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>¿Cómo estás con tu salud hoy?</h3>
+                    <div className="space-y-6">
+                      <div>
+                        <label className={labelClass}>¿Cómo describís tu cuerpo ahora mismo?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.salud_cuerpo}
+                          onChange={(e) => handleInputChange('salud_cuerpo', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Hay algo de tu salud que ya aceptaste como "así soy yo, no cambia"?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.salud_aceptado}
+                          onChange={(e) => handleInputChange('salud_aceptado', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Qué decís de tu cuerpo cuando te mirás al espejo?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.salud_espejo}
+                          onChange={(e) => handleInputChange('salud_espejo', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Salud */}
-                  <div>
-                    <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
-                      ¿Cómo es tu situación actual con la Salud / Concepto físico?
-                    </label>
-                    <textarea
-                      rows={2}
-                      value={formData.saludActual}
-                      onChange={(e) => handleInputChange('saludActual', e.target.value)}
-                      placeholder="Vitalidad, energía, tu autocrítica física, dolores o bloqueos mentales..."
-                      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none"
-                    />
+                  {/* ¿Cómo estás con el amor y los vínculos hoy? Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>¿Cómo estás con el amor y los vínculos hoy?</h3>
+                    <div className="space-y-6">
+                      <div>
+                        <label className={labelClass}>¿Cómo están tus relaciones ahora — pareja, familia, amigos?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.amor_relaciones}
+                          onChange={(e) => handleInputChange('amor_relaciones', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Qué decís de vos mismo/a en el amor?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.amor_definicion}
+                          onChange={(e) => handleInputChange('amor_definicion', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Creés que merecés una buena relación? ¿Por qué sí o por qué no?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.amor_mereces}
+                          onChange={(e) => handleInputChange('amor_mereces', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ¿Qué más define tu "yo soy" hoy? Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>¿Qué más define tu "yo soy" hoy?</h3>
+                    <div className="space-y-6">
+                      <div>
+                        <label className={labelClass}>¿Qué es lo que más te pesa en este momento?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.yoSoyHoy_pesa}
+                          onChange={(e) => handleInputChange('yoSoyHoy_pesa', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Qué creés que te falta para ser feliz?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.yoSoyHoy_falta}
+                          onChange={(e) => handleInputChange('yoSoyHoy_falta', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Qué es lo que más te cuesta creer que puede cambiar?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.yoSoyHoy_cuesta}
+                          onChange={(e) => handleInputChange('yoSoyHoy_cuesta', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                    </div>
                   </div>
 
                   {/* Controls */}
@@ -429,7 +755,7 @@ export const Formulario = () => {
                       onClick={handleNext}
                       className="inline-flex items-center justify-center gap-2 bg-white text-black hover:bg-white/90 transition-all duration-300 font-semibold px-8 py-4 rounded-full text-sm tracking-wide shadow-xl cursor-pointer w-full md:w-auto"
                     >
-                      Continuar
+                      Continuar al Paso 2
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -442,78 +768,248 @@ export const Formulario = () => {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  className="space-y-6 text-left"
+                  className="space-y-8 text-left"
                 >
-                  <p className="text-white/60 font-light text-sm md:text-base leading-relaxed mb-6">
-                    Ahora describí cómo te gustaría que sean estas mismas áreas. Enfocate en tu nuevo autoconcepto y en tu estado mental ideal.
-                  </p>
-
-                  {/* Creencias Deseadas */}
-                  <div>
-                    <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
-                      ¿Cómo te gustaría que sean tus creencias sobre vos mismo/a? *
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={formData.creenciasDeseadas}
-                      onChange={(e) => handleInputChange('creenciasDeseadas', e.target.value)}
-                      placeholder="Contame qué creencias potenciadoras, de merecimiento o seguridad te gustaría tener..."
-                      className={`bg-white/5 border rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none ${
-                        errors.creenciasDeseadas ? 'border-red-500/50' : 'border-white/10'
-                      }`}
-                    />
-                    {errors.creenciasDeseadas && (
-                      <span className="text-xs text-red-400 mt-1 block">{errors.creenciasDeseadas}</span>
-                    )}
+                  {/* Introductory Card Step 2 */}
+                  <div className="p-6 md:p-8 rounded-2xl bg-white/[0.02] border border-white/5 font-light text-white/70 text-sm md:text-base leading-relaxed space-y-2">
+                    <p>Ahora describí cómo te gustaría que fuera cada una de estas áreas.</p>
+                    <p className="text-white/50 text-xs md:text-sm">Enfocá tu atención e intención en tu nuevo autoconcepto y en cómo te gustaría experimentar la realidad.</p>
                   </div>
 
-                  {/* Amor Deseado */}
-                  <div>
-                    <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
-                      ¿Cómo te gustaría que sea tu situación en el Amor / Relaciones?
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={formData.amorDeseado}
-                      onChange={(e) => handleInputChange('amorDeseado', e.target.value)}
-                      placeholder="Cómo te gustaría sentirte, qué patrones te gustaría disolver, tu relación ideal..."
-                      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none"
-                    />
+                  {/* ¿Cómo te gustaría ser? Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>¿Cómo te gustaría ser?</h3>
+                    <div className="space-y-6">
+                      <div>
+                        <label className={labelClass}>¿Cómo te gustaría describirte a vos mismo/a en una frase? *</label>
+                        <textarea
+                          rows={2}
+                          value={formData.quienSosFuturo_frase}
+                          onChange={(e) => handleInputChange('quienSosFuturo_frase', e.target.value)}
+                          placeholder="Tu autoconcepto deseado..."
+                          className={inputClass(!!errors.quienSosFuturo_frase)}
+                        />
+                        {errors.quienSosFuturo_frase && <span className="text-xs text-red-400 mt-1 block">{errors.quienSosFuturo_frase}</span>}
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>¿Qué te gustaría que los demás piensen de vos realmente?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.quienSosFuturo_pensamiento}
+                          onChange={(e) => handleInputChange('quienSosFuturo_pensamiento', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>¿Qué es lo que más te gustaría que te guste de vos?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.quienSosFuturo_noGusta}
+                          onChange={(e) => handleInputChange('quienSosFuturo_noGusta', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>¿Qué cosas te gustaría decir que "nunca me pasan a mí" (en sentido positivo/dejar ir)?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.quienSosFuturo_nunca}
+                          onChange={(e) => handleInputChange('quienSosFuturo_nunca', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>¿Qué cosas te gustaría decir que "siempre me pasan a mí" (del lado positivo)?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.quienSosFuturo_siempre}
+                          onChange={(e) => handleInputChange('quienSosFuturo_siempre', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+
+                      <div>
+                        <label className={labelClass}>¿Qué es lo que más te gustaría repetir en tu cabeza sobre vos mismo/a?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.quienSosFuturo_cabeza}
+                          onChange={(e) => handleInputChange('quienSosFuturo_cabeza', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Dinero Deseado */}
-                  <div>
-                    <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
-                      ¿Cómo te gustaría que sea tu situación con el Dinero / Abundancia?
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={formData.dineroDeseado}
-                      onChange={(e) => handleInputChange('dineroDeseado', e.target.value)}
-                      placeholder="Tu relación deseada con la riqueza, de merecimiento, ingresos, tranquilidad..."
-                      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none"
-                    />
+                  {/* ¿Cómo te gustaría estar con el dinero? Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>¿Cómo te gustaría estar con el dinero?</h3>
+                    <div className="space-y-6">
+                      <div>
+                        <label className={labelClass}>¿Cómo te gustaría describir tu situación económica?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.dineroFuturo_situacion}
+                          onChange={(e) => handleInputChange('dineroFuturo_situacion', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Qué te gustaría pensar cuando ves que a otros les va bien económicamente?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.dineroFuturo_otros}
+                          onChange={(e) => handleInputChange('dineroFuturo_otros', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Qué te gustaría decir cuando pensás en tu dinero?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.dineroFuturo_sinPlata}
+                          onChange={(e) => handleInputChange('dineroFuturo_sinPlata', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Creés que merecés tener dinero? ¿Cómo te gustaría sentirlo y por qué?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.dineroFuturo_mereces}
+                          onChange={(e) => handleInputChange('dineroFuturo_mereces', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Salud Deseada */}
-                  <div>
-                    <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
-                      ¿Cómo te gustaría que sea tu situación con la Salud / Concepto físico?
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={formData.saludDeseado}
-                      onChange={(e) => handleInputChange('saludDeseado', e.target.value)}
-                      placeholder="Tu vitalidad ideal, tu relación con tu cuerpo, tu nivel de paz y energía diaria..."
-                      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none"
-                    />
+                  {/* ¿Cómo te gustaría estar con tu salud? Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>¿Cómo te gustaría estar con tu salud?</h3>
+                    <div className="space-y-6">
+                      <div>
+                        <label className={labelClass}>¿Cómo te gustaría describir tu cuerpo?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.saludFuturo_cuerpo}
+                          onChange={(e) => handleInputChange('saludFuturo_cuerpo', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Hay algo de tu salud que te gustaría cambiar en lugar de aceptarlo como "así soy yo"?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.saludFuturo_aceptado}
+                          onChange={(e) => handleInputChange('saludFuturo_aceptado', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Qué te gustaría decir de tu cuerpo cuando te mirás al espejo?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.saludFuturo_espejo}
+                          onChange={(e) => handleInputChange('saludFuturo_espejo', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Horarios de Reuniones por Llamada (15 min) */}
-                  <div className="space-y-4 pt-2">
-                    <label className="text-xs uppercase tracking-widest text-white/50 block font-semibold border-b border-white/5 pb-2">
-                      Horarios de reuniones por llamada (15 minutos) *
-                    </label>
+                  {/* ¿Cómo te gustaría estar con el amor y los vínculos? Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>¿Cómo te gustaría estar con el amor y los vínculos?</h3>
+                    <div className="space-y-6">
+                      <div>
+                        <label className={labelClass}>¿Cómo te gustaría que estén tus relaciones — pareja, familia, amigos?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.amorFuturo_relaciones}
+                          onChange={(e) => handleInputChange('amorFuturo_relaciones', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Qué te gustaría decir de vos mismo/a en el amor?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.amorFuturo_definicion}
+                          onChange={(e) => handleInputChange('amorFuturo_definicion', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Te gustaría creer que merecés una buena relación? ¿Por qué?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.amorFuturo_mereces}
+                          onChange={(e) => handleInputChange('amorFuturo_mereces', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ¿Cómo te gustaría que fuera tu "yo soy" en el futuro? Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>¿Cómo te gustaría que fuera tu "yo soy" en el futuro?</h3>
+                    <div className="space-y-6">
+                      <div>
+                        <label className={labelClass}>¿Qué te gustaría que ya no te pese en ese momento?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.yoSoyFuturo_pesa}
+                          onChange={(e) => handleInputChange('yoSoyFuturo_pesa', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Qué creés que necesitás sentir que tenés para ser feliz?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.yoSoyFuturo_falta}
+                          onChange={(e) => handleInputChange('yoSoyFuturo_falta', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelClass}>¿Qué te gustaría creer que puede cambiar, aunque hoy te cueste?</label>
+                        <textarea
+                          rows={2}
+                          value={formData.yoSoyFuturo_cuesta}
+                          onChange={(e) => handleInputChange('yoSoyFuturo_cuesta', e.target.value)}
+                          placeholder="Tu respuesta..."
+                          className={inputClass()}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Horarios de Reuniones por Llamada (15 min) Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>Horarios de reuniones por llamada (15 minutos) *</h3>
                     <p className="text-white/40 font-light text-xs -mt-2">
                       Seleccioná la hora aproximada (en tu hora local) en la que preferís que coordinemos las llamadas de 15 minutos:
                     </p>
@@ -616,17 +1112,15 @@ export const Formulario = () => {
                     </div>
                   </div>
 
-                  {/* Metas Adicionales */}
-                  <div>
-                    <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
-                      Comentarios o metas específicas
-                    </label>
+                  {/* Metas Adicionales Card */}
+                  <div className={sectionCardClass}>
+                    <h3 className={sectionHeaderClass}>Comentarios o metas específicas</h3>
                     <textarea
                       rows={2}
                       value={formData.metasAdicionales}
                       onChange={(e) => handleInputChange('metasAdicionales', e.target.value)}
                       placeholder="Cualquier otro detalle que consideres clave trabajar durante estos 30 días..."
-                      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none"
+                      className={inputClass()}
                     />
                   </div>
 
