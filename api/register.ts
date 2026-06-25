@@ -14,6 +14,7 @@ export default async function handler(req: any, res: any) {
     amorActual,
     dineroActual,
     saludActual,
+    creenciasDeseadas,
     amorDeseado,
     dineroDeseado,
     saludDeseado,
@@ -22,6 +23,11 @@ export default async function handler(req: any, res: any) {
     horarioMediodia,
     horarioTarde,
     horarioNoche,
+    horarioMananaArg,
+    horarioMediodiaArg,
+    horarioTardeArg,
+    horarioNocheArg,
+    timezone,
   } = req.body;
 
   // Basic validation
@@ -30,6 +36,7 @@ export default async function handler(req: any, res: any) {
     !email ||
     !whatsapp ||
     !creenciasPersonales ||
+    !creenciasDeseadas ||
     !horarioManana ||
     !horarioMediodia ||
     !horarioTarde ||
@@ -93,6 +100,7 @@ export default async function handler(req: any, res: any) {
       amor_actual: amorActual,
       dinero_actual: dineroActual,
       salud_actual: saludActual,
+      creencias_deseadas: creenciasDeseadas,
       amor_deseado: amorDeseado,
       dinero_deseado: dineroDeseado,
       salud_deseado: saludDeseado,
@@ -101,6 +109,11 @@ export default async function handler(req: any, res: any) {
       horario_mediodia: horarioMediodia,
       horario_tarde: horarioTarde,
       horario_noche: horarioNoche,
+      horario_manana_arg: horarioMananaArg,
+      horario_mediodia_arg: horarioMediodiaArg,
+      horario_tarde_arg: horarioTardeArg,
+      horario_noche_arg: horarioNocheArg,
+      timezone,
     });
 
     if (dbError) {
@@ -158,16 +171,44 @@ export default async function handler(req: any, res: any) {
             
             <hr style="border: 0; border-top: 1px solid #222; margin-bottom: 24px;" />
             
-            <h2 style="font-size: 18px; font-weight: 400; color: #fff; margin-bottom: 16px;">Horarios de Meditación</h2>
-            <p style="color: #ccc; margin-bottom: 8px;"><strong>Mañana:</strong> ${horarioManana} hs</p>
-            <p style="color: #ccc; margin-bottom: 8px;"><strong>Mediodía:</strong> ${horarioMediodia} hs</p>
-            <p style="color: #ccc; margin-bottom: 8px;"><strong>Tarde:</strong> ${horarioTarde} hs</p>
-            <p style="color: #ccc; margin-bottom: 24px;"><strong>Noche:</strong> ${horarioNoche} hs</p>
+            <h2 style="font-size: 18px; font-weight: 400; color: #fff; margin-bottom: 16px;">Horarios de reuniones por llamada (15 min)</h2>
+            <p style="color: #ccc; margin-bottom: 6px;">Zona Horaria del Alumno: <strong>${timezone || 'No especificada'}</strong></p>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 12px; margin-bottom: 24px; font-size: 14px;">
+              <thead>
+                <tr style="border-bottom: 1px solid #222; text-align: left;">
+                  <th style="padding: 8px 4px; color: #888;">Momento</th>
+                  <th style="padding: 8px 4px; color: #888;">Hora Local</th>
+                  <th style="padding: 8px 4px; color: #888;">Hora Argentina</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid #111;">
+                  <td style="padding: 8px 4px;"><strong>Mañana</strong></td>
+                  <td style="padding: 8px 4px;">${horarioManana} hs</td>
+                  <td style="padding: 8px 4px; color: #fff; font-weight: bold;">${horarioMananaArg}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #111;">
+                  <td style="padding: 8px 4px;"><strong>Mediodía</strong></td>
+                  <td style="padding: 8px 4px;">${horarioMediodia} hs</td>
+                  <td style="padding: 8px 4px; color: #fff; font-weight: bold;">${horarioMediodiaArg}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #111;">
+                  <td style="padding: 8px 4px;"><strong>Tarde</strong></td>
+                  <td style="padding: 8px 4px;">${horarioTarde} hs</td>
+                  <td style="padding: 8px 4px; color: #fff; font-weight: bold;">${horarioTardeArg}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 4px;"><strong>Noche</strong></td>
+                  <td style="padding: 8px 4px;">${horarioNoche} hs</td>
+                  <td style="padding: 8px 4px; color: #fff; font-weight: bold;">${horarioNocheArg}</td>
+                </tr>
+              </tbody>
+            </table>
             
             <hr style="border: 0; border-top: 1px solid #222; margin-bottom: 24px;" />
             
             <h2 style="font-size: 18px; font-weight: 400; color: #fff; margin-bottom: 16px;">Etapa 1: Quién sos hoy</h2>
-            <p style="color: #aaa; margin-bottom: 4px; font-size: 14px;"><strong>Creencias sobre sí mismo/a:</strong></p>
+            <p style="color: #aaa; margin-bottom: 4px; font-size: 14px;"><strong>Creencias actuales sobre sí mismo/a:</strong></p>
             <p style="color: #fff; margin-bottom: 16px; white-space: pre-wrap; font-size: 15px; font-weight: 300;">${creenciasPersonales}</p>
             
             <p style="color: #aaa; margin-bottom: 4px; font-size: 14px;"><strong>Situación Amor:</strong></p>
@@ -181,14 +222,17 @@ export default async function handler(req: any, res: any) {
             
             <hr style="border: 0; border-top: 1px solid #222; margin-bottom: 24px;" />
             
-            <h2 style="font-size: 18px; font-weight: 400; color: #fff; margin-bottom: 16px;">Etapa 2: Qué quiere obtener</h2>
-            <p style="color: #aaa; margin-bottom: 4px; font-size: 14px;"><strong>Escena ideal Amor:</strong></p>
+            <h2 style="font-size: 18px; font-weight: 400; color: #fff; margin-bottom: 16px;">Etapa 2: Cómo le gustaría que sea</h2>
+            <p style="color: #aaa; margin-bottom: 4px; font-size: 14px;"><strong>Creencias deseadas sobre sí mismo/a:</strong></p>
+            <p style="color: #fff; margin-bottom: 16px; white-space: pre-wrap; font-size: 15px; font-weight: 300;">${creenciasDeseadas}</p>
+            
+            <p style="color: #aaa; margin-bottom: 4px; font-size: 14px;"><strong>Situación Amor deseada:</strong></p>
             <p style="color: #fff; margin-bottom: 16px; white-space: pre-wrap; font-size: 15px; font-weight: 300;">${amorDeseado || 'No especificado'}</p>
             
-            <p style="color: #aaa; margin-bottom: 4px; font-size: 14px;"><strong>Escena ideal Dinero:</strong></p>
+            <p style="color: #aaa; margin-bottom: 4px; font-size: 14px;"><strong>Situación Dinero deseada:</strong></p>
             <p style="color: #fff; margin-bottom: 16px; white-space: pre-wrap; font-size: 15px; font-weight: 300;">${dineroDeseado || 'No especificado'}</p>
             
-            <p style="color: #aaa; margin-bottom: 4px; font-size: 14px;"><strong>Escena ideal Salud:</strong></p>
+            <p style="color: #aaa; margin-bottom: 4px; font-size: 14px;"><strong>Situación Salud deseada:</strong></p>
             <p style="color: #fff; margin-bottom: 16px; white-space: pre-wrap; font-size: 15px; font-weight: 300;">${saludDeseado || 'No especificado'}</p>
             
             <p style="color: #aaa; margin-bottom: 4px; font-size: 14px;"><strong>Metas/Comentarios:</strong></p>

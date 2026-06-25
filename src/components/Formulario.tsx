@@ -1,6 +1,29 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
+
+const userTimezone = typeof window !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'UTC';
+
+const convertToArgentinaTime = (timeStr: string): string => {
+  if (!timeStr) return '';
+  try {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    const formatter = new Intl.DateTimeFormat('es-AR', {
+      timeZone: 'America/Argentina/Buenos_Aires',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
+    return formatter.format(date) + ' AR';
+  } catch (e) {
+    console.error('Timezone conversion error:', e);
+    return timeStr;
+  }
+};
 
 export const Formulario = () => {
   const [step, setStep] = useState(1);
@@ -16,6 +39,7 @@ export const Formulario = () => {
     amorActual: '',
     dineroActual: '',
     saludActual: '',
+    creenciasDeseadas: '',
     amorDeseado: '',
     dineroDeseado: '',
     saludDeseado: '',
@@ -79,8 +103,11 @@ export const Formulario = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate meditation times
+    // Validate Step 2 required fields
     const newErrors: Record<string, string> = {};
+    if (!formData.creenciasDeseadas.trim()) {
+      newErrors.creenciasDeseadas = 'Este campo es obligatorio para tu diagnóstico';
+    }
     if (!formData.horarioManana) newErrors.horarioManana = 'Requerido';
     if (!formData.horarioMediodia) newErrors.horarioMediodia = 'Requerido';
     if (!formData.horarioTarde) newErrors.horarioTarde = 'Requerido';
@@ -104,7 +131,14 @@ export const Formulario = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          horarioMananaArg: convertToArgentinaTime(formData.horarioManana),
+          horarioMediodiaArg: convertToArgentinaTime(formData.horarioMediodia),
+          horarioTardeArg: convertToArgentinaTime(formData.horarioTarde),
+          horarioNocheArg: convertToArgentinaTime(formData.horarioNoche),
+          timezone: userTimezone,
+        }),
       });
 
       if (!response.ok) {
@@ -315,16 +349,13 @@ export const Formulario = () => {
                     {/* WhatsApp */}
                     <div>
                       <label className="text-xs uppercase tracking-widest text-white/50 font-semibold block mb-2">
-                        WhatsApp (con código de país) *
+                        WhatsApp *
                       </label>
-                      <input
-                        type="tel"
+                      <PhoneInput
+                        defaultCountry="ar"
                         value={formData.whatsapp}
-                        onChange={(e) => handleInputChange('whatsapp', e.target.value)}
-                        placeholder="Ej. +5491112345678"
-                        className={`bg-white/5 border rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full ${
-                          errors.whatsapp ? 'border-red-500/50' : 'border-white/10'
-                        }`}
+                        onChange={(phone) => handleInputChange('whatsapp', phone)}
+                        className="w-full"
                       />
                       {errors.whatsapp && (
                         <span className="text-xs text-red-400 mt-1 block">{errors.whatsapp}</span>
@@ -418,19 +449,38 @@ export const Formulario = () => {
                   className="space-y-6 text-left"
                 >
                   <p className="text-white/60 font-light text-sm md:text-base leading-relaxed mb-6">
-                    Ahora describí las escenas y estados ideales que deseás manifestar. No pienses en el *cómo*, enfocate puramente en el resultado final de tu deseo cumplido.
+                    Ahora describí cómo te gustaría que sean estas mismas áreas. No pienses en el *cómo*, enfocate en tu autoconcepto deseado y en tu estado mental ideal.
                   </p>
+
+                  {/* Creencias Deseadas */}
+                  <div>
+                    <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
+                      ¿Cómo te gustaría que sean tus creencias sobre vos mismo/a? *
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={formData.creenciasDeseadas}
+                      onChange={(e) => handleInputChange('creenciasDeseadas', e.target.value)}
+                      placeholder="Contame qué creencias potenciadoras, de merecimiento o seguridad te gustaría tener..."
+                      className={`bg-white/5 border rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none ${
+                        errors.creenciasDeseadas ? 'border-red-500/50' : 'border-white/10'
+                      }`}
+                    />
+                    {errors.creenciasDeseadas && (
+                      <span className="text-xs text-red-400 mt-1 block">{errors.creenciasDeseadas}</span>
+                    )}
+                  </div>
 
                   {/* Amor Deseado */}
                   <div>
                     <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
-                      Tu escena ideal en el Amor
+                      ¿Cómo te gustaría que sea tu situación en el Amor / Relaciones?
                     </label>
                     <textarea
                       rows={3}
                       value={formData.amorDeseado}
                       onChange={(e) => handleInputChange('amorDeseado', e.target.value)}
-                      placeholder="Describí una escena en primera persona y tiempo presente que implique que ya estás con la persona o en la relación deseada..."
+                      placeholder="Cómo te gustaría sentirte, qué patrones te gustaría disolver, tu relación ideal..."
                       className="bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none"
                     />
                   </div>
@@ -438,13 +488,13 @@ export const Formulario = () => {
                   {/* Dinero Deseado */}
                   <div>
                     <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
-                      Tu escena ideal en el Dinero / Abundancia
+                      ¿Cómo te gustaría que sea tu situación con el Dinero / Abundancia?
                     </label>
                     <textarea
                       rows={3}
                       value={formData.dineroDeseado}
                       onChange={(e) => handleInputChange('dineroDeseado', e.target.value)}
-                      placeholder="¿Cuánto dinero estás ganando? ¿Cómo te sentís siendo abundante? Describí tu escena presente..."
+                      placeholder="Tu relación deseada con la riqueza, de merecimiento, ingresos, tranquilidad..."
                       className="bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none"
                     />
                   </div>
@@ -452,24 +502,24 @@ export const Formulario = () => {
                   {/* Salud Deseada */}
                   <div>
                     <label className="text-xs uppercase tracking-widest text-white/50 block mb-2 font-semibold">
-                      Tu escena ideal en la Salud / Bienestar
+                      ¿Cómo te gustaría que sea tu situación con la Salud / Concepto físico?
                     </label>
                     <textarea
                       rows={3}
                       value={formData.saludDeseado}
                       onChange={(e) => handleInputChange('saludDeseado', e.target.value)}
-                      placeholder="Cómo te sentís físicamente, tu nivel de paz mental, tu cuerpo ideal vibrando en salud plena..."
+                      placeholder="Tu vitalidad ideal, tu relación con tu cuerpo, tu nivel de paz y energía diaria..."
                       className="bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all duration-300 w-full resize-none"
                     />
                   </div>
 
-                  {/* Horarios de Meditación */}
+                  {/* Horarios de Reuniones por Llamada (15 min) */}
                   <div className="space-y-4 pt-2">
                     <label className="text-xs uppercase tracking-widest text-white/50 block font-semibold border-b border-white/5 pb-2">
-                      Horarios de Meditación *
+                      Horarios de reuniones por llamada (15 minutos) *
                     </label>
                     <p className="text-white/40 font-light text-xs -mt-2">
-                      Seleccioná la hora exacta aproximada en la que vas a hacer tus meditaciones diarias:
+                      Seleccioná la hora aproximada (en tu hora local) en la que preferís que coordinemos las llamadas de 15 minutos:
                     </p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       {/* Mañana */}
@@ -485,8 +535,14 @@ export const Formulario = () => {
                             errors.horarioManana ? 'border-red-500/50' : 'border-white/10'
                           }`}
                         />
-                        {errors.horarioManana && (
+                        {errors.horarioManana ? (
                           <span className="text-[10px] text-red-400 mt-0.5 block">{errors.horarioManana}</span>
+                        ) : (
+                          formData.horarioManana && (
+                            <span className="text-[9px] text-white/40 mt-0.5 block">
+                              Equivale a: {convertToArgentinaTime(formData.horarioManana)}
+                            </span>
+                          )
                         )}
                       </div>
 
@@ -503,8 +559,14 @@ export const Formulario = () => {
                             errors.horarioMediodia ? 'border-red-500/50' : 'border-white/10'
                           }`}
                         />
-                        {errors.horarioMediodia && (
+                        {errors.horarioMediodia ? (
                           <span className="text-[10px] text-red-400 mt-0.5 block">{errors.horarioMediodia}</span>
+                        ) : (
+                          formData.horarioMediodia && (
+                            <span className="text-[9px] text-white/40 mt-0.5 block">
+                              Equivale a: {convertToArgentinaTime(formData.horarioMediodia)}
+                            </span>
+                          )
                         )}
                       </div>
 
@@ -521,8 +583,14 @@ export const Formulario = () => {
                             errors.horarioTarde ? 'border-red-500/50' : 'border-white/10'
                           }`}
                         />
-                        {errors.horarioTarde && (
+                        {errors.horarioTarde ? (
                           <span className="text-[10px] text-red-400 mt-0.5 block">{errors.horarioTarde}</span>
+                        ) : (
+                          formData.horarioTarde && (
+                            <span className="text-[9px] text-white/40 mt-0.5 block">
+                              Equivale a: {convertToArgentinaTime(formData.horarioTarde)}
+                            </span>
+                          )
                         )}
                       </div>
 
@@ -539,8 +607,14 @@ export const Formulario = () => {
                             errors.horarioNoche ? 'border-red-500/50' : 'border-white/10'
                           }`}
                         />
-                        {errors.horarioNoche && (
+                        {errors.horarioNoche ? (
                           <span className="text-[10px] text-red-400 mt-0.5 block">{errors.horarioNoche}</span>
+                        ) : (
+                          formData.horarioNoche && (
+                            <span className="text-[9px] text-white/40 mt-0.5 block">
+                              Equivale a: {convertToArgentinaTime(formData.horarioNoche)}
+                            </span>
+                          )
                         )}
                       </div>
                     </div>
