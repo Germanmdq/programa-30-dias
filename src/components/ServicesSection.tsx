@@ -8,7 +8,7 @@ const cards = [
     title: 'Estás adentro, no mirando',
     description:
       'Todo construido desde tus ojos: la altura a la que mirás, el ángulo de tu cabeza, la distancia de tus manos a los objetos. Mirás para abajo y ves tus propias manos.',
-    image: '/images/inmersion_pov.png',
+    video: '/videos/inmersion.mp4#t=0.1',
   },
   {
     tag: 'Presencia',
@@ -16,7 +16,7 @@ const cards = [
     title: 'Están ahí, con su voz',
     description:
       'Si en tu escena hay alguien, aparece con sus rasgos exactos y su voz real clonada — su tono, su cadencia, su forma de respirar entre frases. Tu oído no duda ni un segundo.',
-    image: '/images/presencia_voz.png',
+    video: '/videos/presencia.mp4#t=0.1',
   },
   {
     tag: 'Profundidad',
@@ -24,7 +24,7 @@ const cards = [
     title: 'En tres dimensiones',
     description:
       'Formato estereoscópico: cada ojo recibe una imagen distinta, como funciona la visión natural. No ves una pantalla, ves profundidad real. Las gafas te llegan a tu casa.',
-    image: '/images/profundidad_gafas.png',
+    video: '/videos/visor.mp4#t=0.1',
   },
 ];
 
@@ -58,11 +58,15 @@ export const ServicesSection = () => {
               transition={{ duration: 0.6, delay: idx * 0.15 }}
               className="liquid-glass rounded-3xl overflow-hidden flex flex-col group hover:bg-white/[0.02] transition-colors duration-500"
             >
-              {/* Image cover */}
+              {/* Video cover */}
               <div className="relative aspect-video w-full overflow-hidden border-b border-white/5">
-                <img
-                  src={card.image}
-                  alt={card.title}
+                <video
+                  src={card.video}
+                  muted
+                  autoPlay
+                  loop
+                  playsInline
+                  preload="auto"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>

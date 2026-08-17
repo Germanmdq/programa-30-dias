@@ -275,7 +275,7 @@ export const Formulario = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex items-center justify-center gap-3 bg-accent text-black hover:bg-accent/90 disabled:bg-accent/70 transition-all duration-300 font-semibold px-10 py-4 rounded-full text-sm tracking-wide shadow-xl cursor-pointer w-full md:w-auto disabled:cursor-not-allowed"
+                className="inline-flex items-center justify-center gap-3 bg-white text-black hover:bg-white/90 disabled:bg-white/70 transition-all duration-300 font-semibold px-10 py-4 rounded-full text-sm tracking-wide shadow-xl cursor-pointer w-full md:w-auto disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>

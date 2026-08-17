@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
 
-const CTA_VIDEO_URL = '/videos/A_woman_standing_at_the_edge_o.mp4';
+const CTA_VIDEO_URL = '/videos/problema.mp4';
 
 export const CTASection = () => {
   return (
@@ -55,7 +55,7 @@ export const CTASection = () => {
             href="https://wa.me/542236151152?text=Quiero%20mi%20escena%20de%20Control%20de%20la%20Imagen"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-accent text-black hover:bg-accent/90 transition-all duration-300 font-semibold px-10 py-5 rounded-full text-base tracking-wide shadow-2xl cursor-pointer"
+            className="inline-flex items-center gap-3 bg-white text-black hover:bg-white/90 transition-all duration-300 font-semibold px-10 py-5 rounded-full text-base tracking-wide shadow-2xl cursor-pointer"
           >
             <MessageCircle className="w-5 h-5 fill-black" />
             Escribime ahora

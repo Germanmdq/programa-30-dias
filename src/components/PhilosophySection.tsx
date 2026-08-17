@@ -22,7 +22,7 @@ export const PhilosophySection = () => {
         {/* Two-column layout: video left, two text blocks right */}
         <div className="flex flex-col md:flex-row gap-8 items-stretch">
 
-          {/* ── LEFT COLUMN: image ───────────────────────────────────── */}
+          {/* ── LEFT COLUMN: video ───────────────────────────────────── */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -31,9 +31,13 @@ export const PhilosophySection = () => {
             className="w-full md:w-1/2 liquid-glass rounded-3xl overflow-hidden"
             style={{ aspectRatio: '4/3' }}
           >
-            <img
-              src="/images/philosophy_portal.png"
-              alt="Cuadro interactivo"
+            <video
+              src="/videos/cuadro.mp4#t=0.1"
+              muted
+              autoPlay
+              loop
+              playsInline
+              preload="auto"
               className="w-full h-full object-cover"
             />
           </motion.div>

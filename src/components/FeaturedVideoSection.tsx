@@ -34,7 +34,7 @@ export const FeaturedVideoSection = () => {
                 href="https://wa.me/542236151152?text=Quiero%20mi%20escena%20de%20Control%20de%20la%20Imagen"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-accent text-black hover:bg-accent/90 transition-all duration-300 font-semibold px-8 py-4 rounded-full text-sm tracking-wide shadow-xl cursor-pointer"
+                className="inline-flex items-center gap-3 bg-white text-black hover:bg-white/90 transition-all duration-300 font-semibold px-8 py-4 rounded-full text-sm tracking-wide shadow-xl cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4 fill-black" />
                 Quiero resolverlo
@@ -42,11 +42,15 @@ export const FeaturedVideoSection = () => {
             </div>
           </div>
 
-          {/* Image */}
+          {/* Video */}
           <div className="w-full lg:w-[400px] aspect-video lg:aspect-[4/5] rounded-2xl overflow-hidden relative border border-white/5">
-            <img
-              src="/images/el_problema.png"
-              alt="Mente saturada visualizando"
+            <video
+              src="/videos/problema.mp4#t=0.1"
+              muted
+              autoPlay
+              loop
+              playsInline
+              preload="auto"
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
