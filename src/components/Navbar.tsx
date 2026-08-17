@@ -1,49 +1,48 @@
+import { useEffect, useState } from 'react';
 import { Eye } from 'lucide-react';
 
-interface NavbarProps {
-  onScrollTo: (sectionId: string) => void;
-}
+const enlaces = [
+  { label: 'El problema', id: 'problema' },
+  { label: 'Cómo funciona', id: 'sesiones' },
+  { label: 'La experiencia', id: 'experiencia' },
+  { label: 'Preguntas', id: 'preguntas' },
+];
 
-export const Navbar = ({ onScrollTo }: NavbarProps) => {
+export function Navbar({ onScrollTo }: { onScrollTo: (id: string) => void }) {
+  const [fijo, setFijo] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setFijo(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 w-full z-50 border-b border-white/5 bg-black/60 backdrop-blur-md">
-      <div className="relative max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        {/* Brand/Logo */}
-        <div className="flex items-center gap-2 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <Eye className="w-5 h-5 text-white/70 group-hover:text-white transition-colors duration-300" />
-          <span className="text-sm font-semibold tracking-widest uppercase text-white/90 group-hover:text-white transition-colors duration-300">
+    <nav
+      className={`fixed top-0 left-0 z-50 w-full transition-colors duration-500 ${
+        fijo ? 'bg-sala/85 backdrop-blur-md' : 'bg-transparent'
+      }`}
+    >
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 md:px-12 lg:px-20">
+        <a href="/" className="flex items-center gap-2.5">
+          <Eye className="h-4 w-4 text-ambar" strokeWidth={2} />
+          <span className="text-[0.8125rem] font-semibold tracking-[0.2em] uppercase">
             Control de la Imagen
           </span>
-        </div>
+        </a>
 
-        {/* Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
-          <button 
-            onClick={() => onScrollTo('el-problema')} 
-            className="text-sm text-white/60 hover:text-white transition-colors duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white hover:after:w-full after:transition-all after:duration-300"
-          >
-            El problema
-          </button>
-          <button 
-            onClick={() => onScrollTo('como-funciona')} 
-            className="text-sm text-white/60 hover:text-white transition-colors duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white hover:after:w-full after:transition-all after:duration-300"
-          >
-            Cómo funciona
-          </button>
-          <button 
-            onClick={() => onScrollTo('la-experiencia')} 
-            className="text-sm text-white/60 hover:text-white transition-colors duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white hover:after:w-full after:transition-all after:duration-300"
-          >
-            La experiencia
-          </button>
-          <button 
-            onClick={() => onScrollTo('preguntas')} 
-            className="text-sm text-white/60 hover:text-white transition-colors duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white hover:after:w-full after:transition-all after:duration-300"
-          >
-            Preguntas
-          </button>
-        </nav>
+        <div className="hidden items-center gap-9 md:flex">
+          {enlaces.map((e) => (
+            <button
+              key={e.id}
+              onClick={() => onScrollTo(e.id)}
+              className="text-[0.875rem] text-luz-baja transition-colors duration-300 hover:text-luz"
+            >
+              {e.label}
+            </button>
+          ))}
+        </div>
       </div>
-    </header>
+    </nav>
   );
-};
+}

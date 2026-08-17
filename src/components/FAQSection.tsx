@@ -1,6 +1,7 @@
-import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
+import { Seccion, Rotulo, Revelar } from './ui';
 
 const faqs = [
   {
@@ -12,7 +13,7 @@ const faqs = [
     a: '21 días desde la primera sesión hasta la entrega de tu pieza.',
   },
   {
-    q: '¿Qué necesito darme?',
+    q: '¿Qué información necesitás de mí?',
     a: 'Depende de tu escena. Te lo pido en la sesión 4, cuando ya sabemos qué necesita.',
   },
   {
@@ -33,76 +34,55 @@ const faqs = [
   },
 ];
 
-export const FAQSection = () => {
-  const [openIdx, setOpenIdx] = useState<number | null>(null);
-
-  const toggle = (idx: number) => setOpenIdx(openIdx === idx ? null : idx);
+export function FAQSection() {
+  const [abierta, setAbierta] = useState<number | null>(0);
 
   return (
-    <section className="py-20 px-6 bg-black relative">
-      <div className="max-w-3xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
-        >
-          <span className="text-xs uppercase tracking-widest text-accent block mb-4 font-semibold">
-            Preguntas frecuentes
-          </span>
-          <h2 className="text-3xl md:text-5xl font-light text-white tracking-tight">
-            Lo que suelen preguntar
-          </h2>
-        </motion.div>
+    <Seccion id="preguntas">
+      <Revelar>
+        <Rotulo>Preguntas</Rotulo>
+        <h2 className="mt-7 font-display text-[2rem] leading-[1.1] sm:text-[2.75rem]">
+          Lo que suelen preguntarme.
+        </h2>
+      </Revelar>
 
-        {/* Accordion items */}
-        <div className="space-y-3">
-          {faqs.map((faq, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: idx * 0.08 }}
-              className="liquid-glass rounded-2xl overflow-hidden"
-            >
+      <div className="mt-14 max-w-3xl">
+        {faqs.map((f, i) => (
+          <Revelar key={f.q} delay={i * 0.04}>
+            <div className="border-t border-borde">
               <button
-                onClick={() => toggle(idx)}
-                className="w-full flex items-center justify-between px-8 py-6 text-left group cursor-pointer"
-                aria-expanded={openIdx === idx}
+                onClick={() => setAbierta(abierta === i ? null : i)}
+                aria-expanded={abierta === i}
+                className="flex w-full items-center justify-between gap-6 py-6 text-left"
               >
-                <span className="text-base md:text-lg font-light text-white/90 group-hover:text-white transition-colors pr-8">
-                  {faq.q}
-                </span>
-                <span
-                  className="shrink-0 w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center transition-transform duration-300"
-                  style={{ transform: openIdx === idx ? 'rotate(45deg)' : 'rotate(0deg)' }}
-                >
-                  <Plus className="w-4 h-4 text-white/60" />
-                </span>
+                <span className="text-[1.0625rem] font-medium">{f.q}</span>
+                <Plus
+                  className={`h-4 w-4 shrink-0 text-ambar transition-transform duration-300 ${
+                    abierta === i ? 'rotate-45' : ''
+                  }`}
+                  strokeWidth={2}
+                />
               </button>
-
               <AnimatePresence initial={false}>
-                {openIdx === idx && (
+                {abierta === i && (
                   <motion.div
-                    key="content"
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
                   >
-                    <p className="px-8 pb-6 text-sm md:text-base text-white/55 font-light leading-relaxed">
-                      {faq.a}
+                    <p className="max-w-xl pb-7 text-[1rem] leading-relaxed text-luz-baja">
+                      {f.a}
                     </p>
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
+            </div>
+          </Revelar>
+        ))}
+        <div className="border-t border-borde" />
       </div>
-    </section>
+    </Seccion>
   );
-};
+}

@@ -1,122 +1,77 @@
-import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
+import { WHATSAPP } from './ui';
 
-const HERO_VIDEO_URL = '/videos/cuadro.mp4';
+const HERO_VIDEO = '/videos/hero.mp4';
 
-export const HeroSection = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const fadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const fadeTo = (target: number, durationMs: number) => {
-    const video = videoRef.current;
-    if (!video) return;
-    const start = video.style.opacity === '' ? 0 : parseFloat(video.style.opacity);
-    const startTime = performance.now();
-    const tick = (now: number) => {
-      const progress = Math.min((now - startTime) / durationMs, 1);
-      video.style.opacity = String(start + (target - start) * progress);
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-    video.style.opacity = String(start); // safety initialization
-    requestAnimationFrame(tick);
-  };
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.style.opacity = '0';
-
-    const onCanPlay = () => { video.play().catch(() => {}); fadeTo(1, 500); };
-    const onTimeUpdate = () => {
-      const remaining = video.duration - video.currentTime;
-      if (remaining <= 0.55 && parseFloat(video.style.opacity) > 0) fadeTo(0, 500);
-    };
-    const onEnded = () => {
-      video.style.opacity = '0';
-      if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
-      fadeTimerRef.current = setTimeout(() => {
-        video.currentTime = 0;
-        video.play().catch(() => {});
-        fadeTo(1, 500);
-      }, 100);
-    };
-
-    video.addEventListener('canplay', onCanPlay);
-    video.addEventListener('timeupdate', onTimeUpdate);
-    video.addEventListener('ended', onEnded);
-    return () => {
-      video.removeEventListener('canplay', onCanPlay);
-      video.removeEventListener('timeupdate', onTimeUpdate);
-      video.removeEventListener('ended', onEnded);
-      if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
-    };
-  }, []);
-
+/* ── HeroSection ───────────────────────────────────────────
+   The page opens the way the product does: two bands retract
+   up and down, like eyelids. It is the one orchestrated moment
+   on the page, and it is the thesis — this thing is seen from
+   inside a body, not watched from a seat.
+   Text sits low-left, so the footage owns the frame. */
+export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-start justify-center overflow-hidden bg-black pt-[18vh] px-6">
-      {/* Background Video */}
+    <section className="relative h-[100svh] min-h-[620px] w-full overflow-hidden">
       <video
-        ref={videoRef}
-        src={HERO_VIDEO_URL}
-        muted
+        src={HERO_VIDEO}
         autoPlay
+        loop
+        muted
         playsInline
-        preload="auto"
-        poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ opacity: 0, transition: 'none' }}
+        className="absolute inset-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 bg-black/15 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black to-transparent pointer-events-none" />
 
-      {/* Content */}
-      <div className="max-w-4xl w-full text-center z-10 flex flex-col items-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-8"
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-          <span className="text-xs uppercase tracking-wider text-white/70">Cupos limitados</span>
-        </motion.div>
+      {/* legibility: dark from the bottom-left, where the type lives */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-sala via-sala/70 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-sala via-transparent to-sala/40" />
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl md:text-8xl tracking-tight text-white mb-8 font-light leading-none"
-        >
-          Nos convertimos en lo que{' '}
-          <span className="font-instrument italic text-white/95 relative inline-block px-1">contemplamos</span>.
-        </motion.h1>
+      {/* párpados */}
+      <motion.div
+        initial={{ height: '50%' }}
+        animate={{ height: 0 }}
+        transition={{ duration: 1.6, delay: 0.15, ease: [0.76, 0, 0.24, 1] }}
+        className="absolute top-0 left-0 z-20 w-full bg-sala"
+      />
+      <motion.div
+        initial={{ height: '50%' }}
+        animate={{ height: 0 }}
+        transition={{ duration: 1.6, delay: 0.15, ease: [0.76, 0, 0.24, 1] }}
+        className="absolute bottom-0 left-0 z-20 w-full bg-sala"
+      />
 
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-xl text-white/60 font-light max-w-2xl mb-8 leading-relaxed"
-        >
-          La primera prótesis perceptiva: fabrico la imagen de tu deseo cumplido y te la entrego terminada, en tres dimensiones.
-        </motion.p>
-
+      <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-20 md:px-12 md:pb-28 lg:px-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 1.1, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-3xl"
         >
-          <a
-            href="https://wa.me/542236151152?text=Quiero%20mi%20escena%20de%20Control%20de%20la%20Imagen"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-white text-black hover:bg-white/90 transition-all duration-300 font-semibold px-8 py-4 rounded-full text-sm tracking-wide shadow-xl cursor-pointer"
-          >
-            <MessageCircle className="w-4 h-4 fill-black" />
-            Quiero mi escena
-          </a>
+          <h1 className="font-display text-[3rem] leading-[0.95] tracking-[-0.02em] sm:text-[4.5rem] md:text-[5.5rem]">
+            Nos convertimos
+            <br />
+            en lo que{' '}
+            <em className="italic text-ambar">contemplamos</em>.
+          </h1>
+
+          <p className="mt-8 max-w-xl text-[1.0625rem] leading-relaxed text-luz-baja">
+            Construyo la escena de tu deseo cumplido y te la entrego terminada.
+            En primera persona. En tres dimensiones.
+          </p>
+
+          <div className="mt-10">
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 rounded-full bg-luz px-7 py-3.5 text-[0.9375rem] font-medium text-sala transition-colors duration-300 hover:bg-white"
+            >
+              <MessageCircle className="h-[18px] w-[18px]" strokeWidth={2} />
+              Quiero mi escena
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>
   );
-};
+}
