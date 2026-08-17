@@ -1,50 +1,49 @@
 import { motion } from 'framer-motion';
-import { Heart, Coins, Activity, MessageCircle } from 'lucide-react';
+import { Eye, Users, Layers, MessageCircle } from 'lucide-react';
 
 const cards = [
   {
-    tag: 'Amor',
-    icon: <Heart className="w-5 h-5 text-red-400" />,
-    title: 'Relaciones y vínculos',
+    tag: 'Inmersión',
+    icon: <Eye className="w-5 h-5 text-accent" />,
+    title: 'Estás adentro, no mirando',
     description:
-      'Trabajamos las creencias que te separan de la pareja, el vínculo o la relación que querés. Sin teoría — con trabajo real sobre tu yo soy.',
-    video: '/videos/A_woman_sitting_alone_at_a_tab.mp4#t=0.1',
+      'Todo construido desde tus ojos: la altura a la que mirás, el ángulo de tu cabeza, la distancia de tus manos a los objetos. Mirás para abajo y ves tus propias manos.',
+    image: '/images/inmersion_pov.png',
   },
   {
-    tag: 'Dinero',
-    icon: <Coins className="w-5 h-5 text-amber-400" />,
-    title: 'Prosperidad y abundancia',
+    tag: 'Presencia',
+    icon: <Users className="w-5 h-5 text-accent" />,
+    title: 'Están ahí, con su voz',
     description:
-      'Identificamos qué creés sobre vos mismo/a y el dinero, y lo cambiamos desde adentro. En 30 días empezás a ver cómo tu realidad económica se mueve.',
-    video: '/videos/A_man_walking_confidently_thro.mp4#t=0.1',
+      'Si en tu escena hay alguien, aparece con sus rasgos exactos y su voz real clonada — su tono, su cadencia, su forma de respirar entre frases. Tu oído no duda ni un segundo.',
+    image: '/images/presencia_voz.png',
   },
   {
-    tag: 'Salud',
-    icon: <Activity className="w-5 h-5 text-emerald-400" />,
-    title: 'Bienestar y autoconcepto',
+    tag: 'Profundidad',
+    icon: <Layers className="w-5 h-5 text-accent" />,
+    title: 'En tres dimensiones',
     description:
-      'Reconfiguramos tu estado mental de salud y vitalidad. Alineamos tu cuerpo físico con la asunción del bienestar pleno y la paz mental.',
-    video: '/videos/Sin_título.mp4#t=0.1',
+      'Formato estereoscópico: cada ojo recibe una imagen distinta, como funciona la visión natural. No ves una pantalla, ves profundidad real. Las gafas te llegan a tu casa.',
+    image: '/images/profundidad_gafas.png',
   },
 ];
 
 export const ServicesSection = () => {
   return (
-    <section id="preguntas" className="py-20 px-6 bg-black relative">
+    <section id="que-recibis" className="py-20 px-6 bg-black relative">
       <div className="max-w-6xl mx-auto text-left">
         {/* Header */}
         <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-10">
           <div>
-            <span className="text-xs uppercase tracking-widest text-white/50 block mb-3 font-semibold">
-              Las tres áreas
+            <span className="text-xs uppercase tracking-widest text-accent block mb-3 font-semibold">
+              QUÉ RECIBÍS
             </span>
             <h2 className="text-3xl md:text-5xl font-light text-white tracking-tight">
-              Qué trabajamos
+              La experiencia completa
             </h2>
           </div>
           <p className="text-white/40 max-w-sm font-light text-sm">
-            La transformación real no es teórica. Es la asunción práctica y diaria de un
-            nuevo autoconcepto en cada aspecto de tu vida.
+            Cada pieza se construye para una sola persona. Nada es genérico, nada es de catálogo.
           </p>
         </div>
 
@@ -59,16 +58,11 @@ export const ServicesSection = () => {
               transition={{ duration: 0.6, delay: idx * 0.15 }}
               className="liquid-glass rounded-3xl overflow-hidden flex flex-col group hover:bg-white/[0.02] transition-colors duration-500"
             >
-              {/* Video cover */}
-              <div className="relative aspect-video w-full overflow-hidden">
-                <video
-                  src={card.video}
-                  muted
-                  autoPlay
-                  loop
-                  playsInline
-                  preload="auto"
-                  poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+              {/* Image cover */}
+              <div className="relative aspect-video w-full overflow-hidden border-b border-white/5">
+                <img
+                  src={card.image}
+                  alt={card.title}
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
@@ -91,13 +85,13 @@ export const ServicesSection = () => {
                 </p>
                 <div className="pt-2 mt-auto">
                   <a
-                    href="https://wa.me/542236151152?text=Quiero%20ingresar%20al%20acompa%C3%B1amiento%20individual%20de%2030%20d%C3%ADas"
+                    href="https://wa.me/542236151152?text=Quiero%20mi%20escena%20de%20Control%20de%20la%20Imagen"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="liquid-glass inline-flex items-center gap-2 text-white font-semibold px-5 py-2.5 rounded-full text-xs tracking-wide hover:bg-white/10 transition-all duration-300 shadow-md cursor-pointer w-fit"
                   >
                     <MessageCircle className="w-3.5 h-3.5" />
-                    Quiero entrar
+                    Quiero mi escena
                   </a>
                 </div>
               </div>

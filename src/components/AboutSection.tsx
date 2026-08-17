@@ -13,9 +13,9 @@ export const AboutSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
-          className="text-xs uppercase tracking-widest text-white/50 block mb-6 font-semibold"
+          className="text-xs uppercase tracking-widest text-accent block mb-6 font-semibold"
         >
-          El programa
+          LO QUE NADIE TE DIJO
         </motion.span>
 
         {/* Heading */}
@@ -24,12 +24,24 @@ export const AboutSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="text-3xl md:text-6xl tracking-tight text-white font-light leading-snug md:leading-normal"
+          className="text-3xl md:text-6xl tracking-tight text-white font-light leading-snug md:leading-normal mb-8"
         >
-          No es un curso. Es trabajo{' '}
-          <span className="font-instrument italic text-white/95 px-1">real</span>
-          , individual, con seguimiento diario.
+          No es la imagen lo que crea. Es la{' '}
+          <span className="font-instrument italic text-white/95 px-1">sensación</span>.
         </motion.h2>
+
+        {/* Paragraph */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-white/50 font-light max-w-2xl mx-auto text-base md:text-lg leading-relaxed"
+        >
+          La imagen es el vehículo. Lo que imprime la realidad en tu biología es lo que sentís
+          mientras la mirás. Podés armar la escena perfecta: si no te devuelve la sensación,
+          no pasa nada.
+        </motion.p>
       </div>
     </section>
   );

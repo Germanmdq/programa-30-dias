@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { MessageCircle } from 'lucide-react';
 
 const HERO_VIDEO_URL =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4';
@@ -18,6 +19,7 @@ export const HeroSection = () => {
       video.style.opacity = String(start + (target - start) * progress);
       if (progress < 1) requestAnimationFrame(tick);
     };
+    video.style.opacity = String(start); // safety initialization
     requestAnimationFrame(tick);
   };
 
@@ -87,18 +89,34 @@ export const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-5xl md:text-8xl tracking-tight text-white mb-8 font-light leading-none"
         >
-          Tomá el control de tu{' '}
-          <span className="font-instrument italic text-white/95 relative inline-block px-1">imaginación</span>.
+          Nos convertimos en lo que{' '}
+          <span className="font-instrument italic text-white/95 relative inline-block px-1">contemplamos</span>.
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-xl text-white/60 font-light max-w-2xl mb-0 leading-relaxed"
+          className="text-lg md:text-xl text-white/60 font-light max-w-2xl mb-8 leading-relaxed"
         >
-          30 días de trabajo individual para que compruebes, por vos mismo/a, cómo tu imaginación crea tu realidad.
+          La primera prótesis perceptiva: fabrico la imagen de tu deseo cumplido y te la entrego terminada, en tres dimensiones.
         </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          <a
+            href="https://wa.me/542236151152?text=Quiero%20mi%20escena%20de%20Control%20de%20la%20Imagen"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-accent text-black hover:bg-accent/90 transition-all duration-300 font-semibold px-8 py-4 rounded-full text-sm tracking-wide shadow-xl cursor-pointer"
+          >
+            <MessageCircle className="w-4 h-4 fill-black" />
+            Quiero mi escena
+          </a>
+        </motion.div>
       </div>
     </section>
   );

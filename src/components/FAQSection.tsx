@@ -4,24 +4,32 @@ import { Plus } from 'lucide-react';
 
 const faqs = [
   {
-    q: '¿Necesito experiencia previa?',
-    a: 'No. El programa está diseñado para cualquier persona, sea la primera vez que trabajás con la imaginación o lleves años haciéndolo.',
+    q: '¿Necesito comprar algo?',
+    a: 'No. Las gafas tridimensionales te llegan a tu domicilio incluidas. Solo necesitás tu celular y auriculares.',
   },
   {
-    q: '¿Cómo me anoto?',
-    a: 'Por WhatsApp. Me escribís, me contás tu situación, y coordinamos el arranque.',
+    q: '¿Cuánto tarda?',
+    a: '21 días desde la primera sesión hasta la entrega de tu pieza.',
   },
   {
-    q: '¿Cuándo arrancamos?',
-    a: 'En 24-48 horas de que me contás quién sos y armo tu plan.',
+    q: '¿Qué necesito darme?',
+    a: 'Depende de tu escena. Te lo pido en la sesión 4, cuando ya sabemos qué necesita.',
   },
   {
-    q: '¿Cuándo son las reuniones?',
-    a: 'Día por medio — los días que acordemos según tu disponibilidad.',
+    q: '¿Cómo son las sesiones?',
+    a: 'Encuentros individuales por videollamada. Cinco en total.',
+  },
+  {
+    q: '¿Sirve si tengo Meta Quest o Apple Vision Pro?',
+    a: 'Sí. Tu pieza es compatible con los dos y no necesitás instalar ninguna aplicación.',
+  },
+  {
+    q: '¿Y si no me gusta la escena?',
+    a: 'En la sesión 5 te la muestro antes de producirla. Si no te devuelve la sensación exacta, la cambiamos.',
   },
   {
     q: '¿Hay cupos limitados?',
-    a: 'Sí. Trabajo con pocas personas a la vez para garantizar atención individual real.',
+    a: 'Sí. Cada pieza se construye a mano para una sola persona, así que trabajo con muy pocas a la vez.',
   },
 ];
 
@@ -41,7 +49,7 @@ export const FAQSection = () => {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <span className="text-xs uppercase tracking-widest text-white/50 block mb-4 font-semibold">
+          <span className="text-xs uppercase tracking-widest text-accent block mb-4 font-semibold">
             Preguntas frecuentes
           </span>
           <h2 className="text-3xl md:text-5xl font-light text-white tracking-tight">

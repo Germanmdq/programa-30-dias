@@ -4,7 +4,9 @@ import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
 import { FeaturedVideoSection } from './components/FeaturedVideoSection';
 import { PhilosophySection } from './components/PhilosophySection';
+import { ExperienceSection } from './components/ExperienceSection';
 import { ServicesSection } from './components/ServicesSection';
+import { SessionsSection } from './components/SessionsSection';
 import { FAQSection } from './components/FAQSection';
 import { CTASection } from './components/CTASection';
 import { Formulario } from './components/Formulario';
@@ -47,14 +49,16 @@ function App() {
             <AboutSection />
             <FeaturedVideoSection />
             <PhilosophySection />
+            <ExperienceSection />
             <ServicesSection />
+            <SessionsSection />
             <FAQSection />
             <CTASection />
           </>
         )}
 
         <footer className="border-t border-white/5 py-12 px-6 text-center text-xs text-white/30 tracking-widest uppercase">
-          © {new Date().getFullYear()} Germán González · Todos los derechos reservados
+          © {new Date().getFullYear()} Control de la Imagen · Germán González
         </footer>
       </div>
     </div>

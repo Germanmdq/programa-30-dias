@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
 @import "tailwindcss";
 
+@theme {
+  --color-accent: #FF6B00;
+}
+
 @layer utilities {
   .font-instrument {
     font-family: 'Instrument Serif', serif;

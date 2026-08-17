@@ -32,7 +32,7 @@ export const CTASection = () => {
           transition={{ duration: 0.9 }}
           className="font-instrument italic text-4xl md:text-7xl text-white leading-tight tracking-tight"
         >
-          ¿Listo/a para comprobar que tu imaginación crea tu realidad?
+          ¿Qué pasaría si te entrego tu deseo cumplido en tres dimensiones?
         </motion.h2>
 
         <motion.p
@@ -42,7 +42,7 @@ export const CTASection = () => {
           transition={{ duration: 0.9, delay: 0.15 }}
           className="text-base md:text-xl text-white/60 font-light tracking-wide"
         >
-          Cupos limitados. Programa individual. Resultados reales.
+          Adentro de ese momento, no sentirlo sería imposible.
         </motion.p>
 
         <motion.div
@@ -52,12 +52,12 @@ export const CTASection = () => {
           transition={{ duration: 0.9, delay: 0.3 }}
         >
           <a
-            href="https://wa.me/542236151152?text=Quiero%20ingresar%20al%20acompa%C3%B1amiento%20individual%20de%2030%20d%C3%ADas"
+            href="https://wa.me/542236151152?text=Quiero%20mi%20escena%20de%20Control%20de%20la%20Imagen"
             target="_blank"
             rel="noopener noreferrer"
-            className="liquid-glass inline-flex items-center gap-3 text-white font-semibold px-10 py-5 rounded-full text-base tracking-wide hover:bg-white/10 transition-all duration-300 shadow-2xl cursor-pointer"
+            className="inline-flex items-center gap-3 bg-accent text-black hover:bg-accent/90 transition-all duration-300 font-semibold px-10 py-5 rounded-full text-base tracking-wide shadow-2xl cursor-pointer"
           >
-            <MessageCircle className="w-5 h-5" />
+            <MessageCircle className="w-5 h-5 fill-black" />
             Escribime ahora
           </a>
         </motion.div>
