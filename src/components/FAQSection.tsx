@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
-import { Seccion, Rotulo, Revelar } from './ui';
+import { Seccion, Encabezado, Revelar } from './ui';
 
 const faqs = [
   {
@@ -35,33 +35,36 @@ const faqs = [
 ];
 
 export function FAQSection() {
-  const [abierta, setAbierta] = useState<number | null>(0);
+  const [abierta, setAbierta] = useState<number | null>(null);
 
   return (
     <Seccion id="preguntas">
       <Revelar>
-        <Rotulo>Preguntas</Rotulo>
-        <h2 className="mt-7 font-display text-[2rem] leading-[1.1] sm:text-[2.75rem]">
-          Lo que suelen preguntarme.
-        </h2>
-      </Revelar>
+        <Encabezado
+          rotulo="Preguntas"
+          titulo="Lo que suelen preguntarme."
+          apoyo="Si te queda alguna duda que no está acá, escribime y te la respondo."
+        />
 
-      <div className="mt-14 max-w-3xl">
-        {faqs.map((f, i) => (
-          <Revelar key={f.q} delay={i * 0.04}>
-            <div className="border-t border-borde">
+        <div className="mt-14 max-w-5xl">
+          {faqs.map((f, i) => (
+            <div key={f.q} className="border-t border-borde">
               <button
                 onClick={() => setAbierta(abierta === i ? null : i)}
                 aria-expanded={abierta === i}
-                className="flex w-full items-center justify-between gap-6 py-6 text-left"
+                className="grid w-full grid-cols-12 gap-6 py-6 text-left items-center cursor-pointer select-none"
               >
-                <span className="text-[1.0625rem] font-medium">{f.q}</span>
-                <Plus
-                  className={`h-4 w-4 shrink-0 text-ambar transition-transform duration-300 ${
-                    abierta === i ? 'rotate-45' : ''
-                  }`}
-                  strokeWidth={2}
-                />
+                <span className="col-span-7 text-[1.0625rem] font-medium tracking-[-0.02em] text-luz">
+                  {f.q}
+                </span>
+                <div className="col-span-5 flex justify-end items-center">
+                  <Plus
+                    className={`h-4.5 w-4.5 text-ambar transition-transform duration-300 ${
+                      abierta === i ? 'rotate-45' : ''
+                    }`}
+                    strokeWidth={2.5}
+                  />
+                </div>
               </button>
               <AnimatePresence initial={false}>
                 {abierta === i && (
@@ -69,20 +72,20 @@ export function FAQSection() {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     className="overflow-hidden"
                   >
-                    <p className="max-w-xl pb-7 text-[1rem] leading-relaxed text-luz-baja">
-                      {f.a}
-                    </p>
+                    <div className="grid grid-cols-12 gap-6 md:gap-10">
+                      <p className="col-span-7 pb-7 t-cuerpo">{f.a}</p>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
-          </Revelar>
-        ))}
-        <div className="border-t border-borde" />
-      </div>
+          ))}
+          <div className="border-t border-borde" />
+        </div>
+      </Revelar>
     </Seccion>
   );
 }

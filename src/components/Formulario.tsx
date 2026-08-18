@@ -23,33 +23,46 @@ const vacio: Datos = {
   disponibilidad: '',
 };
 
-const campos: {
-  key: keyof Datos;
-  label: string;
-  tipo: 'text' | 'email' | 'area';
-  ayuda?: string;
-}[] = [
-  { key: 'nombre', label: 'Nombre y apellido', tipo: 'text' },
-  { key: 'email', label: 'Email', tipo: 'email' },
+const ordenCampos: (keyof Datos)[] = [
+  'nombre',
+  'email',
+  'whatsapp',
+  'deseo',
+  'escena',
+  'personas',
+  'disponibilidad',
+];
+
+const descriptores: Record<
+  keyof Datos,
   {
-    key: 'deseo',
+    label: string;
+    tipo: 'text' | 'email' | 'area' | 'phone';
+    ayuda?: string;
+  }
+> = {
+  nombre: { label: 'Nombre y apellido', tipo: 'text' },
+  email: { label: 'Email', tipo: 'email' },
+  whatsapp: { label: 'WhatsApp', tipo: 'phone' },
+  deseo: {
     label: '¿Qué querés que ya esté resuelto?',
     tipo: 'area',
     ayuda: 'Escribilo como si ya hubiera pasado.',
   },
-  {
-    key: 'escena',
+  escena: {
     label: 'Si ya lo imaginaste alguna vez, ¿dónde estabas y qué pasaba?',
     tipo: 'area',
     ayuda: 'No hace falta que esté claro. Con lo que recuerdes alcanza.',
   },
-  { key: 'personas', label: '¿Hay alguien en esa escena? ¿Quién?', tipo: 'area' },
-  {
-    key: 'disponibilidad',
+  personas: {
+    label: '¿Hay alguien en esa escena? ¿Quién?',
+    tipo: 'area',
+  },
+  disponibilidad: {
     label: '¿Qué días y horarios te quedan bien para las sesiones?',
     tipo: 'text',
   },
-];
+};
 
 export function Formulario() {
   const [datos, setDatos] = useState<Datos>(vacio);
@@ -86,13 +99,13 @@ export function Formulario() {
 
   if (listo) {
     return (
-      <main className="flex min-h-screen items-center px-6 md:px-12 lg:px-20">
+      <main className="flex min-h-screen items-center px-6 md:px-12 lg:px-20 bg-sala">
         <div className="mx-auto max-w-xl">
-          <Check className="h-7 w-7 text-ambar" strokeWidth={2} />
-          <h1 className="mt-6 font-display text-[2.25rem] leading-tight sm:text-[3rem]">
+          <Check className="h-7 w-7 text-ambar" strokeWidth={2.5} />
+          <h1 className="mt-6 t-titulo text-luz">
             Listo. Ya tengo tu escena.
           </h1>
-          <p className="mt-6 text-[1.0625rem] leading-relaxed text-luz-baja">
+          <p className="mt-6 t-cuerpo">
             Te escribo por WhatsApp para coordinar la primera sesión. A partir de
             ahí son 21 días hasta la entrega.
           </p>
@@ -102,61 +115,63 @@ export function Formulario() {
   }
 
   return (
-    <main className="px-6 py-24 md:px-12 md:py-32 lg:px-20">
+    <main className="px-6 py-24 md:px-12 md:py-32 lg:px-20 bg-sala">
       <div className="mx-auto max-w-xl">
-        <span className="rotulo block">Control de la Imagen</span>
-        <h1 className="mt-6 font-display text-[2.25rem] leading-[1.08] sm:text-[3rem]">
+        <span className="t-rotulo block mb-6">Control de la Imagen</span>
+        <h1 className="t-titulo text-luz">
           Contame qué querés habitar.
         </h1>
-        <p className="mt-6 text-[1.0625rem] leading-relaxed text-luz-baja">
+        <p className="mt-6 t-cuerpo">
           Con esto arranco. El resto lo encontramos juntos en las sesiones.
         </p>
 
         <div className="mt-14 flex flex-col gap-9">
-          {campos.map((c) => (
-            <label key={c.key} className="block">
-              <span className="block text-[0.9375rem] font-medium">{c.label}</span>
-              {c.ayuda && (
-                <span className="mt-1 block text-[0.8125rem] text-luz-baja">
-                  {c.ayuda}
-                </span>
-              )}
-              {c.tipo === 'area' ? (
-                <textarea
-                  rows={3}
-                  value={datos[c.key]}
-                  onChange={(e) => set(c.key, e.target.value)}
-                  className="mt-3 w-full resize-none rounded-sm border border-borde bg-luz/[0.04] px-4 py-3.5 text-[0.9375rem] text-luz transition-colors duration-200 outline-none focus:border-ambar/50"
-                />
-              ) : (
-                <input
-                  type={c.tipo}
-                  value={datos[c.key]}
-                  onChange={(e) => set(c.key, e.target.value)}
-                  className="mt-3 w-full rounded-sm border border-borde bg-luz/[0.04] px-4 py-3.5 text-[0.9375rem] text-luz transition-colors duration-200 outline-none focus:border-ambar/50"
-                />
-              )}
-            </label>
-          ))}
-
-          <label className="block">
-            <span className="block text-[0.9375rem] font-medium">WhatsApp</span>
-            <div className="mt-3">
-              <PhoneInput
-                defaultCountry="ar"
-                value={datos.whatsapp}
-                onChange={(v) => set('whatsapp', v)}
-              />
-            </div>
-          </label>
+          {ordenCampos.map((key) => {
+            const desc = descriptores[key];
+            return (
+              <label key={key} className="block">
+                <span className="block text-[0.9375rem] font-medium text-luz">{desc.label}</span>
+                {desc.ayuda && (
+                  <span className="mt-1.5 block text-[0.8125rem] text-luz-baja leading-normal">
+                    {desc.ayuda}
+                  </span>
+                )}
+                {desc.tipo === 'area' && (
+                  <textarea
+                    rows={3}
+                    value={datos[key]}
+                    onChange={(e) => set(key, e.target.value)}
+                    className="mt-3 w-full resize-none rounded-lg border border-borde bg-luz/[0.04] px-4 py-3.5 text-[0.9375rem] text-luz transition-all duration-200 outline-none focus:border-ambar/50 focus:bg-luz/[0.06]"
+                  />
+                )}
+                {desc.tipo === 'phone' && (
+                  <div className="mt-3">
+                    <PhoneInput
+                      defaultCountry="ar"
+                      value={datos.whatsapp}
+                      onChange={(v) => set('whatsapp', v)}
+                    />
+                  </div>
+                )}
+                {(desc.tipo === 'text' || desc.tipo === 'email') && (
+                  <input
+                    type={desc.tipo}
+                    value={datos[key]}
+                    onChange={(e) => set(key, e.target.value)}
+                    className="mt-3 w-full rounded-lg border border-borde bg-luz/[0.04] px-4 py-3.5 text-[0.9375rem] text-luz transition-all duration-200 outline-none focus:border-ambar/50 focus:bg-luz/[0.06]"
+                  />
+                )}
+              </label>
+            );
+          })}
         </div>
 
-        {error && <p className="mt-8 text-[0.9375rem] text-ambar">{error}</p>}
+        {error && <p className="mt-8 text-[0.9375rem] text-ambar font-medium">{error}</p>}
 
         <button
           onClick={enviar}
           disabled={enviando}
-          className="mt-12 inline-flex items-center gap-2.5 rounded-full bg-luz px-8 py-4 text-[0.9375rem] font-medium text-sala transition-colors duration-300 hover:bg-white disabled:opacity-50"
+          className="mt-12 inline-flex items-center justify-center gap-2.5 rounded-full bg-luz text-sala px-6 py-3 text-[0.9375rem] font-medium tracking-[-0.01em] transition-opacity duration-300 hover:opacity-90 disabled:opacity-50 cursor-pointer w-full md:w-auto"
         >
           {enviando && <Loader2 className="h-4 w-4 animate-spin" />}
           {enviando ? 'Enviando' : 'Enviar'}

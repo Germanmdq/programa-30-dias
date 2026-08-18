@@ -1,11 +1,7 @@
 import { motion } from 'framer-motion';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
-/* ── Sección ───────────────────────────────────────────────
-   Consistent vertical rhythm and one strong left margin.
-   Nothing on this page is centered: centred display type is
-   the default answer, and the subject is a room you look into
-   from one side. */
+/* ── Seccion ─────────────────────────────────────────────── */
 export function Seccion({
   id,
   children,
@@ -16,22 +12,39 @@ export function Seccion({
   className?: string;
 }) {
   return (
-    <section id={id} className={`px-6 py-28 md:px-12 md:py-40 lg:px-20 ${className}`}>
-      <div className="mx-auto max-w-6xl">{children}</div>
+    <section id={id} className={`px-6 py-24 md:px-10 md:py-32 ${className}`}>
+      <div className="mx-auto max-w-5xl">{children}</div>
     </section>
   );
 }
 
-/* ── Rótulo ── the only amber text on the page */
+/* ── Rotulo ── */
 export function Rotulo({ children }: { children: ReactNode }) {
-  return <span className="rotulo block">{children}</span>;
+  return <span className="t-rotulo block mb-6">{children}</span>;
 }
 
-/* ── Abertura ──────────────────────────────────────────────
-   THE SIGNATURE. A video is never a "media block": it is a
-   lit opening in a dark room, and its light falls on the page.
-   Posters are omitted deliberately — the first frame of these
-   clips is near-black, so there is nothing to flash. */
+/* ── Encabezado ── */
+export function Encabezado({
+  rotulo,
+  titulo,
+  apoyo,
+}: {
+  rotulo: string;
+  titulo: ReactNode;
+  apoyo: ReactNode;
+}) {
+  return (
+    <div className="mb-14 md:mb-20">
+      <Rotulo>{rotulo}</Rotulo>
+      <div className="grid gap-6 md:grid-cols-12 md:gap-10">
+        <h2 className="t-titulo md:col-span-7">{titulo}</h2>
+        <p className="t-cuerpo md:col-span-5 self-end">{apoyo}</p>
+      </div>
+    </div>
+  );
+}
+
+/* ── Abertura ────────────────────────────────────────────── */
 export function Abertura({
   src,
   ratio = 'aspect-video',
@@ -41,8 +54,14 @@ export function Abertura({
   ratio?: string;
   className?: string;
 }) {
+  const [revelado, setRevelado] = useState(false);
+
   return (
-    <div className={`abertura ${className}`}>
+    <motion.div
+      onViewportEnter={() => setRevelado(true)}
+      viewport={{ once: true, margin: '-80px' }}
+      className={`abertura ${revelado ? 'revelado' : ''} ${className}`}
+    >
       <div className={`marco ${ratio}`}>
         <video
           src={src}
@@ -54,11 +73,11 @@ export function Abertura({
           className="h-full w-full object-cover"
         />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
-/* ── Revelar ── scroll reveal, one shape used everywhere */
+/* ── Revelar ── */
 export function Revelar({
   children,
   delay = 0,
@@ -70,10 +89,10 @@ export function Revelar({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >
       {children}
@@ -81,24 +100,21 @@ export function Revelar({
   );
 }
 
-/* ── Boton ── bone white on dark. No amber fills anywhere. */
+/* ── Boton ── */
 export function Boton({
   children,
   href,
-  variant = 'solido',
 }: {
   children: ReactNode;
   href: string;
-  variant?: 'solido' | 'linea';
 }) {
-  const base =
-    'inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-[0.9375rem] font-medium transition-colors duration-300';
-  const estilos =
-    variant === 'solido'
-      ? 'bg-luz text-sala hover:bg-white'
-      : 'border border-borde text-luz hover:border-luz/40';
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={`${base} ${estilos}`}>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-2.5 rounded-full bg-luz text-sala px-6 py-3 text-[0.9375rem] font-medium tracking-[-0.01em] transition-opacity duration-300 hover:opacity-90"
+    >
       {children}
     </a>
   );
