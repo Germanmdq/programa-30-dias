@@ -1,0 +1,3603 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lumora — Independent Design & Engineering Studio</title>
+    <meta
+      name="description"
+      content="Lumora is an independent studio crafting brands, products, and the systems that connect them — bold ideas, shipped with quiet precision."
+    />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ── CSS Reset & Variables ── */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --background: #ffffff;
+        --foreground: #111111;
+        --ink: #0a0a0a;
+        --muted: #8d8d8d;
+        --subtle: #b6b6b6;
+        --line: #e6e5e2;
+        --surface: #f1f0ee;
+        --surface-2: #e3e2df;
+        --accent: #b15f2c;
+        --accent-from: #cf8047;
+        --accent-to: #97501f;
+        --hero-from: #ecebe9;
+        --hero-to: #c9c9c9;
+
+        --radius-pill: 9999px;
+        --radius-card: 2rem;
+        --radius-card-sm: 1.25rem;
+        --radius-control: 0.875rem;
+        --text-watermark: 13rem;
+        --container-shell: 88rem;
+      }
+
+      html {
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+        background-color: var(--background);
+        color: var(--foreground);
+        scroll-behavior: auto;
+      }
+      body {
+        background: var(--background);
+        color: var(--foreground);
+        font-family: 'Onest', sans-serif;
+        overflow-x: hidden;
+        width: 100%;
+        min-height: 100vh;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: none;
+        cursor: pointer;
+        outline: none;
+      }
+      ul {
+        list-style: none;
+      }
+      img {
+        display: block;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      /* ── Rem-based Adaptive Grid ── */
+      @media (max-width: 1920px) {
+        html {
+          font-size: 0.833333vw;
+        }
+      }
+      @media (max-width: 1440px) {
+        html {
+          font-size: 1.111111vw;
+        }
+      }
+      @media (max-width: 1024px) {
+        html {
+          font-size: 1.5625vw;
+        }
+      }
+      @media (max-width: 640px) {
+        html {
+          font-size: 4.444444vw;
+        }
+      }
+
+      /* ── Typography Scale ── */
+      .t-display {
+        font-size: clamp(2.75rem, 7vw, 5rem);
+        font-weight: 600;
+        line-height: 1.02;
+        letter-spacing: -0.035em;
+      }
+      .t-titulo {
+        font-size: clamp(1.875rem, 3.6vw, 3rem);
+        font-weight: 600;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+      }
+      .t-sub {
+        font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+      }
+      .t-cuerpo {
+        font-size: 1.0625rem;
+        font-weight: 400;
+        line-height: 1.6;
+        letter-spacing: -0.005em;
+        color: var(--muted);
+      }
+      .t-rotulo {
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      /* ── Layout Shell ── */
+      .shell {
+        width: 100%;
+        max-width: var(--container-shell);
+        margin-inline: auto;
+        padding-inline: 1.25rem;
+      }
+      @media (min-width: 640px) {
+        .shell {
+          padding-inline: 2rem;
+        }
+      }
+
+      /* ── Skip Link ── */
+      .skip-link {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        transition: top 0.2s;
+      }
+      .skip-link:focus {
+        position: fixed;
+        left: 1rem;
+        top: 1rem;
+        z-index: 60;
+        border-radius: var(--radius-control);
+        background: var(--ink);
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        color: #ffffff;
+        width: auto;
+        height: auto;
+        overflow: visible;
+        clip: auto;
+      }
+
+      /* ── Shared Component: Pill Button ── */
+      .btn-pill {
+        display: inline-block;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .btn-pill:hover {
+        transform: scale(1.04);
+      }
+      .btn-pill-inner {
+        display: inline-flex;
+        align-items: center;
+        border-radius: var(--radius-pill);
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: background-color 0.3s;
+      }
+      /* Padding variants */
+      .btn-pill-arrow {
+        padding: 0.375rem 0.375rem 0.375rem 1.5rem;
+        gap: 0.75rem;
+      }
+      .btn-pill-noarrow {
+        padding: 0.875rem 1.75rem;
+      }
+      /* Theme variants */
+      .btn-pill-dark {
+        background: var(--ink);
+        color: #ffffff;
+      }
+      .btn-pill-dark:hover {
+        background: #000000;
+      }
+      .btn-pill-light {
+        background: var(--surface);
+        color: var(--foreground);
+      }
+      .btn-pill-light:hover {
+        background: var(--surface-2);
+      }
+      .btn-pill-outline {
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--foreground);
+      }
+      .btn-pill-outline:hover {
+        border-color: var(--muted);
+      }
+      /* Arrow badges */
+      .btn-badge {
+        width: 2.25rem;
+        height: 2.25rem;
+        display: grid;
+        place-items: center;
+        border-radius: 9999px;
+        font-size: 1rem;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .btn-pill-dark .btn-badge {
+        background: #ffffff;
+        color: var(--ink);
+      }
+      .btn-pill-light .btn-badge,
+      .btn-pill-outline .btn-badge {
+        background: var(--ink);
+        color: #ffffff;
+      }
+      .btn-pill:hover .btn-badge-right {
+        transform: translate(3px, 0);
+      }
+      .btn-pill:hover .btn-badge-upright {
+        transform: translate(2px, -2px);
+      }
+
+      /* ── Shared Component: Eyebrow ── */
+      .eyebrow-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+      .eyebrow-dot {
+        width: 0.375rem;
+        height: 0.375rem;
+        border-radius: 9999px;
+      }
+      .eyebrow-dark {
+        color: rgba(17, 17, 17, 0.7);
+      }
+      .eyebrow-dark .eyebrow-dot {
+        background: rgba(17, 17, 17, 0.5);
+      }
+      .eyebrow-light {
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .eyebrow-light .eyebrow-dot {
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      /* ── Shared Component: Tag Chip ── */
+      .tag-chip {
+        display: inline-flex;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+        border-radius: var(--radius-pill);
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        line-height: 1;
+      }
+
+      /* ── Shared Component: Animated Link ── */
+      .animated-link {
+        display: inline-flex;
+        align-items: center;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        opacity: 0.65;
+        cursor: pointer;
+      }
+      .animated-link:hover {
+        transform: translateX(4px);
+        opacity: 1;
+      }
+      .animated-link-legal {
+        display: inline-flex;
+        align-items: center;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        opacity: 0.7;
+        cursor: pointer;
+      }
+      .animated-link-legal:hover {
+        transform: translateX(3px);
+        opacity: 1;
+      }
+
+      /* ── Section Dividers ── */
+      .section-divider {
+        height: 1px;
+        background: var(--line);
+        width: 100%;
+      }
+
+      /* ── Page Loader (PageLoader) ── */
+      #loader {
+        position: fixed;
+        inset: 0;
+        z-index: 120;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        background: var(--ink);
+        color: #ffffff;
+        border-radius: 0 0 var(--radius-card) var(--radius-card);
+        transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform;
+      }
+      #loader-content {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+        transition: transform 0.7s cubic-bezier(0.26, 1, 0.26, 1),
+          opacity 0.7s cubic-bezier(0.26, 1, 0.26, 1);
+        will-change: transform, opacity;
+      }
+      #loader-progress-block {
+        width: min(22rem, 72vw);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      #loader-track {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.15);
+        width: 100%;
+        overflow: hidden;
+      }
+      #loader-fill {
+        height: 100%;
+        background: var(--accent-from);
+        width: 0%;
+        transition: width 0.1s ease-out;
+      }
+      .loader-label-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgba(255, 255, 255, 0.45);
+      }
+      #loader-counter {
+        font-variant-numeric: tabular-nums;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      /* ── Scroll Reveals ── */
+      .reveal-line {
+        display: block;
+        overflow: hidden;
+      }
+      .reveal-line-inner {
+        display: inline-block;
+        transform: translateY(100%);
+        opacity: 0;
+        transition: transform 0.9s cubic-bezier(0.215, 0.61, 0.355, 1),
+          opacity 0.9s cubic-bezier(0.215, 0.61, 0.355, 1);
+        will-change: transform, opacity;
+      }
+      .revealed .reveal-line-inner {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .reveal-word {
+        display: inline-block;
+        overflow: hidden;
+        margin-right: 0.25em;
+        vertical-align: bottom;
+      }
+      .reveal-word-inner {
+        display: inline-block;
+        transform: translateY(24px);
+        opacity: 0;
+        transition: transform 0.7s cubic-bezier(0.165, 0.84, 0.44, 1),
+          opacity 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+        will-change: transform, opacity;
+      }
+      .revealed .reveal-word-inner {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* Simple Fade Reveal */
+      .reveal-fade {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: opacity, transform;
+      }
+      .revealed.reveal-fade,
+      .revealed .reveal-fade {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-scale {
+        opacity: 0;
+        transform: translateY(16px) scale(0.96);
+        transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+          transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        will-change: opacity, transform;
+      }
+      .revealed.reveal-scale,
+      .revealed .reveal-scale {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      /* Gated Reveal (Waits for loader) */
+      .hero-gated {
+        opacity: 0;
+      }
+      .loader-done .hero-gated {
+        opacity: 1;
+      }
+
+      /* ── Header ── */
+      header {
+        position: absolute;
+        inset-inline: 0;
+        top: 0;
+        z-index: 50;
+        opacity: 0;
+        transform: translateY(-14px);
+        transition: opacity 0.7s cubic-bezier(0.21, 1, 0.26, 1),
+          transform 0.7s cubic-bezier(0.21, 1, 0.26, 1);
+      }
+      .loader-done header {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 150ms;
+      }
+      .header-logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .header-logo:hover {
+        transform: scale(1.04);
+      }
+      .header-nav ul {
+        display: flex;
+        gap: 2rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+      .header-nav-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        opacity: 0.8;
+        cursor: pointer;
+      }
+      .header-nav-item:hover {
+        transform: translateY(-2px);
+        opacity: 1;
+      }
+      .header-nav-item.current {
+        opacity: 1;
+        color: var(--accent);
+      }
+      .chip-btn {
+        border: 1px solid rgba(230, 229, 226, 0.8);
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(4px);
+        border-radius: var(--radius-control);
+        display: flex;
+        align-items: center;
+        transition: background-color 0.3s;
+      }
+      .chip-btn:hover {
+        background: rgba(255, 255, 255, 0.7);
+      }
+      .menu-btn-inner {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .chip-btn:hover .menu-btn-inner {
+        transform: scale(1.05);
+      }
+      .clock-chip {
+        padding: 0.5rem 0.75rem;
+        gap: 0.75rem;
+        font-size: 0.75rem;
+        color: rgba(17, 17, 17, 0.7);
+      }
+
+      /* ── Hero (`#home`) ── */
+      #home {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        border-radius: 0 0 var(--radius-card) var(--radius-card);
+        background: var(--hero-to);
+        width: 100%;
+        min-height: 100vh;
+      }
+      .liquid-reveal-container {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+      }
+      #liquid-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+      .hero-vignette {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.35),
+          transparent,
+          rgba(255, 255, 255, 0.35)
+        );
+      }
+      .hero-watermark {
+        pointer-events: none;
+        position: absolute;
+        inset-inline: 0;
+        bottom: 7rem;
+        z-index: 1;
+        text-align: center;
+        user-select: none;
+        font-weight: 700;
+        line-height: 1;
+        font-size: var(--text-watermark);
+        color: rgba(255, 255, 255, 0.4);
+        transform: translateY(20px);
+        opacity: 0;
+        transition: transform 0.8s cubic-bezier(0.12, 1, 0.3, 1),
+          opacity 0.8s cubic-bezier(0.12, 1, 0.3, 1);
+        will-change: transform, opacity;
+      }
+      .loader-done .hero-watermark {
+        transform: translateY(0);
+        opacity: 0.4;
+        transition-delay: 300ms;
+      }
+      .hero-grid {
+        position: relative;
+        z-index: 20;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 7rem 1.25rem 5rem;
+      }
+      @media (min-width: 1024px) {
+        .hero-grid {
+          display: grid;
+          min-height: 100vh;
+          grid-template-columns: repeat(12, 1fr);
+          gap: 2.5rem;
+          padding: 9rem 2rem 7rem;
+          align-content: flex-end;
+        }
+      }
+      .hero-col-left {
+        display: flex;
+        flex-direction: column;
+        gap: 1.75rem;
+      }
+      @media (min-width: 1024px) {
+        .hero-col-left {
+          grid-column: span 7;
+        }
+      }
+      .hero-col-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2rem;
+      }
+      @media (min-width: 1024px) {
+        .hero-col-right {
+          grid-column: span 5;
+          align-items: flex-end;
+          justify-content: flex-end;
+        }
+      }
+
+      /* ── Hero Card (Carousel) ── */
+      .hero-card {
+        width: 100%;
+        max-width: 24rem;
+        border-radius: var(--radius-card-sm);
+        background: rgba(255, 255, 255, 0.7);
+        padding: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05),
+          0 0 0 1px rgba(230, 229, 226, 0.7);
+        backdrop-filter: blur(12px);
+      }
+      @media (min-width: 1024px) {
+        .hero-card {
+          max-width: 19rem;
+        }
+      }
+      .hero-card-inner {
+        display: flex;
+        gap: 0.5rem;
+        border-radius: var(--radius-control);
+      }
+      .hero-card-tile {
+        aspect-ratio: 1;
+        width: 6rem;
+        display: grid;
+        place-items: center;
+        border-radius: var(--radius-control);
+        background: var(--ink);
+        color: #ffffff;
+        font-size: 1.875rem;
+      }
+      .hero-card-panel {
+        flex: 1;
+        border-radius: var(--radius-control);
+        background: rgba(241, 240, 238, 0.7);
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .hero-card-text-slot {
+        position: relative;
+        min-height: 3.25rem;
+        overflow: hidden;
+      }
+      .hero-card-caption {
+        font-size: 0.65rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgba(17, 17, 17, 0.45);
+        display: block;
+      }
+      .hero-card-title {
+        max-width: 10rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.35;
+        display: block;
+        margin-top: 0.15rem;
+      }
+      .hero-card-dashes {
+        display: flex;
+        gap: 0.25rem;
+        align-items: center;
+      }
+      .hero-card-dash {
+        height: 0.25rem;
+        border-radius: 9999px;
+        background: rgba(17, 17, 17, 0.2);
+        width: 0.375rem;
+        transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .hero-card-dash.active {
+        width: 1rem;
+        background: rgba(17, 17, 17, 0.7);
+      }
+      .hero-card-arrow-btn {
+        width: 1.75rem;
+        height: 1.75rem;
+        display: grid;
+        place-items: center;
+        border-radius: 9999px;
+        background: #ffffff;
+        color: rgba(17, 17, 17, 0.7);
+        box-shadow: 0 0 0 1px var(--line);
+        font-size: 0.75rem;
+        transition: color 0.2s, box-shadow 0.2s;
+      }
+      .hero-card-arrow-btn:hover {
+        color: var(--foreground);
+        box-shadow: 0 0 0 1px var(--muted);
+      }
+
+      /* Partners Grid */
+      .partners-container {
+        width: 100%;
+        max-width: 24rem;
+      }
+      @media (min-width: 1024px) {
+        .partners-container {
+          max-width: 19rem;
+        }
+      }
+      .partners-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 1rem;
+        row-gap: 0.75rem;
+      }
+      .partner-item {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        font-size: 0.75rem;
+        color: rgba(17, 17, 17, 0.7);
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        opacity: 0.7;
+      }
+      .partner-item:hover {
+        transform: translateY(-2px);
+        opacity: 1;
+      }
+
+      /* Hero Bottom Status Bar */
+      .hero-status-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        border-top: 1px solid rgba(17, 17, 17, 0.1);
+        padding: 1.25rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+        color: rgba(17, 17, 17, 0.6);
+      }
+      @media (max-width: 640px) {
+        .hero-status-bar .center-status {
+          display: none;
+        }
+      }
+
+      /* ── About (`#about`) ── */
+      #about {
+        background: #ffffff;
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: center;
+        gap: 3rem;
+        padding-block: 5rem;
+      }
+      @media (min-width: 1024px) {
+        .about-grid {
+          grid-template-columns: 1fr 1fr;
+          padding-block: 7rem;
+        }
+      }
+      .about-left {
+        position: relative;
+        min-height: 14rem;
+      }
+      @media (min-width: 1024px) {
+        .about-left {
+          min-height: 20rem;
+        }
+      }
+      .about-globe-icon {
+        position: absolute;
+        left: -1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 12rem;
+        color: rgba(17, 17, 17, 0.05);
+        pointer-events: none;
+      }
+      @media (min-width: 640px) {
+        .about-globe-icon {
+          font-size: 16rem;
+        }
+      }
+      @media (min-width: 1024px) {
+        .about-globe-icon {
+          left: -1.5rem;
+          font-size: 20rem;
+        }
+      }
+      .about-right {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+      .about-footer-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1.5rem;
+        border-top: 1px solid var(--line);
+        padding-top: 1.5rem;
+      }
+      .social-chips-group {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .social-chip {
+        width: 2.25rem;
+        height: 2.25rem;
+        display: grid;
+        place-items: center;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .social-chip:hover {
+        transform: scale(1.18);
+      }
+      .social-chip-accent {
+        background: var(--accent);
+        color: #ffffff;
+      }
+      .social-chip-neutral {
+        background: var(--surface);
+        color: rgba(17, 17, 17, 0.7);
+      }
+      .social-chip-neutral:hover {
+        background: var(--surface-2);
+        color: var(--foreground);
+      }
+
+      /* ── CreateBand ("We Build → Better") ── */
+      .create-band-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding-block: 2.5rem;
+      }
+      @media (min-width: 640px) {
+        .create-band-list {
+          flex-direction: row;
+          gap: 1rem;
+        }
+      }
+      .create-tile {
+        flex: 1;
+        display: grid;
+        place-items: center;
+        height: 6rem;
+        border-radius: 9999px;
+        font-size: 1.875rem;
+        font-weight: 500;
+        transition: transform 0.35s cubic-bezier(0.3, 0.8, 0.2, 1);
+        user-select: none;
+      }
+      @media (min-width: 640px) {
+        .create-tile {
+          height: 10rem;
+          font-size: 2.25rem;
+        }
+      }
+      .create-tile:hover {
+        transform: scale(1.03);
+      }
+      .create-tile-light {
+        background: var(--surface);
+        color: var(--foreground);
+      }
+      .create-tile-accent {
+        background: linear-gradient(
+          to bottom right,
+          var(--accent-from),
+          var(--accent-to)
+        );
+        color: #ffffff;
+      }
+      .create-tile-dark {
+        background: var(--ink);
+        color: #ffffff;
+        font-size: 2.25rem;
+      }
+      @media (min-width: 640px) {
+        .create-tile-dark {
+          font-size: 3rem;
+        }
+      }
+      .create-tile-ghost {
+        background: rgba(241, 240, 238, 0.6);
+        color: rgba(17, 17, 17, 0.35);
+      }
+
+      /* ── Portfolio (`#works`) ── */
+      #works {
+        background: #ffffff;
+        padding-bottom: 5rem;
+      }
+      @media (min-width: 1024px) {
+        #works {
+          padding-bottom: 7rem;
+        }
+      }
+      .portfolio-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      @media (min-width: 768px) {
+        .portfolio-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .portfolio-card {
+        position: relative;
+        min-height: 22rem;
+        overflow: hidden;
+        border-radius: var(--radius-card);
+        background: var(--ink);
+        padding: 1.5rem;
+        color: #ffffff;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      @media (min-width: 640px) {
+        .portfolio-card {
+          min-height: 26rem;
+          padding: 2rem;
+        }
+      }
+      .portfolio-card:hover {
+        transform: translateY(-8px) scale(1.012);
+      }
+      .portfolio-card-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+        color: rgba(255, 255, 255, 0.45);
+        position: relative;
+        z-index: 10;
+      }
+      .badge-arrow {
+        width: 2.75rem;
+        height: 2.75rem;
+        display: grid;
+        place-items: center;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+        font-size: 1rem;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .portfolio-card:hover .badge-arrow {
+        transform: rotate(45deg) scale(1.08);
+      }
+      .portfolio-card-watermark {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        pointer-events: none;
+        z-index: 1;
+        font-size: 4.5rem;
+        color: rgba(255, 255, 255, 0.07);
+      }
+      .portfolio-card-bottom {
+        position: relative;
+        z-index: 10;
+      }
+      .portfolio-card-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+      }
+      @media (min-width: 640px) {
+        .portfolio-card-title {
+          font-size: 1.875rem;
+        }
+      }
+      .portfolio-card-desc {
+        margin-top: 0.5rem;
+        max-width: 28rem;
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.55);
+        line-height: 1.45;
+      }
+      .portfolio-card-tags {
+        margin-top: 1.25rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      /* ── Services (`#services`) ── */
+      #services {
+        background: #ffffff;
+      }
+      .service-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-radius: var(--radius-card-sm);
+        padding-block: 1.5rem;
+        transition: background-color 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          padding-left 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+          padding-right 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        padding-inline: 1.5rem;
+        cursor: pointer;
+      }
+      @media (min-width: 640px) {
+        .service-row {
+          gap: 1.5rem;
+          padding-block: 2rem;
+        }
+      }
+      .service-row:hover {
+        background-color: var(--surface);
+        padding-left: 2.25rem;
+        padding-right: 1.25rem;
+      }
+      .service-index {
+        width: 1.75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: rgba(17, 17, 17, 0.4);
+      }
+      @media (min-width: 640px) {
+        .service-index {
+          width: 2.5rem;
+        }
+      }
+      .service-title {
+        flex: 1;
+        font-size: 1.5rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+      }
+      @media (min-width: 640px) {
+        .service-title {
+          font-size: 1.875rem;
+        }
+      }
+      @media (min-width: 768px) {
+        .service-title {
+          font-size: 2.25rem;
+        }
+      }
+      .service-desc {
+        max-width: 20rem;
+        font-size: 0.875rem;
+        color: rgba(17, 17, 17, 0.55);
+      }
+      @media (max-width: 1024px) {
+        .service-desc {
+          display: none;
+        }
+      }
+      .service-arrow-badge {
+        width: 2.5rem;
+        height: 2.5rem;
+        display: grid;
+        place-items: center;
+        border-radius: 9999px;
+        background: var(--ink);
+        color: #ffffff;
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      @media (min-width: 640px) {
+        .service-arrow-badge {
+          width: 3rem;
+          height: 3rem;
+        }
+      }
+      .service-row:hover .service-arrow-badge {
+        transform: translateX(5px);
+      }
+
+      /* ── Stats ── */
+      .stats-panel {
+        border-radius: var(--radius-card);
+        background: var(--ink);
+        padding: 3rem 1.5rem;
+        color: #ffffff;
+      }
+      @media (min-width: 640px) {
+        .stats-panel {
+          padding: 4rem 2rem;
+        }
+      }
+      @media (min-width: 768px) {
+        .stats-panel {
+          padding-inline: 4rem;
+        }
+      }
+      .stats-grid {
+        margin-top: 3.5rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+        row-gap: 3rem;
+      }
+      @media (min-width: 1024px) {
+        .stats-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      .stat-item-num {
+        font-size: 3rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      @media (min-width: 640px) {
+        .stat-item-num {
+          font-size: 3.75rem;
+        }
+      }
+      @media (min-width: 768px) {
+        .stat-item-num {
+          font-size: 4.5rem;
+        }
+      }
+      .stat-item-label {
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.55);
+        font-weight: 400;
+      }
+
+      /* ── Footer ── */
+      footer {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--radius-card) var(--radius-card) 0 0;
+        background: var(--ink);
+        color: #ffffff;
+      }
+      .footer-inner {
+        position: relative;
+        z-index: 10;
+        padding: 5rem 1.25rem 2.5rem;
+      }
+      @media (min-width: 1024px) {
+        .footer-inner {
+          padding-top: 6rem;
+        }
+      }
+      .footer-cta-row {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 4rem;
+      }
+      @media (min-width: 1024px) {
+        .footer-cta-row {
+          flex-direction: row;
+          align-items: flex-end;
+          justify-content: space-between;
+        }
+      }
+      .footer-cols {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding-block: 4rem;
+      }
+      @media (min-width: 768px) {
+        .footer-cols {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (min-width: 1024px) {
+        .footer-cols {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      .footer-col-title {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+        color: rgba(255, 255, 255, 0.4);
+        margin-bottom: 1.25rem;
+        font-weight: 600;
+      }
+      .footer-col-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .footer-legal-bar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 2rem;
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.45);
+      }
+      @media (min-width: 640px) {
+        .footer-legal-bar {
+          flex-direction: row;
+        }
+      }
+      .footer-watermark {
+        position: absolute;
+        inset-inline: 0;
+        bottom: -1.5rem;
+        z-index: 0;
+        text-align: center;
+        pointer-events: none;
+        user-select: none;
+        font-weight: 700;
+        line-height: 1;
+        font-size: var(--text-watermark);
+        color: rgba(255, 255, 255, 0.03);
+      }
+
+      /* ── NavMenu Overlay ── */
+      #nav-menu {
+        position: fixed;
+        inset: 0;
+        z-index: 115;
+        display: flex;
+        flex-direction: column;
+        background: var(--ink);
+        color: #ffffff;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        will-change: opacity;
+      }
+      #nav-menu.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .menu-top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.25rem;
+      }
+      @media (min-width: 640px) {
+        .menu-top-bar {
+          padding: 1.5rem 2rem;
+        }
+      }
+      .menu-close-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: var(--radius-control);
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgba(255, 255, 255, 0.7);
+        transition: border-color 0.2s, color 0.2s;
+      }
+      .menu-close-btn:hover {
+        border-color: rgba(255, 255, 255, 0.4);
+        color: #ffffff;
+      }
+      .menu-nav-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .menu-nav-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .menu-nav-btn {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        padding-block: 0.5rem;
+        text-align: left;
+        font-size: 2.25rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        width: 100%;
+        transform: translateY(1rem);
+        opacity: 0;
+        transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+        will-change: transform, opacity;
+      }
+      @media (min-width: 640px) {
+        .menu-nav-btn {
+          font-size: 3.75rem;
+        }
+      }
+      #nav-menu.open .menu-nav-btn {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .menu-nav-btn .menu-index {
+        font-size: 1rem;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.3);
+        transition: color 0.3s;
+      }
+      .menu-nav-btn .menu-label {
+        color: rgba(255, 255, 255, 0.7);
+        transition: color 0.3s;
+      }
+      .menu-nav-btn:hover .menu-index {
+        color: var(--accent-from);
+      }
+      .menu-nav-btn:hover .menu-label {
+        color: #ffffff;
+      }
+      .menu-bottom-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem 1.25rem;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+        color: rgba(255, 255, 255, 0.45);
+      }
+      @media (min-width: 640px) {
+        .menu-bottom-bar {
+          flex-direction: row;
+          justify-content: space-between;
+          padding-inline: 2rem;
+        }
+      }
+      .menu-bottom-cta {
+        color: rgba(255, 255, 255, 0.7);
+        transition: color 0.2s;
+      }
+      .menu-bottom-cta:hover {
+        color: #ffffff;
+        text-decoration: underline;
+      }
+
+      /* ── RequestModal ── */
+      #modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 110;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 1rem;
+        background: rgba(17, 17, 17, 0.3);
+        backdrop-filter: blur(16px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        will-change: opacity;
+      }
+      #modal-backdrop.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      #modal-panel {
+        position: relative;
+        width: 100%;
+        max-width: 32rem;
+        overflow: hidden;
+        border-radius: var(--radius-card);
+        background: #ffffff;
+        padding: 1.5rem;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+          0 0 0 1px var(--line);
+        transform: translateY(28px);
+        transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        will-change: transform;
+      }
+      @media (min-width: 640px) {
+        #modal-backdrop {
+          align-items: center;
+        }
+        #modal-panel {
+          padding: 2rem;
+        }
+      }
+      #modal-backdrop.open #modal-panel {
+        transform: translateY(0);
+      }
+      .modal-close {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        width: 2.25rem;
+        height: 2.25rem;
+        display: grid;
+        place-items: center;
+        border-radius: 9999px;
+        background: var(--surface);
+        color: rgba(17, 17, 17, 0.6);
+        transition: background-color 0.2s, color 0.2s;
+      }
+      .modal-close:hover {
+        background: var(--surface-2);
+        color: var(--foreground);
+      }
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .form-caption {
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+        color: rgba(17, 17, 17, 0.5);
+      }
+      .form-control {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: rgba(241, 240, 238, 0.5);
+        border-radius: var(--radius-control);
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+        outline: none;
+        transition: border-color 0.2s, background-color 0.2s;
+        font-family: inherit;
+      }
+      .form-control:focus {
+        border-color: rgba(17, 17, 17, 0.3);
+        background: #ffffff;
+      }
+
+      /* Grid spacing utility classes */
+      .g-grid-12 {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+      }
+      .g-gap-3 {
+        gap: 0.75rem;
+      }
+      .g-gap-6 {
+        gap: 1.5rem;
+      }
+      .g-gap-10 {
+        gap: 2.5rem;
+      }
+      .g-span-3 {
+        grid-column: span 3;
+      }
+      .g-span-4 {
+        grid-column: span 4;
+      }
+      .g-span-5 {
+        grid-column: span 5;
+      }
+      .g-span-7 {
+        grid-column: span 7;
+      }
+      .g-span-8 {
+        grid-column: span 8;
+      }
+      .g-span-12 {
+        grid-column: span 12;
+      }
+
+      /* Utility spacing and layout classes */
+      .flex {
+        display: flex;
+      }
+      .flex-col {
+        flex-direction: column;
+      }
+      .items-center {
+        align-items: center;
+      }
+      .justify-between {
+        justify-content: space-between;
+      }
+      .relative {
+        position: relative;
+      }
+      .absolute {
+        position: absolute;
+      }
+      .w-full {
+        width: 100%;
+      }
+      .h-full {
+        height: 100%;
+      }
+      .overflow-hidden {
+        overflow: hidden;
+      }
+      .cursor-pointer {
+        cursor: pointer;
+      }
+      .select-none {
+        user-select: none;
+      }
+      .uppercase {
+        text-transform: uppercase;
+      }
+      .text-center {
+        text-align: center;
+      }
+      .block {
+        display: block;
+      }
+      .font-medium {
+        font-weight: 500;
+      }
+      .font-semibold {
+        font-weight: 600;
+      }
+      .font-bold {
+        font-weight: 700;
+      }
+      .text-accent {
+        color: var(--accent);
+      }
+      .text-accent-from {
+        color: var(--accent-from);
+      }
+      .text-luz {
+        color: #ffffff;
+      }
+      .text-muted {
+        color: var(--muted);
+      }
+      .text-line {
+        color: var(--line);
+      }
+      .bg-ink {
+        background-color: var(--ink);
+      }
+      .bg-luz {
+        background-color: #ffffff;
+      }
+      .rounded-full {
+        border-radius: 9999px;
+      }
+      .shadow-sm {
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      }
+    </style>
+  </head>
+  <body class="home-layout">
+    <!-- Skip to Content Link -->
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <!-- ── Page Loader ── -->
+    <div id="loader" class="rounded-b-card">
+      <div id="loader-content">
+        <!-- LogoMark in accent color -->
+        <svg
+          class="text-accent-from select-none"
+          width="30"
+          height="30"
+          viewBox="0 0 48 48"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"
+          />
+        </svg>
+        <span class="font-semibold text-[1.5rem] sm:text-[1.875rem] text-luz select-none"
+          >Lumora</span
+        >
+        <p class="text-[0.875rem] text-muted max-w-[24ch] select-none">
+          Bold ideas, shipped with quiet precision.
+        </p>
+      </div>
+
+      <div id="loader-progress-block">
+        <div id="loader-track">
+          <div id="loader-fill"></div>
+        </div>
+        <div class="loader-label-row">
+          <span>Loading</span>
+          <span id="loader-counter">000</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Header ── -->
+    <header>
+      <div class="shell flex items-center justify-between py-6">
+        <!-- Logo Brand Button -->
+        <button
+          onclick="scrollToSection('home')"
+          class="header-logo"
+          aria-label="Lumora Home"
+        >
+          <svg
+            class="text-accent"
+            width="20"
+            height="20"
+            viewBox="0 0 48 48"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"
+            />
+          </svg>
+          <span class="text-foreground">Lumora</span>
+        </button>
+
+        <!-- Primary Nav (lg display) -->
+        <nav class="header-nav" style="display: none;">
+          <ul>
+            <li>
+              <button
+                onclick="scrollToSection('home')"
+                class="header-nav-item current"
+                aria-current="page"
+              >
+                Home
+              </button>
+            </li>
+            <li>
+              <button onclick="scrollToSection('works')" class="header-nav-item">
+                Work
+              </button>
+            </li>
+            <li>
+              <button
+                onclick="scrollToSection('services')"
+                class="header-nav-item"
+              >
+                Services
+                <span class="text-[0.75rem] opacity-60">▾</span>
+              </button>
+            </li>
+            <li>
+              <button onclick="scrollToSection('about')" class="header-nav-item">
+                Studio
+              </button>
+            </li>
+            <li>
+              <button
+                onclick="scrollToSection('footer')"
+                class="header-nav-item"
+              >
+                Careers
+              </button>
+            </li>
+            <li>
+              <button onclick="openModal()" class="header-nav-item">
+                Contact
+              </button>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Right Side: Clock Chip + Menu Button -->
+        <div class="flex items-center gap-3">
+          <!-- Clock Chip (md display) -->
+          <div id="header-clock" class="chip-btn clock-chip" style="display: none;">
+            <span class="text-muted">Local time</span>
+            <span id="live-time" class="font-medium text-foreground">9:41am</span>
+            <span class="text-muted/30 select-none">•</span>
+            <span id="live-date" class="font-medium text-foreground"
+              >12 March, 2025</span
+            >
+          </div>
+
+          <!-- Menu Button -->
+          <button onclick="openMenu()" class="chip-btn" aria-label="Open Navigation Menu">
+            <span class="menu-btn-inner">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="4" y1="6" x2="20" y2="6"></line>
+                <line x1="4" y1="12" x2="20" y2="12"></line>
+                <line x1="4" y1="18" x2="20" y2="18"></line>
+              </svg>
+              <span class="menu-label-text">Menu</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Main Content ── -->
+    <main id="main">
+      <!-- ── Hero Section ── -->
+      <section id="home">
+        <!-- LiquidReveal Background Canvas -->
+        <div class="liquid-reveal-container">
+          <img
+            class="liquid-before absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
+            src="https://api.getlayers.ai/storage/v1/object/public/public/assets/lumora-e8b711fc68/hero/after.jpg"
+            alt="Lumora Studio Base"
+          />
+          <canvas id="liquid-canvas"></canvas>
+        </div>
+
+        <!-- Legibility Vignette -->
+        <div class="hero-vignette"></div>
+
+        <!-- Giant Background Watermark -->
+        <div class="hero-watermark">LUMORA</div>
+
+        <!-- Foreground Content Grid -->
+        <div class="hero-grid shell">
+          <!-- Left Column -->
+          <div class="hero-col-left hero-gated">
+            <!-- Eyebrow -->
+            <div class="eyebrow-container eyebrow-dark">
+              <span class="eyebrow-dot"></span>
+              <span>Independent Studio</span>
+            </div>
+
+            <!-- Title (Line reveal) -->
+            <h1
+              id="hero-heading"
+              class="t-display"
+              data-reveal="lines"
+              data-stagger="120"
+            >
+              <span>Bold ideas,</span>
+              <span>shipped with</span>
+              <span>quiet precision</span>
+            </h1>
+
+            <!-- Rating row -->
+            <div class="flex items-center gap-3">
+              <span class="flex text-accent gap-1">
+                <!-- 5 Stars -->
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.46L12 17.9l-5.8 3.05 1.1-6.46-4.69-4.58 6.49-.94L12 2.5z"/></svg>
+              </span>
+              <span class="text-[0.875rem] font-medium text-foreground/75"
+                >200+ brands shipped</span
+              >
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="flex gap-3 flex-wrap">
+              <button onclick="openModal()" class="btn-pill">
+                <span class="btn-pill-inner btn-pill-arrow btn-pill-dark">
+                  Let's Talk
+                  <span class="btn-badge btn-badge-right">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </span>
+                </span>
+              </button>
+              <button onclick="scrollToSection('works')" class="btn-pill">
+                <span class="btn-pill-inner btn-pill-noarrow btn-pill-outline"
+                  >View Work</span
+                >
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="hero-col-right hero-gated">
+            <!-- HeroCard Carousel -->
+            <div id="hero-card" class="hero-card select-none">
+              <div class="hero-card-inner">
+                <!-- Left brand tile -->
+                <div class="hero-card-tile">
+                  <svg
+                    class="text-accent-from"
+                    width="26"
+                    height="26"
+                    viewBox="0 0 48 48"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"
+                    />
+                  </svg>
+                </div>
+
+                <!-- Right text & control panel -->
+                <div class="hero-card-panel">
+                  <div class="hero-card-text-slot">
+                    <span class="hero-card-caption">Conversion design</span>
+                    <span class="hero-card-title">Crafted to convert.</span>
+                  </div>
+
+                  <div class="flex items-center justify-between mt-3">
+                    <!-- Dashes indicators -->
+                    <div class="hero-card-dashes">
+                      <span class="hero-card-dash active"></span>
+                      <span class="hero-card-dash"></span>
+                      <span class="hero-card-dash"></span>
+                    </div>
+
+                    <!-- Left / Right Arrows -->
+                    <div class="flex gap-1.5">
+                      <button
+                        id="carousel-prev"
+                        class="hero-card-arrow-btn"
+                        aria-label="Previous card"
+                      >
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          style="transform: rotate(180deg);"
+                        >
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                          <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                      </button>
+                      <button
+                        id="carousel-next"
+                        class="hero-card-arrow-btn"
+                        aria-label="Next card"
+                      >
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                          <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trusted Partners Grid -->
+            <div class="partners-container">
+              <span class="text-[0.75rem] font-semibold text-muted block mb-3"
+                >Trusted by</span
+              >
+              <div class="partners-grid">
+                <span class="partner-item">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></svg>
+                  Kaido
+                </span>
+                <span class="partner-item">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></svg>
+                  Northpeak
+                </span>
+                <span class="partner-item">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></svg>
+                  Vellum
+                </span>
+                <span class="partner-item">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></svg>
+                  Orbit
+                </span>
+                <span class="partner-item">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></svg>
+                  Brightline
+                </span>
+                <span class="partner-item">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></svg>
+                  Cobalt
+                </span>
+                <span class="partner-item">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></svg>
+                  Mesa
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom status bar -->
+        <div class="hero-status-bar shell hero-gated">
+          <span>Working since 2014</span>
+          <span class="center-status">Remote-first, worldwide</span>
+          <span class="flex items-center gap-1.5"
+            >Scroll to explore <span class="text-accent select-none">↓</span></span
+          >
+        </div>
+      </section>
+
+      <!-- ── About Section ── -->
+      <section id="about">
+        <div class="shell about-grid">
+          <!-- Left: Globe decoration & statement -->
+          <div class="about-left">
+            <!-- Large globe background icon -->
+            <svg
+              class="about-globe-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+            >
+              <circle cx="12" cy="12" r="9.25" />
+              <path
+                d="M12 2.75c2.6 2.3 4 5.8 4 9.25s-1.4 6.95-4 9.25c-2.6-2.3-4-5.8-4-9.25s1.4-6.95 4-9.25zM2.75 12h18.5"
+              />
+            </svg>
+            <span class="t-rotulo relative z-10">The Studio</span>
+
+            <div class="absolute bottom-0 left-0 reveal-fade flex items-center gap-3">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.4"
+              >
+                <circle cx="12" cy="12" r="9.25" />
+                <path
+                  d="M12 2.75c2.6 2.3 4 5.8 4 9.25s-1.4 6.95-4 9.25c-2.6-2.3-4-5.8-4-9.25s1.4-6.95 4-9.25zM2.75 12h18.5"
+                />
+              </svg>
+              <span class="text-[0.875rem] text-muted max-w-[14rem]"
+                >A distributed team building across every time zone.</span
+              >
+            </div>
+          </div>
+
+          <!-- Right: Heading and links -->
+          <div class="about-right">
+            <!-- Staggered word reveal statement -->
+            <h2 class="t-sub font-medium" data-reveal="words">
+              We partner with ambitious teams to ship digital products, brand
+              systems, and the strategy that holds them together.
+            </h2>
+
+            <div class="about-footer-row reveal-fade">
+              <div class="flex flex-col gap-2">
+                <span class="text-[0.875rem] text-muted/60">Find us online</span>
+                <!-- Social Group -->
+                <div class="social-chips-group">
+                  <a
+                    href="https://twitter.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="social-chip social-chip-accent"
+                    aria-label="X / Twitter"
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M4 4l16 16M20 4 4 20" />
+                    </svg>
+                  </a>
+                  <a
+                    href="https://behance.net"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="social-chip social-chip-neutral"
+                    aria-label="Behance"
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    >
+                      <circle cx="12" cy="12" r="9" />
+                      <circle cx="12" cy="12" r="3.2" fill="currentColor" />
+                    </svg>
+                  </a>
+                  <a
+                    href="https://dribbble.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="social-chip social-chip-neutral"
+                    aria-label="Dribbble"
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    >
+                      <circle cx="12" cy="12" r="9" />
+                      <circle cx="12" cy="12" r="3.2" fill="currentColor" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <button onclick="scrollToSection('about')" class="btn-pill">
+                <span class="btn-pill-inner btn-pill-arrow btn-pill-outline">
+                  About Us
+                  <span class="btn-badge btn-badge-right">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CreateBand ("We Build → Better") ── -->
+      <section>
+        <div class="shell">
+          <ul class="create-band-list" data-reveal="fade">
+            <!-- Tile 1 -->
+            <li class="create-tile create-tile-light reveal-fade" style="transition-delay: 0ms;">
+              <span>We</span>
+            </li>
+            <!-- Tile 2 -->
+            <li class="create-tile create-tile-accent reveal-fade" style="transition-delay: 120ms;">
+              <span>Build</span>
+            </li>
+            <!-- Tile 3 (arrow) -->
+            <li class="create-tile create-tile-dark reveal-fade" style="transition-delay: 240ms;">
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </li>
+            <!-- Tile 4 -->
+            <li class="create-tile create-tile-ghost reveal-fade" style="transition-delay: 360ms;">
+              <span>Better</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ── Portfolio (`#works`) ── -->
+      <section id="works">
+        <div class="shell">
+          <!-- Heading block -->
+          <div class="text-center flex flex-col items-center mb-16">
+            <span class="t-rotulo reveal-fade" style="border: 1px solid var(--line); border-radius: 9999px; padding: 0.375rem 1rem;"
+              >Portfolio</span
+            >
+            <h2
+              class="t-titulo mt-6 reveal-scale"
+              data-reveal="lines"
+              data-stagger="120"
+              style="width: fit-content;"
+            >
+              <span>Selected Work</span>
+            </h2>
+          </div>
+
+          <!-- Cards Grid -->
+          <ul class="portfolio-grid">
+            <!-- Card 1 -->
+            <li class="reveal-scale" style="transition-delay: 0ms;">
+              <a href="#home" class="portfolio-card">
+                <!-- Top Row -->
+                <div class="portfolio-card-meta">
+                  <span>Branding — 2025</span>
+                  <div class="badge-arrow">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="8 7 17 7 17 16"></polyline>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Watermark Center -->
+                <div class="portfolio-card-watermark select-none">
+                  <svg
+                    width="60"
+                    height="60"
+                    viewBox="0 0 48 48"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"
+                    />
+                  </svg>
+                  <span class="text-[0.75rem] font-bold opacity-60">®</span>
+                </div>
+
+                <!-- Bottom content -->
+                <div class="portfolio-card-bottom">
+                  <h3 class="portfolio-card-title">Aster Labs</h3>
+                  <p class="portfolio-card-desc">
+                    A complete identity and go-to-market system for a
+                    fast-moving research startup.
+                  </p>
+                  <div class="portfolio-card-tags">
+                    <span class="tag-chip">Branding</span>
+                    <span class="tag-chip">Strategy</span>
+                    <span class="tag-chip">Design</span>
+                  </div>
+                </div>
+              </a>
+            </li>
+
+            <!-- Card 2 -->
+            <li class="reveal-scale" style="transition-delay: 90ms;">
+              <a href="#home" class="portfolio-card">
+                <!-- Top Row -->
+                <div class="portfolio-card-meta">
+                  <span>Product — 2024</span>
+                  <div class="badge-arrow">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="8 7 17 7 17 16"></polyline>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Watermark Center -->
+                <div class="portfolio-card-watermark select-none">
+                  <svg
+                    width="60"
+                    height="60"
+                    viewBox="0 0 48 48"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"
+                    />
+                  </svg>
+                  <span class="text-[0.75rem] font-bold opacity-60">®</span>
+                </div>
+
+                <!-- Bottom content -->
+                <div class="portfolio-card-bottom">
+                  <h3 class="portfolio-card-title">Nova Finance</h3>
+                  <p class="portfolio-card-desc">
+                    A finance platform reimagined — clear data, calm interfaces,
+                    and effortless flows.
+                  </p>
+                  <div class="portfolio-card-tags">
+                    <span class="tag-chip">Product Design</span>
+                    <span class="tag-chip">Web App</span>
+                    <span class="tag-chip">QA</span>
+                  </div>
+                </div>
+              </a>
+            </li>
+
+            <!-- Card 3 -->
+            <li class="reveal-scale" style="transition-delay: 180ms;">
+              <a href="#home" class="portfolio-card">
+                <!-- Top Row -->
+                <div class="portfolio-card-meta">
+                  <span>Identity — 2023</span>
+                  <div class="badge-arrow">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="8 7 17 7 17 16"></polyline>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Watermark Center -->
+                <div class="portfolio-card-watermark select-none">
+                  <svg
+                    width="60"
+                    height="60"
+                    viewBox="0 0 48 48"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"
+                    />
+                  </svg>
+                  <span class="text-[0.75rem] font-bold opacity-60">®</span>
+                </div>
+
+                <!-- Bottom content -->
+                <div class="portfolio-card-bottom">
+                  <h3 class="portfolio-card-title">Helio Studio</h3>
+                  <p class="portfolio-card-desc">
+                    A bold visual identity and art direction system built to
+                    scale across every surface.
+                  </p>
+                  <div class="portfolio-card-tags">
+                    <span class="tag-chip">Brand Identity</span>
+                    <span class="tag-chip">Art Direction</span>
+                  </div>
+                </div>
+              </a>
+            </li>
+
+            <!-- Card 4 -->
+            <li class="reveal-scale" style="transition-delay: 270ms;">
+              <a href="#home" class="portfolio-card">
+                <!-- Top Row -->
+                <div class="portfolio-card-meta">
+                  <span>Mobile — 2023</span>
+                  <div class="badge-arrow">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="8 7 17 7 17 16"></polyline>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Watermark Center -->
+                <div class="portfolio-card-watermark select-none">
+                  <svg
+                    width="60"
+                    height="60"
+                    viewBox="0 0 48 48"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"
+                    />
+                  </svg>
+                  <span class="text-[0.75rem] font-bold opacity-60">®</span>
+                </div>
+
+                <!-- Bottom content -->
+                <div class="portfolio-card-bottom">
+                  <h3 class="portfolio-card-title">Pulse Health</h3>
+                  <p class="portfolio-card-desc">
+                    A wellness app grounded in research, shipped end to end
+                    from concept to release.
+                  </p>
+                  <div class="portfolio-card-tags">
+                    <span class="tag-chip">Mobile App</span>
+                    <span class="tag-chip">UX Research</span>
+                    <span class="tag-chip">Development</span>
+                  </div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ── Section Divider ── -->
+      <div class="section-divider"></div>
+
+      <!-- ── Services (`#services`) ── -->
+      <section id="services">
+        <div class="shell">
+          <span class="t-rotulo reveal-fade">Services</span>
+          <h2
+            class="t-titulo mt-5 mb-14 md:mb-16 max-w-[16ch] reveal-fade"
+            data-reveal="lines"
+            data-stagger="120"
+          >
+            <span>What we do best</span>
+          </h2>
+
+          <ul>
+            <!-- Row 1 -->
+            <li class="reveal-fade" style="transition-delay: 0ms;">
+              <a href="#home" class="service-row">
+                <span class="service-index select-none">01</span>
+                <h3 class="service-title">Software Development</h3>
+                <p class="service-desc">
+                  Scalable web & mobile products built to last.
+                </p>
+                <div class="service-arrow-badge">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="8 7 17 7 17 16"></polyline>
+                  </svg>
+                </div>
+              </a>
+            </li>
+
+            <!-- Row 2 -->
+            <li
+              class="reveal-fade"
+              style="transition-delay: 80ms; border-top: 1px solid var(--line);"
+            >
+              <a href="#home" class="service-row">
+                <span class="service-index select-none">02</span>
+                <h3 class="service-title">Product Design</h3>
+                <p class="service-desc">
+                  Interfaces that feel effortless and look sharp.
+                </p>
+                <div class="service-arrow-badge">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="8 7 17 7 17 16"></polyline>
+                  </svg>
+                </div>
+              </a>
+            </li>
+
+            <!-- Row 3 -->
+            <li
+              class="reveal-fade"
+              style="transition-delay: 160ms; border-top: 1px solid var(--line);"
+            >
+              <a href="#home" class="service-row">
+                <span class="service-index select-none">03</span>
+                <h3 class="service-title">Quality Assurance</h3>
+                <p class="service-desc">
+                  Rigorous testing for flawless, confident releases.
+                </p>
+                <div class="service-arrow-badge">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="8 7 17 7 17 16"></polyline>
+                  </svg>
+                </div>
+              </a>
+            </li>
+
+            <!-- Row 4 -->
+            <li
+              class="reveal-fade"
+              style="transition-delay: 240ms; border-top: 1px solid var(--line);"
+            >
+              <a href="#home" class="service-row">
+                <span class="service-index select-none">04</span>
+                <h3 class="service-title">Consulting</h3>
+                <p class="service-desc">
+                  Strategy and direction for ambitious teams.
+                </p>
+                <div class="service-arrow-badge">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="8 7 17 7 17 16"></polyline>
+                  </svg>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ── Stats Section ── -->
+      <section>
+        <div class="shell py-12 md:py-24">
+          <div id="stats-panel" class="stats-panel reveal-scale">
+            <!-- Eyebrow -->
+            <div class="eyebrow-container eyebrow-light">
+              <span class="eyebrow-dot"></span>
+              <span>By the numbers</span>
+            </div>
+
+            <!-- Header H2 -->
+            <h2
+              class="t-sub font-medium mt-4 max-w-[20ch] reveal-fade"
+              data-reveal="lines"
+              data-stagger="120"
+            >
+              <span>Proof in the work, not the words.</span>
+            </h2>
+
+            <!-- Stats grid with count-up scroll triggers -->
+            <ul class="stats-grid">
+              <!-- Stat 1 -->
+              <li class="reveal-fade flex flex-col" style="transition-delay: 0ms;">
+                <span
+                  class="stat-item-num"
+                  data-target="150"
+                  data-suffix="+"
+                  >0+</span
+                >
+                <span class="stat-item-label">Projects delivered</span>
+              </li>
+
+              <!-- Stat 2 -->
+              <li class="reveal-fade flex flex-col" style="transition-delay: 90ms;">
+                <span
+                  class="stat-item-num"
+                  data-target="98"
+                  data-suffix="%"
+                  >0%</span
+                >
+                <span class="stat-item-label">Client retention</span>
+              </li>
+
+              <!-- Stat 3 -->
+              <li class="reveal-fade flex flex-col" style="transition-delay: 180ms;">
+                <span
+                  class="stat-item-num"
+                  data-target="12"
+                  data-suffix=""
+                  >0</span
+                >
+                <span class="stat-item-label">Years of craft</span>
+              </li>
+
+              <!-- Stat 4 -->
+              <li class="reveal-fade flex flex-col" style="transition-delay: 270ms;">
+                <span
+                  class="stat-item-num"
+                  data-target="40"
+                  data-suffix="+"
+                  >0+</span
+                >
+                <span class="stat-item-label">Team members</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ── Footer ── -->
+    <footer id="footer">
+      <div class="shell footer-inner">
+        <!-- Top CTA Row -->
+        <div class="footer-cta-row">
+          <h2
+            class="t-display reveal-fade"
+            data-reveal="lines"
+            data-stagger="100"
+            style="max-w: 16ch;"
+          >
+            <span>Have a project in mind? Let's get to work.</span>
+          </h2>
+
+          <button onclick="openModal()" class="btn-pill">
+            <span class="btn-pill-inner btn-pill-arrow btn-pill-light">
+              Start a project
+              <span class="btn-badge btn-badge-upright">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="8 7 17 7 17 16"></polyline>
+                </svg>
+              </span>
+            </span>
+          </button>
+        </div>
+
+        <!-- Links Columns -->
+        <div class="footer-cols">
+          <!-- Col 1: Brand Info -->
+          <div class="flex flex-col gap-4">
+            <span class="flex items-center gap-2.5 font-semibold text-[1.125rem]"
+              ><svg
+                class="text-accent"
+                width="20"
+                height="20"
+                viewBox="0 0 48 48"
+                fill="currentColor"
+              >
+                <path
+                  d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"
+                /></svg
+              >Lumora</span
+            >
+            <p class="text-[0.875rem] text-muted max-w-[20rem] leading-relaxed">
+              An independent studio crafting brands, products, and the systems that
+              connect them.
+            </p>
+          </div>
+
+          <!-- Col 2: Company -->
+          <div class="flex flex-col">
+            <span class="footer-col-title">Company</span>
+            <ul class="footer-col-links">
+              <li>
+                <button onclick="scrollToSection('about')" class="animated-link">
+                  About
+                </button>
+              </li>
+              <li>
+                <button onclick="scrollToSection('home')" class="animated-link">
+                  Careers
+                </button>
+              </li>
+              <li>
+                <button onclick="scrollToSection('home')" class="animated-link">
+                  Partners
+                </button>
+              </li>
+              <li>
+                <button onclick="openModal()" class="animated-link">
+                  Contact
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 3: Services -->
+          <div class="flex flex-col">
+            <span class="footer-col-title">Services</span>
+            <ul class="footer-col-links">
+              <li>
+                <button onclick="scrollToSection('services')" class="animated-link">
+                  Development
+                </button>
+              </li>
+              <li>
+                <button onclick="scrollToSection('services')" class="animated-link">
+                  Design
+                </button>
+              </li>
+              <li>
+                <button onclick="scrollToSection('services')" class="animated-link">
+                  Quality Assurance
+                </button>
+              </li>
+              <li>
+                <button onclick="scrollToSection('services')" class="animated-link">
+                  Consulting
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Col 4: Social -->
+          <div class="flex flex-col">
+            <span class="footer-col-title">Social</span>
+            <ul class="footer-col-links">
+              <li>
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="animated-link"
+                  >X / Twitter</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://behance.net"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="animated-link"
+                  >Behance</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://dribbble.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="animated-link"
+                  >Dribbble</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="animated-link"
+                  >LinkedIn</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bottom Legal Bar -->
+        <div class="footer-legal-bar">
+          <span>© 2025 Lumora Studio. All rights reserved.</span>
+          <div class="flex gap-6">
+            <a href="#home" class="animated-link-legal">Privacy</a>
+            <a href="#home" class="animated-link-legal">Terms</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Watermark overlay -->
+      <div class="footer-watermark select-none">LUMORA</div>
+    </footer>
+
+    <!-- ── NavMenu Overlay ── -->
+    <div id="nav-menu">
+      <!-- Top close row -->
+      <div class="menu-top-bar shell">
+        <span class="flex items-center gap-2.5 font-semibold text-[1.125rem]"
+          ><svg
+            class="text-accent-from"
+            width="20"
+            height="20"
+            viewBox="0 0 48 48"
+            fill="currentColor"
+          >
+            <path
+              d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"
+            /></svg
+          >Lumora</span
+        >
+        <button onclick="closeMenu()" class="menu-close-btn" aria-label="Close Menu">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          Close
+        </button>
+      </div>
+
+      <!-- Links menu list -->
+      <div class="menu-nav-container shell">
+        <ul class="menu-nav-list">
+          <li>
+            <button onclick="closeMenu(); scrollToSection('home')" class="menu-nav-btn" style="transition-delay: 80ms;">
+              <span class="menu-index">01</span>
+              <span class="menu-label">Home</span>
+            </button>
+          </li>
+          <li>
+            <button onclick="closeMenu(); scrollToSection('works')" class="menu-nav-btn" style="transition-delay: 125ms;">
+              <span class="menu-index">02</span>
+              <span class="menu-label">Work</span>
+            </button>
+          </li>
+          <li>
+            <button onclick="closeMenu(); scrollToSection('services')" class="menu-nav-btn" style="transition-delay: 170ms;">
+              <span class="menu-index">03</span>
+              <span class="menu-label">Services</span>
+            </button>
+          </li>
+          <li>
+            <button onclick="closeMenu(); scrollToSection('about')" class="menu-nav-btn" style="transition-delay: 215ms;">
+              <span class="menu-index">04</span>
+              <span class="menu-label">Studio</span>
+            </button>
+          </li>
+          <li>
+            <button onclick="closeMenu(); scrollToSection('footer')" class="menu-nav-btn" style="transition-delay: 260ms;">
+              <span class="menu-index">05</span>
+              <span class="menu-label">Careers</span>
+            </button>
+          </li>
+          <li>
+            <button onclick="closeMenu(); openModal()" class="menu-nav-btn" style="transition-delay: 305ms;">
+              <span class="menu-index">06</span>
+              <span class="menu-label">Contact</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bottom clock row -->
+      <div class="menu-bottom-bar shell">
+        <span id="menu-clock-display">Local time — 9:41am</span>
+        <button onclick="closeMenu(); openModal()" class="menu-bottom-cta"
+          >Start a project <span class="text-accent-from select-none">→</span></button
+        >
+      </div>
+    </div>
+
+    <!-- ── RequestModal ── -->
+    <div
+      id="modal-backdrop"
+      onclick="closeModal()"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-heading"
+    >
+      <div id="modal-panel" onclick="event.stopPropagation()">
+        <!-- Close Button -->
+        <button onclick="closeModal()" class="modal-close" aria-label="Close dialog">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <!-- Form Dialog State -->
+        <div id="modal-form-state" class="flex flex-col gap-6">
+          <div>
+            <div class="eyebrow-container eyebrow-dark mb-2">
+              <span class="eyebrow-dot bg-accent" style="background-color: var(--accent);"></span>
+              <span>Start a project</span>
+            </div>
+            <h2 id="modal-heading" class="text-[1.5rem] sm:text-[1.875rem] font-semibold tracking-tight">
+              Tell us what you're building.
+            </h2>
+          </div>
+
+          <form id="project-form" class="flex flex-col gap-4">
+            <!-- Name -->
+            <div class="form-field">
+              <span class="form-caption">Your Name</span>
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="Your name"
+                class="form-control"
+              />
+            </div>
+            <!-- Email -->
+            <div class="form-field">
+              <span class="form-caption">Your Email</span>
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="you@company.com"
+                class="form-control"
+              />
+            </div>
+            <!-- Project details -->
+            <div class="form-field">
+              <span class="form-caption">Project Details</span>
+              <textarea
+                name="details"
+                rows="4"
+                required
+                placeholder="A few words about your project, timeline, and budget."
+                class="form-control"
+                style="resize: none;"
+              ></textarea>
+            </div>
+
+            <!-- Submit Row -->
+            <div class="flex items-center justify-between gap-4 mt-2">
+              <span class="text-[0.75rem] text-muted"
+                >We reply within one business day.</span
+              >
+              <button type="submit" class="btn-pill">
+                <span class="btn-pill-inner btn-pill-arrow btn-pill-dark">
+                  <span id="submit-text">Send request</span>
+                  <span class="btn-badge btn-badge-upright">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="8 7 17 7 17 16"></polyline>
+                    </svg>
+                  </span>
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Success Dialog State (Hidden initially) -->
+        <div
+          id="modal-success-state"
+          class="flex flex-col items-center text-center gap-6"
+          style="display: none; padding-block: 2rem;"
+        >
+          <div
+            style="width: 3.5rem; height: 3.5rem; display: grid; place-items: center; border-radius: 9999px; background: var(--ink); color: var(--accent-from); font-size: 1.5rem;"
+          >
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="currentColor">
+              <path
+                d="M24 2c2.2 13.8 7.9 19.6 22 22-14.1 2.4-19.8 8.2-22 22-2.2-13.8-7.9-19.6-22-22 14.1-2.4 19.8-8.2 22-22Z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-[1.5rem] font-semibold text-foreground">
+              Request received
+            </h2>
+            <p class="text-[0.875rem] text-muted mt-2 max-w-[32ch]">
+              Thanks for reaching out — we'll get back to you within one business
+              day.
+            </p>
+          </div>
+          <button onclick="closeModal()" class="btn-pill">
+            <span class="btn-pill-inner btn-pill-noarrow btn-pill-dark"
+              >Close</span
+            >
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Scripts ── -->
+    <script type="importmap">
+      {
+        "imports": {
+          "lenis": "https://unpkg.com/lenis@1.3.23/dist/lenis.mjs"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import Lenis from 'lenis';
+
+      // ── Initialize Scroll and Lenis ──
+      window.scrollTo(0, 0);
+      const lenis = new Lenis({ smoothWheel: true });
+      function raf(t) {
+        lenis.raf(t);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      let scrollEnabled = true;
+      window.stopScroll = () => {
+        scrollEnabled = false;
+        lenis.stop();
+        document.documentElement.style.position = 'relative';
+        document.documentElement.style.overflow = 'hidden';
+        document.documentElement.style.height = '100%';
+      };
+      window.startScroll = () => {
+        scrollEnabled = true;
+        lenis.start();
+        document.documentElement.style.removeProperty('position');
+        document.documentElement.style.removeProperty('overflow');
+        document.documentElement.style.removeProperty('height');
+      };
+
+      // ── Smooth Scroll Helper ──
+      window.scrollToSection = (id) => {
+        lenis.stop();
+        setTimeout(() => {
+          const target = document.getElementById(id);
+          if (target) {
+            const top = target.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }
+          setTimeout(() => {
+            lenis.start();
+          }, 100);
+        }, 50);
+      };
+
+      // ── Rem-based Adaptive Grid above 1920px ──
+      function applyAdaptiveGrid() {
+        const FONT_BASE = 16,
+          baseWidth = 1920,
+          coef = 0.6666;
+        const w = window.innerWidth;
+        const widthReduction = ((baseWidth - w) / baseWidth) * 100;
+        const size = FONT_BASE - (FONT_BASE * (widthReduction * coef)) / 100;
+        if (size > FONT_BASE) {
+          document.documentElement.style.fontSize = size + 'px';
+        } else {
+          document.documentElement.style.removeProperty('font-size');
+        }
+      }
+      applyAdaptiveGrid();
+      window.addEventListener('resize', applyAdaptiveGrid);
+
+      // ── Realtime Local Clock ──
+      function updateClock() {
+        const clockEl = document.getElementById('live-time');
+        const dateEl = document.getElementById('live-date');
+        const menuClockEl = document.getElementById('menu-clock-display');
+        if (!clockEl || !dateEl) return;
+
+        const now = new Date();
+
+        // format time (e.g. 9:41am)
+        let hours = now.getHours();
+        const ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const timeStr = `${hours}:${minutes}${ampm}`;
+        clockEl.textContent = timeStr;
+
+        // format date (e.g. 12 March, 2025)
+        const months = [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ];
+        const day = now.getDate();
+        const month = months[now.getMonth()];
+        const year = now.getFullYear();
+        const dateStr = `${day} ${month}, ${year}`;
+        dateEl.textContent = dateStr;
+
+        if (menuClockEl) {
+          menuClockEl.textContent = `Local time — ${timeStr}`;
+        }
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      // Show header links in widescreen
+      function handleResize() {
+        const width = window.innerWidth;
+        const nav = document.querySelector('.header-nav');
+        const clock = document.getElementById('header-clock');
+        const menuLabel = document.querySelector('.menu-label-text');
+
+        if (width >= 1024) {
+          nav.style.display = 'block';
+        } else {
+          nav.style.display = 'none';
+        }
+
+        if (width >= 768) {
+          clock.style.display = 'flex';
+        } else {
+          clock.style.display = 'none';
+        }
+
+        if (width >= 640) {
+          menuLabel.style.display = 'inline';
+        } else {
+          menuLabel.style.display = 'none';
+        }
+      }
+      window.addEventListener('resize', handleResize);
+      handleResize();
+
+      // ── Page Loader Count Animation ──
+      stopScroll();
+      const loader = document.getElementById('loader');
+      const loaderContent = document.getElementById('loader-content');
+      const loaderFill = document.getElementById('loader-fill');
+      const loaderCounter = document.getElementById('loader-counter');
+
+      const startTime = performance.now();
+      const FILL_MS = 1300;
+
+      function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      function updateLoader(timestamp) {
+        const elapsed = timestamp - startTime;
+        const progressRaw = Math.min(1, elapsed / FILL_MS);
+        const progressEased = easeInOutCubic(progressRaw);
+        const count = Math.round(progressEased * 100);
+
+        loaderFill.style.width = `${count}%`;
+        loaderCounter.textContent = String(count).padStart(3, '0');
+
+        if (progressRaw < 1) {
+          requestAnimationFrame(updateLoader);
+        } else {
+          // Exit loader animation
+          loaderContent.style.opacity = '0';
+          loaderContent.style.transform = 'translateY(-12px)';
+
+          setTimeout(() => {
+            loader.style.transform = 'translateY(-100%)';
+            setTimeout(() => {
+              document.body.classList.add('loader-done');
+              startScroll();
+              // Trigger gated reveals in view
+              window.loaderFinished = true;
+              document.querySelectorAll('.hero-gated').forEach((el) => {
+                el.classList.add('revealed');
+              });
+              loader.remove();
+            }, 750);
+          }, 200);
+        }
+      }
+      requestAnimationFrame(updateLoader);
+
+      // ── Text Reveal Engine ──
+      // Words Reveal parser
+      document.querySelectorAll('[data-reveal="words"]').forEach((el) => {
+        const words = el.innerText.split(' ');
+        el.innerHTML = words
+          .map((w, i) => {
+            return `<span class="reveal-word"><span class="reveal-word-inner" style="transition-delay: ${
+              i * 35
+            }ms">${w}</span></span>`;
+          })
+          .join(' ');
+      });
+
+      // Lines Reveal parser
+      document.querySelectorAll('[data-reveal="lines"]').forEach((el) => {
+        const children = Array.from(el.children);
+        const stagger = parseInt(el.dataset.stagger || '120', 10);
+        children.forEach((child, i) => {
+          child.classList.add('reveal-line-inner');
+          child.style.transitionDelay = `${i * stagger}ms`;
+          const wrapper = document.createElement('span');
+          wrapper.className = 'reveal-line';
+          child.parentNode.insertBefore(wrapper, child);
+          wrapper.appendChild(child);
+        });
+      });
+
+      // Scroll Reveal Observer
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              if (
+                entry.target.classList.contains('hero-gated') &&
+                !window.loaderFinished
+              ) {
+                return;
+              }
+              entry.target.classList.add('revealed');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '-80px' }
+      );
+
+      document.querySelectorAll('[data-reveal], .reveal-fade, .reveal-scale').forEach((el) => {
+        revealObserver.observe(el);
+      });
+
+      // ── LiquidReveal Canvas ──
+      const canvas = document.getElementById('liquid-canvas');
+      const ctx = canvas.getContext('2d');
+      const container = document.querySelector('.liquid-reveal-container');
+
+      const imgAfter = new Image();
+      imgAfter.src =
+        'https://api.getlayers.ai/storage/v1/object/public/public/assets/lumora-e8b711fc68/hero/before.jpg';
+
+      const coverCanvas = document.createElement('canvas');
+      const coverCtx = coverCanvas.getContext('2d');
+
+      const brushCanvas = document.createElement('canvas');
+      const brushCtx = brushCanvas.getContext('2d');
+
+      const brushRadius = 143;
+      const decay = 0.016;
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      let width = 0;
+      let height = 0;
+      let points = [];
+      let lastPoint = null;
+      let idle = 0;
+      let drawing = false;
+
+      let prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches;
+
+      function resizeCanvas() {
+        if (prefersReducedMotion) return;
+        const rect = container.getBoundingClientRect();
+        width = rect.width;
+        height = rect.height;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+
+        // Update cover scaled canvas
+        updateCoverCanvas();
+      }
+
+      function updateCoverCanvas() {
+        const cw = canvas.width;
+        const ch = canvas.height;
+        coverCanvas.width = cw;
+        coverCanvas.height = ch;
+
+        const imgW = imgAfter.naturalWidth;
+        const imgH = imgAfter.naturalHeight;
+        if (!imgW || !imgH) return;
+
+        const canvasRatio = cw / ch;
+        const imgRatio = imgW / imgH;
+
+        let sWidth, sHeight, sx, sy;
+        if (canvasRatio > imgRatio) {
+          sWidth = imgW;
+          sHeight = imgW / canvasRatio;
+          sx = 0;
+          sy = (imgH - sHeight) / 2;
+        } else {
+          sHeight = imgH;
+          sWidth = imgH * canvasRatio;
+          sx = (imgW - sWidth) / 2;
+          sy = 0;
+        }
+
+        coverCtx.clearRect(0, 0, cw, ch);
+        coverCtx.drawImage(imgAfter, sx, sy, sWidth, sHeight, 0, 0, cw, ch);
+      }
+
+      imgAfter.onload = () => {
+        resizeCanvas();
+        requestAnimationFrame(tick);
+      };
+
+      const resizeObserver = new ResizeObserver(() => {
+        resizeCanvas();
+      });
+      resizeObserver.observe(container);
+
+      // Track pointer movement
+      window.addEventListener('pointermove', (e) => {
+        if (prefersReducedMotion) return;
+        drawing = true;
+        idle = 0;
+
+        const rect = container.getBoundingClientRect();
+        const x = (e.clientX - rect.left) * dpr;
+        const y = (e.clientY - rect.top) * dpr;
+
+        // Ignore points far outside
+        const pad = brushRadius * dpr;
+        if (x < -pad || y < -pad || x > rect.width * dpr + pad || y > rect.height * dpr + pad) {
+          lastPoint = null;
+          return;
+        }
+
+        if (lastPoint) {
+          const dx = x - lastPoint.x;
+          const dy = y - lastPoint.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const radius = brushRadius * dpr;
+          const step = Math.max(radius * 0.3, 1);
+          const steps = Math.min(Math.ceil(dist / step), 60);
+
+          for (let i = 1; i <= steps; i++) {
+            const t = i / steps;
+            points.push({
+              x: lastPoint.x + dx * t,
+              y: lastPoint.y + dy * t,
+            });
+          }
+        } else {
+          points.push({ x, y });
+        }
+        lastPoint = { x, y };
+      });
+
+      // Clear last point on pointer leave
+      window.addEventListener('pointerleave', () => {
+        lastPoint = null;
+      });
+
+      // stamp brush with gradient + masking
+      function stamp(x, y) {
+        const radius = brushRadius * dpr;
+        const diam = Math.ceil(radius * 2);
+        const c = radius;
+
+        // prepare brush canvas
+        brushCanvas.width = diam;
+        brushCanvas.height = diam;
+        brushCtx.clearRect(0, 0, diam, diam);
+
+        // draw radial gradient mask
+        brushCtx.globalCompositeOperation = 'source-over';
+        const grad = brushCtx.createRadialGradient(c, c, 0, c, c, radius);
+        grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+        grad.addColorStop(0.55, 'rgba(255, 255, 255, 0.82)');
+        grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        brushCtx.fillStyle = grad;
+        brushCtx.fillRect(0, 0, diam, diam);
+
+        // mask cover image into brush canvas
+        brushCtx.globalCompositeOperation = 'source-in';
+        brushCtx.drawImage(
+          coverCanvas,
+          x - c,
+          y - c,
+          diam,
+          diam,
+          0,
+          0,
+          diam,
+          diam
+        );
+
+        // draw masked brush onto main canvas
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.drawImage(brushCanvas, x - c, y - c);
+      }
+
+      function tick() {
+        if (prefersReducedMotion) return;
+
+        if (points.length === 0) {
+          idle++;
+          drawing = false;
+        }
+
+        // Only render if active or within idle fade frames
+        if (idle < 120) {
+          const fade = drawing ? decay : Math.min(decay + idle * 0.004, 0.5);
+
+          // decay existing trails
+          ctx.globalCompositeOperation = 'destination-out';
+          ctx.fillStyle = `rgba(0, 0, 0, ${fade})`;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          // stamp new cursor points
+          if (points.length > 0) {
+            points.forEach((p) => stamp(p.x, p.y));
+            points = [];
+          }
+        } else if (idle === 120) {
+          // hard clear
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      // ── HeroCard Carousel ──
+      const carouselItems = [
+        { caption: 'Conversion design', title: 'Crafted to convert.' },
+        { caption: 'Engineering', title: 'Built to scale.' },
+        { caption: 'Brand systems', title: 'Designed to last.' },
+      ];
+      let activeCarouselIndex = 0;
+      let swapping = false;
+
+      const cardCaption = document.querySelector('.hero-card-caption');
+      const cardTitle = document.querySelector('.hero-card-title');
+      const cardDashes = document.querySelectorAll('.hero-card-dash');
+      const prevBtn = document.getElementById('carousel-prev');
+      const nextBtn = document.getElementById('carousel-next');
+      const cardEl = document.getElementById('hero-card');
+
+      function switchCarousel(direction) {
+        if (swapping) return;
+        swapping = true;
+
+        let newIndex = activeCarouselIndex;
+        if (direction === 'next') {
+          newIndex = (activeCarouselIndex + 1) % carouselItems.length;
+        } else {
+          newIndex =
+            (activeCarouselIndex - 1 + carouselItems.length) %
+            carouselItems.length;
+        }
+
+        const yOffset = direction === 'next' ? -14 : 14;
+
+        // Slide out
+        cardCaption.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
+        cardTitle.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
+        cardCaption.style.transform = `translateY(${yOffset}px)`;
+        cardCaption.style.opacity = '0';
+        cardTitle.style.transform = `translateY(${yOffset}px)`;
+        cardTitle.style.opacity = '0';
+
+        // Update active index
+        activeCarouselIndex = newIndex;
+
+        // Update dashes indicators
+        cardDashes.forEach((d, idx) => {
+          if (idx === newIndex) d.classList.add('active');
+          else d.classList.remove('active');
+        });
+
+        setTimeout(() => {
+          // Replace content
+          cardCaption.textContent = carouselItems[newIndex].caption;
+          cardTitle.textContent = carouselItems[newIndex].title;
+
+          // Position opposite
+          cardCaption.style.transition = 'none';
+          cardTitle.style.transition = 'none';
+          cardCaption.style.transform = `translateY(${-yOffset}px)`;
+          cardTitle.style.transform = `translateY(${-yOffset}px)`;
+
+          // Reflow
+          cardCaption.offsetHeight;
+
+          // Slide in
+          cardCaption.style.transition =
+            'transform 0.35s cubic-bezier(0.3, 0.28, 0.2, 1), opacity 0.35s cubic-bezier(0.3, 0.28, 0.2, 1)';
+          cardTitle.style.transition =
+            'transform 0.35s cubic-bezier(0.3, 0.28, 0.2, 1), opacity 0.35s cubic-bezier(0.3, 0.28, 0.2, 1)';
+          cardCaption.style.transform = 'translateY(0)';
+          cardCaption.style.opacity = '1';
+          cardTitle.style.transform = 'translateY(0)';
+          cardTitle.style.opacity = '1';
+
+          swapping = false;
+        }, 200);
+      }
+
+      // Next / Prev button triggers
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        switchCarousel('prev');
+      });
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        switchCarousel('next');
+      });
+
+      // Card body triggers next
+      cardEl.addEventListener('click', () => {
+        switchCarousel('next');
+      });
+
+      // ── Stats Scroll Count-up Animation ──
+      const statsPanel = document.getElementById('stats-panel');
+      const statNums = document.querySelectorAll('.stat-item-num');
+      let statsTriggered = false;
+
+      function updateStatsProgress() {
+        if (!statsPanel) return;
+        const rect = statsPanel.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+
+        // start scroll: top hits bottom -> progress = 0
+        // end scroll: center hits center -> progress = 1
+        const start = viewportHeight;
+        const end = viewportHeight / 2 - rect.height / 2;
+        const current = rect.top;
+
+        const progress = Math.max(
+          0,
+          Math.min(1, (start - current) / (start - end))
+        );
+
+        statNums.forEach((el) => {
+          const target = parseInt(el.dataset.target, 10);
+          const suffix = el.dataset.suffix || '';
+          const currentCount = Math.round(progress * target);
+          el.textContent = `${currentCount}${suffix}`;
+        });
+      }
+      window.addEventListener('scroll', updateStatsProgress);
+
+      // ── NavMenu Modal Controller ──
+      const navMenu = document.getElementById('nav-menu');
+      window.openMenu = () => {
+        stopScroll();
+        navMenu.classList.add('open');
+      };
+      window.closeMenu = () => {
+        startScroll();
+        navMenu.classList.remove('open');
+      };
+
+      // Close menu on Escape
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navMenu.classList.contains('open')) {
+          closeMenu();
+        }
+      });
+
+      // ── RequestModal Form Controller ──
+      const modalBackdrop = document.getElementById('modal-backdrop');
+      const formState = document.getElementById('modal-form-state');
+      const successState = document.getElementById('modal-success-state');
+      const projectForm = document.getElementById('project-form');
+      const submitText = document.getElementById('submit-text');
+
+      window.openModal = () => {
+        stopScroll();
+        modalBackdrop.classList.add('open');
+      };
+
+      window.closeModal = () => {
+        startScroll();
+        modalBackdrop.classList.remove('open');
+        // Reset state after transition completes
+        setTimeout(() => {
+          formState.style.display = 'flex';
+          successState.style.display = 'none';
+          projectForm.reset();
+          submitText.textContent = 'Send request';
+        }, 300);
+      };
+
+      // Close modal on Escape
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalBackdrop.classList.contains('open')) {
+          closeModal();
+        }
+      });
+
+      // Stub Form Submit
+      projectForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitText.textContent = 'Sending…';
+
+        setTimeout(() => {
+          formState.style.display = 'none';
+          successState.style.display = 'flex';
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
